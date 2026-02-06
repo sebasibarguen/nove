@@ -18,7 +18,8 @@ from nove.labs.models import LabBiomarkerValue, LabOrder, LabPanel, LabPartner, 
 from nove.users.models import User, UserHealthProfile  # noqa: F401
 
 config = context.config
-config.set_main_option("sqlalchemy.url", settings.database_url)
+# Escape % for configparser interpolation (e.g. %40 in URL-encoded passwords)
+config.set_main_option("sqlalchemy.url", settings.database_url.replace("%", "%%"))
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
