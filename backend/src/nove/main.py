@@ -37,10 +37,12 @@ def create_app() -> FastAPI:
     )
 
     from nove.auth.router import router as auth_router
+    from nove.coach.router import router as coach_router
     from nove.users.router import router as users_router
 
     app.include_router(auth_router, prefix=settings.api_v1_prefix)
     app.include_router(users_router, prefix=settings.api_v1_prefix)
+    app.include_router(coach_router, prefix=settings.api_v1_prefix)
 
     @app.get("/health")
     async def health() -> dict[str, str]:

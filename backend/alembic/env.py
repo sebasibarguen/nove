@@ -12,6 +12,7 @@ from nove.config import settings
 from nove.database import Base
 
 # Import all models so Alembic sees them
+from nove.coach.models import Conversation, Message  # noqa: F401
 from nove.users.models import User, UserHealthProfile  # noqa: F401
 
 config = context.config
