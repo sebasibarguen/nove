@@ -1,0 +1,60 @@
+{
+  "slug": "salud",
+  "meta": {
+    "title": "Nove — Tu coach de salud con IA",
+    "description": "Coaching de salud personalizado con inteligencia artificial. Nutrición, actividad física y bienestar en Ciudad de Guatemala."
+  },
+  "hero": {
+    "headline": "Tu salud, potenciada por inteligencia artificial",
+    "subheadline": "Nove analiza tus datos de salud y te da recomendaciones personalizadas para sentirte mejor cada día.",
+    "ctaText": "Empieza gratis",
+    "ctaHref": "#registro"
+  },
+  "features": [
+    {
+      "icon": "Brain",
+      "title": "Coach con IA",
+      "description": "Conversaciones inteligentes que entienden tu historial médico y hábitos."
+    },
+    {
+      "icon": "FileText",
+      "title": "Análisis de laboratorios",
+      "description": "Sube tus resultados de laboratorio y recibe interpretaciones claras al instante."
+    },
+    {
+      "icon": "Activity",
+      "title": "Seguimiento de actividad",
+      "description": "Conecta tu dispositivo Garmin y visualiza tu progreso en tiempo real."
+    },
+    {
+      "icon": "Shield",
+      "title": "Privacidad primero",
+      "description": "Tus datos de salud están encriptados y nunca se comparten con terceros."
+    }
+  ],
+  "socialProof": {
+    "headline": "Lo que dicen nuestros usuarios",
+    "testimonials": [
+      {
+        "quote": "Nove me ayudó a entender mis resultados de laboratorio sin tener que esperar semanas por una cita.",
+        "name": "María González",
+        "role": "Usuaria desde 2025"
+      },
+      {
+        "quote": "El coach de IA me da recomendaciones que realmente puedo seguir en mi día a día.",
+        "name": "Carlos Mendoza",
+        "role": "Usuario desde 2025"
+      },
+      {
+        "quote": "Por fin una app de salud que habla español y entiende el contexto guatemalteco.",
+        "name": "Ana Lucía Pérez",
+        "role": "Usuaria desde 2025"
+      }
+    ]
+  },
+  "footerCta": {
+    "headline": "Empieza a cuidar tu salud hoy",
+    "subheadline": "Regístrate gratis y recibe tu primera consulta con IA en minutos.",
+    "ctaText": "Registrarme gratis"
+  }
+}

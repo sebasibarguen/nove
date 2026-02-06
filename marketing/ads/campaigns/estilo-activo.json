@@ -1,0 +1,36 @@
+{
+  "campaign": {
+    "name": "Nove - Estilo Activo",
+    "dailyBudgetGtq": 60,
+    "geoTargets": ["Guatemala City"],
+    "language": "es",
+    "startDate": null,
+    "endDate": null
+  },
+  "adGroups": [
+    {
+      "name": "Garmin + Salud",
+      "keywords": [
+        { "text": "garmin guatemala", "matchType": "PHRASE" },
+        { "text": "app fitness guatemala", "matchType": "BROAD" },
+        { "text": "coach fitness inteligencia artificial", "matchType": "PHRASE" },
+        { "text": "conectar garmin salud", "matchType": "BROAD" },
+        { "text": "mejorar entrenamiento garmin", "matchType": "PHRASE" }
+      ],
+      "ads": [
+        {
+          "headlines": [
+            "Conecta Tu Garmin + IA",
+            "Coaching Personalizado",
+            "Mejora Tu Salud Hoy"
+          ],
+          "descriptions": [
+            "Sincroniza tu Garmin con Nove y recibe coaching personalizado basado en tu actividad real.",
+            "Actividad, sueño y estrés — todo analizado por IA. Conecta tu Garmin gratis."
+          ],
+          "finalUrl": "https://nove.gt/activo?utm_source=google&utm_medium=cpc&utm_campaign=estilo-activo"
+        }
+      ]
+    }
+  ]
+}

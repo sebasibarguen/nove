@@ -1,0 +1,60 @@
+{
+  "slug": "activo",
+  "meta": {
+    "title": "Nove — Conecta tu Garmin y mejora tu salud",
+    "description": "Sincroniza tu dispositivo Garmin con Nove y recibe coaching personalizado basado en tu actividad física real."
+  },
+  "hero": {
+    "headline": "Tu Garmin + inteligencia artificial = mejor salud",
+    "subheadline": "Conecta tu dispositivo y Nove analiza tu actividad, sueño y estrés para darte recomendaciones que realmente funcionan.",
+    "ctaText": "Conectar mi Garmin",
+    "ctaHref": "#registro"
+  },
+  "features": [
+    {
+      "icon": "Watch",
+      "title": "Sincronización automática",
+      "description": "Conecta tu Garmin una vez y tus datos se actualizan automáticamente."
+    },
+    {
+      "icon": "Activity",
+      "title": "Análisis de actividad",
+      "description": "Pasos, frecuencia cardíaca, calorías y más — todo en un solo lugar."
+    },
+    {
+      "icon": "Moon",
+      "title": "Calidad de sueño",
+      "description": "Entiende tus patrones de sueño y recibe tips para dormir mejor."
+    },
+    {
+      "icon": "Brain",
+      "title": "Coach personalizado",
+      "description": "Recomendaciones basadas en TUS datos, no en promedios genéricos."
+    }
+  ],
+  "socialProof": {
+    "headline": "Usuarios activos, resultados reales",
+    "testimonials": [
+      {
+        "quote": "Conecté mi Garmin y al día siguiente ya tenía recomendaciones basadas en mi actividad real.",
+        "name": "Diego Ramírez",
+        "role": "Usuario desde 2025"
+      },
+      {
+        "quote": "Nove me ayudó a mejorar mi sueño. Algo que ninguna otra app había logrado.",
+        "name": "Valentina Cruz",
+        "role": "Usuaria desde 2025"
+      },
+      {
+        "quote": "Como corredor, me encanta ver mis datos de Garmin junto con mis labs en un solo lugar.",
+        "name": "Andrés Solano",
+        "role": "Usuario desde 2025"
+      }
+    ]
+  },
+  "footerCta": {
+    "headline": "Lleva tu entrenamiento al siguiente nivel",
+    "subheadline": "Conecta tu Garmin gratis y descubre lo que tus datos dicen sobre tu salud.",
+    "ctaText": "Empezar ahora"
+  }
+}

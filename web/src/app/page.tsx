@@ -1,5 +1,5 @@
 // ABOUTME: Landing page that redirects authenticated users to dashboard.
-// ABOUTME: Shows login/register links for unauthenticated visitors.
+// ABOUTME: Shows Google sign-in for unauthenticated visitors.
 
 "use client";
 
@@ -35,14 +35,9 @@ export default function Home() {
           Tu coach de salud con inteligencia artificial
         </p>
       </div>
-      <div className="flex gap-4">
-        <Button asChild>
-          <Link href="/login">Iniciar Sesion</Link>
-        </Button>
-        <Button variant="outline" asChild>
-          <Link href="/register">Registrarse</Link>
-        </Button>
-      </div>
+      <Button asChild>
+        <Link href="/login">Comenzar con Google</Link>
+      </Button>
     </div>
   );
 }

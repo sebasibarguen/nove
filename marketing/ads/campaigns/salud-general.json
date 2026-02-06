@@ -1,0 +1,36 @@
+{
+  "campaign": {
+    "name": "Nove - Salud General",
+    "dailyBudgetGtq": 100,
+    "geoTargets": ["Guatemala City"],
+    "language": "es",
+    "startDate": null,
+    "endDate": null
+  },
+  "adGroups": [
+    {
+      "name": "Coach Salud IA",
+      "keywords": [
+        { "text": "coach de salud", "matchType": "PHRASE" },
+        { "text": "coaching salud guatemala", "matchType": "PHRASE" },
+        { "text": "salud personalizada", "matchType": "BROAD" },
+        { "text": "app salud inteligencia artificial", "matchType": "PHRASE" },
+        { "text": "mejorar salud guatemala", "matchType": "BROAD" }
+      ],
+      "ads": [
+        {
+          "headlines": [
+            "Coach de Salud con IA",
+            "Recomendaciones Personalizadas",
+            "Empieza Gratis Hoy"
+          ],
+          "descriptions": [
+            "Nove analiza tus datos de salud y te da recomendaciones personalizadas. Regístrate gratis.",
+            "Coaching de salud con inteligencia artificial en Ciudad de Guatemala. Sin esperas."
+          ],
+          "finalUrl": "https://nove.gt/salud?utm_source=google&utm_medium=cpc&utm_campaign=salud-general"
+        }
+      ]
+    }
+  ]
+}

@@ -1,17 +1,19 @@
-# ABOUTME: PDF text extraction and AI-powered biomarker parsing.
-# ABOUTME: Handles both digital and scanned PDFs, routes results by confidence.
+# ABOUTME: PDF text extraction via Mistral OCR and biomarker structuring via Gemini.
+# ABOUTME: Handles OCR, structured extraction, validation, and confidence-based routing.
 
+import asyncio
+import base64
 import json
 import uuid
 
-import anthropic
 import structlog
+from pydantic import BaseModel
 
 from nove.config import settings
 
 logger = structlog.get_logger()
 
-MODEL = "claude-sonnet-4-5-20250929"
+GEMINI_MODEL = "gemini-2.5-flash"
 
 EXTRACTION_PROMPT = """\
 You are a medical lab result extraction system. Extract all biomarker values from \
@@ -28,92 +30,86 @@ CBC_WBC, CBC_RBC, CBC_HGB, CBC_PLT, VIT_D, VIT_B12, FE, FERR)
 - reference_range_high: Upper bound of reference range (null if not provided)
 - confidence: Your confidence in this extraction from 0.0 to 1.0
 
-Respond with a JSON array of objects. If you cannot extract any biomarkers, return an empty array.
 Only include biomarkers where you can clearly identify a numeric value.\
 """
 
 
-def extract_text_from_pdf(pdf_bytes: bytes) -> str:
-    """Extract text from a PDF file. Uses PyMuPDF for digital PDFs."""
-    try:
-        import fitz  # PyMuPDF
-
-        doc = fitz.open(stream=pdf_bytes, filetype="pdf")
-        text_parts = []
-        for page in doc:
-            text_parts.append(page.get_text())
-        doc.close()
-        return "\n".join(text_parts)
-    except Exception:
-        logger.exception("pdf_text_extraction_failed")
-        return ""
+class ExtractedBiomarker(BaseModel):
+    biomarker_code: str
+    biomarker_name: str
+    value: float
+    unit: str
+    reference_range_low: float | None
+    reference_range_high: float | None
+    confidence: float
 
 
-def is_scanned_pdf(text: str) -> bool:
-    """Heuristic: if extracted text is very short, PDF is likely scanned."""
-    stripped = text.strip()
-    return len(stripped) < 50
+class ExtractionResult(BaseModel):
+    biomarkers: list[ExtractedBiomarker]
 
 
-def ocr_pdf(pdf_bytes: bytes) -> str:
-    """Run OCR on a scanned PDF using ocrmypdf + PyMuPDF."""
-    try:
-        import tempfile
+def _ocr_pdf_sync(pdf_bytes: bytes) -> str:
+    """Send PDF bytes to Mistral OCR, return extracted markdown text. Sync."""
+    from mistralai import Mistral
 
-        import fitz
-        import ocrmypdf
+    client = Mistral(api_key=settings.mistral_api_key)
+    b64 = base64.b64encode(pdf_bytes).decode("utf-8")
 
-        with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp_in:
-            tmp_in.write(pdf_bytes)
-            tmp_in_path = tmp_in.name
+    response = client.ocr.process(
+        model="mistral-ocr-latest",
+        document={
+            "type": "document_url",
+            "document_url": f"data:application/pdf;base64,{b64}",
+        },
+    )
 
-        tmp_out_path = tmp_in_path.replace(".pdf", "_ocr.pdf")
-        ocrmypdf.ocr(tmp_in_path, tmp_out_path, language="spa", skip_text=True)
-
-        doc = fitz.open(tmp_out_path)
-        text_parts = []
-        for page in doc:
-            text_parts.append(page.get_text())
-        doc.close()
-        return "\n".join(text_parts)
-    except Exception:
-        logger.exception("ocr_failed")
-        return ""
+    return "\n\n".join(page.markdown for page in response.pages)
 
 
-async def extract_biomarkers_with_claude(
-    text: str,
-) -> list[dict]:
-    """Use Claude to extract structured biomarker data from lab report text."""
+async def extract_text_from_pdf(pdf_bytes: bytes) -> str:
+    """Extract text from PDF via Mistral OCR. Runs sync SDK in executor."""
+    loop = asyncio.get_running_loop()
+    return await loop.run_in_executor(None, _ocr_pdf_sync, pdf_bytes)
+
+
+async def extract_biomarkers(text: str) -> list[dict]:
+    """Use Gemini to extract structured biomarker data from lab report text."""
     if not text.strip():
         return []
 
-    client = anthropic.AsyncAnthropic(api_key=settings.anthropic_api_key)
+    from google import genai
+    from google.genai import types
 
-    response = await client.messages.create(
-        model=MODEL,
-        max_tokens=4096,
-        messages=[
-            {
-                "role": "user",
-                "content": f"{EXTRACTION_PROMPT}\n\n---\n\nLab Report Text:\n{text}",
-            }
-        ],
+    client = genai.Client(api_key=settings.gemini_api_key)
+
+    response = await client.aio.models.generate_content(
+        model=GEMINI_MODEL,
+        contents=f"{EXTRACTION_PROMPT}\n\n---\n\nLab Report Text:\n{text}",
+        config=types.GenerateContentConfig(
+            response_mime_type="application/json",
+            response_schema=ExtractionResult,
+            temperature=0.1,
+        ),
     )
 
-    content = response.content[0].text
-
-    # Parse the JSON response
     try:
-        # Handle markdown code blocks
-        if "```json" in content:
-            content = content.split("```json")[1].split("```")[0]
-        elif "```" in content:
-            content = content.split("```")[1].split("```")[0]
-        return json.loads(content.strip())
-    except (json.JSONDecodeError, IndexError):
-        logger.error("claude_extraction_parse_failed", response=content[:500])
-        return []
+        result = response.parsed
+        if result is not None:
+            return [bm.model_dump() for bm in result.biomarkers]
+    except Exception:
+        logger.exception("gemini_structured_parse_failed")
+
+    # Fallback: try parsing raw JSON
+    try:
+        raw = json.loads(response.text)
+        if isinstance(raw, dict) and "biomarkers" in raw:
+            return raw["biomarkers"]
+        if isinstance(raw, list):
+            return raw
+    except (json.JSONDecodeError, TypeError):
+        logger.error("gemini_extraction_parse_failed", response=str(response.text)[:500])
+
+    return []
 
 
 def validate_extraction(
@@ -172,39 +168,34 @@ def route_by_confidence(overall_confidence: float) -> str:
     """Determine processing status based on confidence score."""
     if overall_confidence >= 0.9:
         return "verified"
-    elif overall_confidence >= 0.6:
-        return "review_needed"
     else:
-        return "review_needed"  # Low confidence also needs review
+        return "review_needed"
 
 
 async def process_pdf(
     pdf_bytes: bytes,
     result_id: uuid.UUID | None = None,
 ) -> tuple[list[dict], float, str]:
-    """Full PDF processing pipeline: extract text, parse biomarkers, validate.
+    """Full PDF processing pipeline: Mistral OCR -> Gemini structuring -> validate.
 
     Returns (biomarkers, confidence, processing_status).
     """
-    # Step 1: Extract text
-    text = extract_text_from_pdf(pdf_bytes)
-
-    # Step 2: OCR if scanned
-    if is_scanned_pdf(text):
-        logger.info("scanned_pdf_detected", result_id=str(result_id))
-        text = ocr_pdf(pdf_bytes)
+    # Step 1: OCR via Mistral
+    text = await extract_text_from_pdf(pdf_bytes)
 
     if not text.strip():
         logger.warning("no_text_extracted", result_id=str(result_id))
         return [], 0.0, "failed"
 
-    # Step 3: AI extraction
-    biomarkers = await extract_biomarkers_with_claude(text)
+    logger.info("ocr_complete", result_id=str(result_id), text_length=len(text))
 
-    # Step 4: Validate
+    # Step 2: Structured extraction via Gemini
+    biomarkers = await extract_biomarkers(text)
+
+    # Step 3: Validate
     validated, confidence = validate_extraction(biomarkers)
 
-    # Step 5: Route by confidence
+    # Step 4: Route by confidence
     status = route_by_confidence(confidence)
 
     logger.info(

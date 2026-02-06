@@ -1,0 +1,60 @@
+{
+  "slug": "laboratorios",
+  "meta": {
+    "title": "Nove — Análisis de laboratorios con IA",
+    "description": "Sube tus resultados de laboratorio y obtén interpretaciones claras con inteligencia artificial. Sin esperas, sin complicaciones."
+  },
+  "hero": {
+    "headline": "Entiende tus resultados de laboratorio al instante",
+    "subheadline": "Sube tu PDF o foto de resultados y Nove te explica qué significan, qué está fuera de rango y qué hacer al respecto.",
+    "ctaText": "Analizar mis resultados",
+    "ctaHref": "#registro"
+  },
+  "features": [
+    {
+      "icon": "FileText",
+      "title": "Sube cualquier formato",
+      "description": "PDF, foto o imagen escaneada. Nove extrae los datos automáticamente."
+    },
+    {
+      "icon": "Search",
+      "title": "Interpretación clara",
+      "description": "Sin jerga médica. Explicaciones en español que cualquiera puede entender."
+    },
+    {
+      "icon": "TrendingUp",
+      "title": "Tendencias históricas",
+      "description": "Compara resultados a lo largo del tiempo y detecta patrones importantes."
+    },
+    {
+      "icon": "MessageCircle",
+      "title": "Pregunta lo que quieras",
+      "description": "El coach de IA responde tus dudas sobre tus resultados en tiempo real."
+    }
+  ],
+  "socialProof": {
+    "headline": "Miles de resultados analizados",
+    "testimonials": [
+      {
+        "quote": "Subí mi hemograma y en 30 segundos tenía una explicación completa. Increíble.",
+        "name": "Roberto Castillo",
+        "role": "Usuario desde 2025"
+      },
+      {
+        "quote": "Mi doctor me dijo que todo estaba 'normal' pero Nove me mostró tendencias que vale la pena monitorear.",
+        "name": "Lucía Morales",
+        "role": "Usuaria desde 2025"
+      },
+      {
+        "quote": "Antes guardaba mis resultados en un cajón. Ahora los tengo organizados y entiendo qué significan.",
+        "name": "Fernando Díaz",
+        "role": "Usuario desde 2025"
+      }
+    ]
+  },
+  "footerCta": {
+    "headline": "No dejes tus resultados sin revisar",
+    "subheadline": "Sube tu primer laboratorio gratis y descubre lo que tus números dicen sobre tu salud.",
+    "ctaText": "Subir mi laboratorio"
+  }
+}

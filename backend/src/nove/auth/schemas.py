@@ -1,5 +1,5 @@
 # ABOUTME: Pydantic schemas for authentication request/response validation.
-# ABOUTME: Covers register, login, token refresh, and Google OAuth flows.
+# ABOUTME: Covers Google OAuth, token refresh, and legacy email/password flows.
 
 from pydantic import BaseModel, EmailStr
 
@@ -15,8 +15,9 @@ class LoginRequest(BaseModel):
     password: str
 
 
-class GoogleAuthRequest(BaseModel):
-    credential: str  # Google ID token from frontend
+class GoogleCallbackRequest(BaseModel):
+    code: str
+    state: str | None = None
 
 
 class RefreshRequest(BaseModel):
@@ -27,3 +28,7 @@ class TokenResponse(BaseModel):
     access_token: str
     refresh_token: str
     token_type: str = "bearer"
+
+
+class GoogleAuthUrlResponse(BaseModel):
+    url: str

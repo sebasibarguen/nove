@@ -10,6 +10,11 @@ from jose import JWTError, jwt
 from nove.config import settings
 
 
+def clean_name(name: str) -> str:
+    """Titlecase and strip extra whitespace from a name."""
+    return " ".join(name.split()).title()
+
+
 def hash_password(password: str) -> str:
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 

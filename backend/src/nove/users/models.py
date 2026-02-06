@@ -18,6 +18,8 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(320), unique=True, index=True)
     password_hash: Mapped[str | None] = mapped_column(String(128))
     google_id: Mapped[str | None] = mapped_column(String(64), unique=True, index=True)
+    google_access_token: Mapped[str | None] = mapped_column(Text)
+    google_refresh_token: Mapped[str | None] = mapped_column(Text)
     full_name: Mapped[str] = mapped_column(String(256))
     date_of_birth: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     sex: Mapped[str | None] = mapped_column(String(16))

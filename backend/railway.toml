@@ -1,0 +1,12 @@
+# ABOUTME: Railway deployment configuration for the Nove backend.
+# ABOUTME: Uses Dockerfile builder, configures health check.
+
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3

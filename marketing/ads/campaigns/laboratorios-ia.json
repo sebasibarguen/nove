@@ -1,0 +1,36 @@
+{
+  "campaign": {
+    "name": "Nove - Laboratorios IA",
+    "dailyBudgetGtq": 80,
+    "geoTargets": ["Guatemala City"],
+    "language": "es",
+    "startDate": null,
+    "endDate": null
+  },
+  "adGroups": [
+    {
+      "name": "Análisis Laboratorios",
+      "keywords": [
+        { "text": "resultados laboratorio guatemala", "matchType": "PHRASE" },
+        { "text": "interpretar exámenes de sangre", "matchType": "PHRASE" },
+        { "text": "análisis laboratorio IA", "matchType": "BROAD" },
+        { "text": "entender hemograma", "matchType": "BROAD" },
+        { "text": "resultados de laboratorio que significan", "matchType": "PHRASE" }
+      ],
+      "ads": [
+        {
+          "headlines": [
+            "Entiende Tus Laboratorios",
+            "Análisis con IA al Instante",
+            "Sube Tu PDF Gratis"
+          ],
+          "descriptions": [
+            "Sube tus resultados de laboratorio y obtén interpretaciones claras con IA. Sin esperas.",
+            "¿No entiendes tus exámenes? Nove te explica qué significan en segundos. Prueba gratis."
+          ],
+          "finalUrl": "https://nove.gt/laboratorios?utm_source=google&utm_medium=cpc&utm_campaign=laboratorios-ia"
+        }
+      ]
+    }
+  ]
+}

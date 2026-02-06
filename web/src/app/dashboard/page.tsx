@@ -61,14 +61,16 @@ export default function DashboardPage() {
           </Card>
         </Link>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Actividad</CardTitle>
-            <CardDescription>
-              Conecta tu Garmin para ver tus datos
-            </CardDescription>
-          </CardHeader>
-        </Card>
+        <Link href="/activity">
+          <Card className="cursor-pointer transition-colors hover:bg-accent">
+            <CardHeader>
+              <CardTitle>Actividad</CardTitle>
+              <CardDescription>
+                Conecta tu Garmin para ver tus datos
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
 
         <Link href="/labs">
           <Card className="cursor-pointer transition-colors hover:bg-accent">

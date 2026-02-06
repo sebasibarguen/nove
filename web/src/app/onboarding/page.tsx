@@ -1,5 +1,5 @@
 // ABOUTME: Profile completion page shown after registration.
-// ABOUTME: Collects age, sex, weight, height, and health goals.
+// ABOUTME: Collects date of birth, sex, weight, height, and health goals.
 
 "use client";
 
@@ -37,12 +37,24 @@ const HEALTH_GOALS = [
   "Mejorar alimentacion",
 ];
 
+function parseDDMMYYYY(input: string): string | null {
+  const match = input.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (!match) return null;
+  const [, dd, mm, yyyy] = match;
+  const d = new Date(`${yyyy}-${mm}-${dd}T00:00:00`);
+  if (isNaN(d.getTime())) return null;
+  return d.toISOString();
+}
+
+const LB_TO_KG = 0.453592;
+
 export default function OnboardingPage() {
   const { user, loading, refreshUser } = useAuth();
   const router = useRouter();
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [sex, setSex] = useState("");
-  const [weightKg, setWeightKg] = useState("");
+  const [weight, setWeight] = useState("");
+  const [weightUnit, setWeightUnit] = useState<"kg" | "lb">("kg");
   const [heightCm, setHeightCm] = useState("");
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [error, setError] = useState("");
@@ -63,15 +75,26 @@ export default function OnboardingPage() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError("");
-    setSubmitting(true);
 
+    if (dateOfBirth && !parseDDMMYYYY(dateOfBirth)) {
+      setError("Formato de fecha invalido. Use DD/MM/AAAA");
+      return;
+    }
+
+    let weightKg: number | undefined;
+    if (weight) {
+      const w = parseFloat(weight);
+      weightKg = weightUnit === "lb" ? w * LB_TO_KG : w;
+    }
+
+    setSubmitting(true);
     try {
       await api("/users/me", {
         method: "PATCH",
         body: JSON.stringify({
-          date_of_birth: dateOfBirth ? new Date(dateOfBirth).toISOString() : undefined,
+          date_of_birth: dateOfBirth ? parseDDMMYYYY(dateOfBirth) : undefined,
           sex: sex || undefined,
-          weight_kg: weightKg ? parseFloat(weightKg) : undefined,
+          weight_kg: weightKg,
           height_cm: heightCm ? parseFloat(heightCm) : undefined,
           health_goals: selectedGoals.length > 0 ? selectedGoals : undefined,
           onboarding_completed: true,
@@ -115,7 +138,8 @@ export default function OnboardingPage() {
               <Label htmlFor="dob">Fecha de nacimiento</Label>
               <Input
                 id="dob"
-                type="date"
+                type="text"
+                placeholder="DD/MM/AAAA"
                 value={dateOfBirth}
                 onChange={(e) => setDateOfBirth(e.target.value)}
               />
@@ -136,14 +160,29 @@ export default function OnboardingPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="weight">Peso (kg)</Label>
-                <Input
-                  id="weight"
-                  type="number"
-                  step="0.1"
-                  value={weightKg}
-                  onChange={(e) => setWeightKg(e.target.value)}
-                />
+                <Label htmlFor="weight">Peso</Label>
+                <div className="flex gap-2">
+                  <Input
+                    id="weight"
+                    type="number"
+                    step="0.1"
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
+                    className="flex-1"
+                  />
+                  <Select
+                    value={weightUnit}
+                    onValueChange={(v) => setWeightUnit(v as "kg" | "lb")}
+                  >
+                    <SelectTrigger className="w-20">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="kg">kg</SelectItem>
+                      <SelectItem value="lb">lb</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="height">Altura (cm)</Label>

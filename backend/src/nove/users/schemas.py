@@ -31,6 +31,7 @@ class UserUpdate(BaseModel):
     height_cm: float | None = None
     health_goals: list[str] | None = None
     language: str | None = None
+    onboarding_completed: bool | None = None
 
 
 class HealthProfileUpdate(BaseModel):
