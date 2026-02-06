@@ -1,0 +1,112 @@
+# ABOUTME: CI pipeline for the Nove monorepo.
+# ABOUTME: Runs linting, type checking, and tests for backend and frontend apps.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: nove
+          POSTGRES_PASSWORD: nove
+          POSTGRES_DB: nove
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
+
+      - name: Install dependencies
+        working-directory: backend
+        run: uv sync --all-extras
+
+      - name: Lint
+        working-directory: backend
+        run: uv run ruff check src/ tests/
+
+      - name: Format check
+        working-directory: backend
+        run: uv run ruff format --check src/ tests/
+
+      - name: Type check
+        working-directory: backend
+        run: uv run mypy src/
+
+      - name: Test
+        working-directory: backend
+        env:
+          DATABASE_URL: postgresql+asyncpg://nove:nove@localhost:5432/nove
+          JWT_SECRET_KEY: test-secret
+        run: uv run pytest tests/ -v
+
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Lint
+        working-directory: web
+        run: npm run lint
+
+      - name: Type check
+        working-directory: web
+        run: npx tsc --noEmit
+
+      - name: Build
+        working-directory: web
+        run: npm run build
+
+  lab-portal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: lab-portal/package-lock.json
+
+      - name: Install dependencies
+        working-directory: lab-portal
+        run: npm ci
+
+      - name: Lint
+        working-directory: lab-portal
+        run: npm run lint
+
+      - name: Type check
+        working-directory: lab-portal
+        run: npx tsc --noEmit
+
+      - name: Build
+        working-directory: lab-portal
+        run: npm run build

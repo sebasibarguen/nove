@@ -1,0 +1,28 @@
+# ABOUTME: Local development services for the Nove platform.
+# ABOUTME: Runs PostgreSQL and Inngest dev server.
+
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: nove
+      POSTGRES_PASSWORD: nove
+      POSTGRES_DB: nove
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nove"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  inngest:
+    image: inngest/inngest:latest
+    ports:
+      - "8288:8288"
+    command: inngest dev -u http://host.docker.internal:8000/api/inngest
+
+volumes:
+  pgdata:
