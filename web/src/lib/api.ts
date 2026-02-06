@@ -1,7 +1,7 @@
 // ABOUTME: HTTP client for backend API communication.
 // ABOUTME: Handles token storage, auto-refresh, and request/response typing.
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
+export const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 
 interface TokenPair {
   access_token: string;
@@ -87,30 +87,3 @@ export class ApiError extends Error {
   }
 }
 
-export async function login(email: string, password: string): Promise<void> {
-  const tokens = await api<TokenPair>("/auth/login", {
-    method: "POST",
-    body: JSON.stringify({ email, password }),
-  });
-  setTokens(tokens);
-}
-
-export async function register(
-  email: string,
-  password: string,
-  fullName: string
-): Promise<void> {
-  const tokens = await api<TokenPair>("/auth/register", {
-    method: "POST",
-    body: JSON.stringify({ email, password, full_name: fullName }),
-  });
-  setTokens(tokens);
-}
-
-export async function googleAuth(credential: string): Promise<void> {
-  const tokens = await api<TokenPair>("/auth/google", {
-    method: "POST",
-    body: JSON.stringify({ credential }),
-  });
-  setTokens(tokens);
-}

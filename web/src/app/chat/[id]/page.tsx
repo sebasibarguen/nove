@@ -7,7 +7,7 @@ import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/auth";
-import { api } from "@/lib/api";
+import { api, API_BASE } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -18,8 +18,6 @@ interface Message {
   content: string;
   created_at: string;
 }
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 
 export default function ConversationPage() {
   const params = useParams<{ id: string }>();

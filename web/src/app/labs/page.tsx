@@ -1,14 +1,16 @@
-// ABOUTME: Lab dashboard showing orders and results.
-// ABOUTME: Lists panels for ordering and displays result history.
+// ABOUTME: Lab dashboard showing orders, results, and PDF upload.
+// ABOUTME: Lists panels for ordering, allows PDF upload, and Gmail import.
 
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/contexts/auth";
-import { api, ApiError } from "@/lib/api";
+import { api, API_BASE, ApiError } from "@/lib/api";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -54,10 +56,14 @@ const STATUS_LABELS: Record<string, string> = {
 export default function LabsPage() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
+  const fileRef = useRef<HTMLInputElement>(null);
   const [panels, setPanels] = useState<Panel[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [results, setResults] = useState<Result[]>([]);
   const [ordering, setOrdering] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [uploadError, setUploadError] = useState("");
 
   const fetchData = useCallback(async () => {
     const [p, o, r] = await Promise.all([
@@ -93,6 +99,60 @@ export default function LabsPage() {
     }
   }
 
+  async function handleUpload(e: FormEvent) {
+    e.preventDefault();
+    setUploadError("");
+
+    const file = fileRef.current?.files?.[0];
+    if (!file) {
+      setUploadError("Seleccione un archivo PDF");
+      return;
+    }
+
+    if (!file.name.toLowerCase().endsWith(".pdf")) {
+      setUploadError("Solo se aceptan archivos PDF");
+      return;
+    }
+
+    setUploading(true);
+    try {
+      const token = localStorage.getItem("access_token");
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const resp = await fetch(`${API_BASE}/lab/results/upload`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+
+      if (!resp.ok) {
+        const data = await resp.json().catch(() => ({ detail: "Error" }));
+        setUploadError(data.detail || "Error al subir archivo");
+        return;
+      }
+
+      if (fileRef.current) fileRef.current.value = "";
+      await fetchData();
+    } catch {
+      setUploadError("Error al subir archivo");
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  async function handleGmailImport() {
+    setImporting(true);
+    try {
+      await api("/lab/gmail-import", { method: "POST" });
+      await fetchData();
+    } catch (err) {
+      if (err instanceof ApiError) console.error(err.message);
+    } finally {
+      setImporting(false);
+    }
+  }
+
   if (authLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -109,6 +169,37 @@ export default function LabsPage() {
           <Link href="/dashboard">&larr; Dashboard</Link>
         </Button>
       </div>
+
+      {/* Upload PDF */}
+      <section className="mb-12">
+        <h2 className="mb-4 text-lg font-semibold">Subir resultados</h2>
+        <Card>
+          <CardContent className="pt-6">
+            <form onSubmit={handleUpload} className="space-y-4">
+              {uploadError && (
+                <p className="text-sm text-destructive">{uploadError}</p>
+              )}
+              <div className="space-y-2">
+                <Label htmlFor="pdf">Archivo PDF de laboratorio</Label>
+                <Input id="pdf" type="file" accept=".pdf" ref={fileRef} />
+              </div>
+              <div className="flex gap-2">
+                <Button type="submit" disabled={uploading}>
+                  {uploading ? "Subiendo..." : "Subir PDF"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={importing}
+                  onClick={handleGmailImport}
+                >
+                  {importing ? "Buscando..." : "Buscar en Gmail"}
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </section>
 
       {/* Panels */}
       <section className="mb-12">

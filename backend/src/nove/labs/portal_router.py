@@ -143,8 +143,7 @@ async def upload_result(
 
     pdf_key = f"results/{order.order_code}/{file.filename}"
 
-    # Read file content for future pipeline processing
-    await file.read()
+    pdf_bytes = await file.read()
 
     lab_result = LabResult(
         user_id=order.user_id,
@@ -158,7 +157,7 @@ async def upload_result(
     await db.commit()
     await db.refresh(lab_result)
 
-    # TODO: Trigger Inngest event for PDF processing
-    # await inngest_client.send(inngest.Event(name="lab/result.received", data={...}))
+    from nove.labs.storage import upload_pdf
+    upload_pdf(pdf_key, pdf_bytes)
 
     return {"result_id": str(lab_result.id), "status": "pending"}

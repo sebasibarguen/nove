@@ -20,8 +20,11 @@ dependencies = [
     "structlog>=24.4.0",
     "inngest>=0.4.0",
     "anthropic>=0.78.0",
-    "pymupdf>=1.26.7",
+    "mistralai>=1.12.0",
+    "google-genai>=1.0.0",
     "python-multipart>=0.0.22",
+    "boto3>=1.35.0",
+    "sentry-sdk[fastapi]>=2.0.0",
 ]
 
 [project.optional-dependencies]

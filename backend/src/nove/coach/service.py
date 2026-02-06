@@ -3,7 +3,7 @@
 
 import uuid
 from collections.abc import AsyncGenerator
-from datetime import date
+from datetime import date, timedelta
 
 import anthropic
 from sqlalchemy import select
@@ -12,6 +12,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from nove.coach.models import Conversation, Message
 from nove.coach.prompts import get_system_prompt
 from nove.config import settings
+from nove.garmin.models import GarminConnection, GarminDataPoint
+from nove.labs.models import LabBiomarkerValue
 from nove.users.models import User, UserHealthProfile
 
 MODEL = "claude-sonnet-4-5-20250929"
@@ -58,6 +60,101 @@ async def _get_conversation_history(
     return [{"role": msg.role, "content": msg.content} for msg in messages if msg.role != "system"]
 
 
+async def _build_wearable_context(db: AsyncSession, user_id: uuid.UUID) -> str | None:
+    """Build a 7-day wearable data summary if Garmin is connected."""
+    connection = await db.get(GarminConnection, user_id)
+    if not connection:
+        return None
+
+    end_date = date.today()
+    start_date = end_date - timedelta(days=7)
+
+    result = await db.execute(
+        select(GarminDataPoint)
+        .where(
+            GarminDataPoint.user_id == user_id,
+            GarminDataPoint.date >= start_date,
+            GarminDataPoint.date <= end_date,
+        )
+        .order_by(GarminDataPoint.date.desc())
+    )
+    points = result.scalars().all()
+
+    if not points:
+        return None
+
+    parts = ["Datos de wearable Garmin (ultimos 7 dias):"]
+
+    sleep_points = [p for p in points if p.data_type == "sleep"]
+    if sleep_points:
+        durations = []
+        for sp in sleep_points:
+            total = sp.data.get("durationInSeconds")
+            if isinstance(total, (int, float)):
+                durations.append(total / 3600)
+        if durations:
+            avg_sleep = sum(durations) / len(durations)
+            parts.append(f"- Sueno promedio: {avg_sleep:.1f} horas/noche")
+
+    activity_points = [p for p in points if p.data_type == "activity"]
+    if activity_points:
+        steps_list = []
+        rhr_list = []
+        for ap in activity_points:
+            steps = ap.data.get("steps")
+            if isinstance(steps, (int, float)):
+                steps_list.append(steps)
+            rhr = ap.data.get("restingHeartRateInBeatsPerMinute")
+            if isinstance(rhr, (int, float)):
+                rhr_list.append(rhr)
+        if steps_list:
+            avg_steps = sum(steps_list) / len(steps_list)
+            parts.append(f"- Pasos promedio: {int(avg_steps)}/dia")
+        if rhr_list:
+            avg_rhr = sum(rhr_list) / len(rhr_list)
+            parts.append(f"- FC en reposo promedio: {int(avg_rhr)} bpm")
+
+    stress_points = [p for p in points if p.data_type == "stress"]
+    if stress_points:
+        stress_levels = []
+        for stp in stress_points:
+            level = stp.data.get("averageStressLevel")
+            if isinstance(level, (int, float)):
+                stress_levels.append(level)
+        if stress_levels:
+            avg_stress = sum(stress_levels) / len(stress_levels)
+            parts.append(f"- Nivel de estres promedio: {int(avg_stress)}/100")
+
+    return "\n".join(parts) if len(parts) > 1 else None
+
+
+async def _build_lab_context(db: AsyncSession, user_id: uuid.UUID) -> str | None:
+    """Build a summary of recent lab biomarker values for the system context."""
+    result = await db.execute(
+        select(LabBiomarkerValue)
+        .where(LabBiomarkerValue.user_id == user_id)
+        .order_by(LabBiomarkerValue.date.desc())
+        .limit(30)
+    )
+    values = result.scalars().all()
+
+    if not values:
+        return None
+
+    parts = []
+    for v in values:
+        ref = ""
+        if v.reference_range_low is not None and v.reference_range_high is not None:
+            ref = f" (ref: {v.reference_range_low}-{v.reference_range_high})"
+        status_label = v.status.upper() if v.status else ""
+        parts.append(
+            f"- {v.biomarker_name} ({v.biomarker_code}): {v.value} {v.unit}{ref}"
+            f" [{status_label}] ({v.date})"
+        )
+
+    return "\n".join(parts)
+
+
 async def build_context(
     db: AsyncSession,
     user: User,
@@ -73,6 +170,16 @@ async def build_context(
     profile = await db.get(UserHealthProfile, user.id)
     profile_text = _build_profile_context(user, profile)
     system_prompt += f"\n\n## Perfil del Usuario\n{profile_text}"
+
+    # Add wearable data context
+    wearable_text = await _build_wearable_context(db, user.id)
+    if wearable_text:
+        system_prompt += f"\n\n## Datos de Wearable\n{wearable_text}"
+
+    # Add lab results context
+    lab_text = await _build_lab_context(db, user.id)
+    if lab_text:
+        system_prompt += f"\n\n## Resultados de Laboratorio\n{lab_text}"
 
     # Get conversation history
     messages = await _get_conversation_history(db, conversation_id)

@@ -5,7 +5,7 @@
 
 import { FormEvent, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ApiError } from "@/lib/api";
+import { API_BASE, ApiError } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,9 +17,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 
 export default function OrderDetailPage() {
   const params = useParams<{ id: string }>();
