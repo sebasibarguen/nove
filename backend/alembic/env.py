@@ -13,6 +13,7 @@ from nove.database import Base
 
 # Import all models so Alembic sees them
 from nove.coach.models import Conversation, Message  # noqa: F401
+from nove.labs.models import LabBiomarkerValue, LabOrder, LabPanel, LabPartner, LabResult  # noqa: F401
 from nove.users.models import User, UserHealthProfile  # noqa: F401
 
 config = context.config

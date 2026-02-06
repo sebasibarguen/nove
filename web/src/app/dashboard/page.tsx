@@ -70,14 +70,16 @@ export default function DashboardPage() {
           </CardHeader>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Laboratorios</CardTitle>
-            <CardDescription>
-              Ordena y revisa tus resultados de laboratorio
-            </CardDescription>
-          </CardHeader>
-        </Card>
+        <Link href="/labs">
+          <Card className="cursor-pointer transition-colors hover:bg-accent">
+            <CardHeader>
+              <CardTitle>Laboratorios</CardTitle>
+              <CardDescription>
+                Ordena y revisa tus resultados de laboratorio
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
 
         <Card>
           <CardHeader>
