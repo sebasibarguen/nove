@@ -1,60 +1,100 @@
 {
   "slug": "salud",
   "meta": {
-    "title": "Nove — Tu coach de salud con IA",
-    "description": "Coaching de salud personalizado con inteligencia artificial. Nutrición, actividad física y bienestar en Ciudad de Guatemala."
+    "title": "Nove — Tu chequeo de salud avanzado",
+    "description": "Chequeos de salud avanzados con inteligencia artificial. Laboratorios, actividad física y coaching personalizado en Ciudad de Guatemala."
   },
   "hero": {
-    "headline": "Tu salud, potenciada por inteligencia artificial",
-    "subheadline": "Nove analiza tus datos de salud y te da recomendaciones personalizadas para sentirte mejor cada día.",
-    "ctaText": "Empieza gratis",
-    "ctaHref": "#registro"
+    "headline": "Tu chequeo de salud avanzado",
+    "subheadline": "Laboratorios analizados por IA. Actividad de tu Garmin. Coaching personalizado. Todo en un solo lugar.",
+    "ctaText": "Empieza ahora",
+    "ctaHref": "#registro",
+    "stats": [
+      { "value": "50+", "label": "biomarcadores analizados" },
+      { "value": "24/7", "label": "coach de IA disponible" },
+      { "value": "< 1 min", "label": "para interpretar tus labs" }
+    ]
   },
-  "features": [
-    {
-      "icon": "Brain",
-      "title": "Coach con IA",
-      "description": "Conversaciones inteligentes que entienden tu historial médico y hábitos."
-    },
-    {
-      "icon": "FileText",
-      "title": "Análisis de laboratorios",
-      "description": "Sube tus resultados de laboratorio y recibe interpretaciones claras al instante."
-    },
-    {
-      "icon": "Activity",
-      "title": "Seguimiento de actividad",
-      "description": "Conecta tu dispositivo Garmin y visualiza tu progreso en tiempo real."
-    },
-    {
-      "icon": "Shield",
-      "title": "Privacidad primero",
-      "description": "Tus datos de salud están encriptados y nunca se comparten con terceros."
-    }
-  ],
+  "howItWorks": {
+    "headline": "Así de fácil funciona",
+    "steps": [
+      {
+        "title": "Sube tus laboratorios",
+        "description": "Toma una foto o sube el PDF de tus resultados. Nove extrae y analiza cada biomarcador al instante."
+      },
+      {
+        "title": "Conecta tu actividad",
+        "description": "Sincroniza tu Garmin y Nove integra tus pasos, sueño y frecuencia cardíaca con tus datos de salud."
+      },
+      {
+        "title": "Recibe tu protocolo",
+        "description": "Tu coach de IA crea un plan personalizado basado en TUS datos — no en promedios genéricos."
+      }
+    ]
+  },
+  "features": {
+    "headline": "Todo lo que tu chequeo anual debería incluir",
+    "items": [
+      {
+        "icon": "HeartPulse",
+        "title": "Advanced Health Check",
+        "description": "Detecta riesgos antes de que se conviertan en problemas. Monitorea indicadores tempranos de diabetes, tiroides, colesterol y más."
+      },
+      {
+        "icon": "FileSearch",
+        "title": "Laboratorios explicados por IA",
+        "description": "Nada de jerga médica. Cada resultado explicado en español claro con qué significa y qué hacer al respecto."
+      },
+      {
+        "icon": "Activity",
+        "title": "Tu cuerpo en tiempo real",
+        "description": "Pasos, sueño, estrés y frecuencia cardíaca de tu Garmin — correlacionados con tus biomarcadores."
+      },
+      {
+        "icon": "MessageCircle",
+        "title": "Coach que te conoce",
+        "description": "Un coach de IA que recuerda tu historial, entiende tus hábitos y te guía con recomendaciones que puedes seguir."
+      }
+    ]
+  },
+  "comparison": {
+    "headline": "Esto no es un chequeo cualquiera",
+    "subheadline": "La mayoría de chequeos médicos revisan lo mínimo. Nove va más allá.",
+    "noveLabel": "Nove",
+    "traditionalLabel": "Chequeo típico",
+    "rows": [
+      { "feature": "Interpretación inmediata de laboratorios", "nove": true, "traditional": false },
+      { "feature": "Seguimiento de biomarcadores en el tiempo", "nove": true, "traditional": false },
+      { "feature": "Integración con wearables (Garmin)", "nove": true, "traditional": false },
+      { "feature": "Coach de IA personalizado 24/7", "nove": true, "traditional": false },
+      { "feature": "Detección de tendencias y riesgos tempranos", "nove": true, "traditional": false },
+      { "feature": "Resultados en español claro", "nove": true, "traditional": false },
+      { "feature": "Análisis de sangre básico", "nove": true, "traditional": true }
+    ]
+  },
   "socialProof": {
-    "headline": "Lo que dicen nuestros usuarios",
+    "headline": "Lo que dicen quienes ya lo usan",
     "testimonials": [
       {
-        "quote": "Nove me ayudó a entender mis resultados de laboratorio sin tener que esperar semanas por una cita.",
+        "quote": "Mi doctor me dijo que todo estaba 'normal'. Nove me mostró que mi vitamina D llevaba 3 meses cayendo. Ahora la monitoreo.",
         "name": "María González",
         "role": "Usuaria desde 2025"
       },
       {
-        "quote": "El coach de IA me da recomendaciones que realmente puedo seguir en mi día a día.",
+        "quote": "Subí mi hemograma y en 30 segundos tenía una explicación que entendí mejor que la de mi cita médica.",
         "name": "Carlos Mendoza",
         "role": "Usuario desde 2025"
       },
       {
-        "quote": "Por fin una app de salud que habla español y entiende el contexto guatemalteco.",
+        "quote": "Conecté mi Garmin y el coach me correlacionó mis noches de mal sueño con mis niveles de cortisol. Ninguna otra app hace eso.",
         "name": "Ana Lucía Pérez",
         "role": "Usuaria desde 2025"
       }
     ]
   },
   "footerCta": {
-    "headline": "Empieza a cuidar tu salud hoy",
-    "subheadline": "Regístrate gratis y recibe tu primera consulta con IA en minutos.",
-    "ctaText": "Registrarme gratis"
+    "headline": "¿Esperarías a que algo falle para revisar tu carro?",
+    "subheadline": "Tu cuerpo merece la misma atención. Empieza tu chequeo avanzado hoy.",
+    "ctaText": "Empezar gratis"
   }
 }

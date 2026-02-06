@@ -8,7 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-function LeadFormInner({ slug }: { slug: string }) {
+function LeadFormInner({ slug, ctaText }: { slug: string; ctaText?: string }) {
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -40,24 +40,27 @@ function LeadFormInner({ slug }: { slug: string }) {
 
   if (status === "success") {
     return (
-      <p className="text-center text-lg font-medium text-primary">
-        ¡Listo! Te enviaremos más información pronto.
-      </p>
+      <div className="flex flex-col items-center gap-2">
+        <span className="text-3xl">&#10003;</span>
+        <p className="text-lg font-medium">
+          ¡Listo! Te enviaremos más información pronto.
+        </p>
+      </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full max-w-md flex-col gap-3 sm:flex-row">
+    <form onSubmit={handleSubmit} className="flex w-full max-w-lg flex-col gap-3 sm:flex-row">
       <Input
         type="email"
         placeholder="tu@email.com"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
-        className="flex-1"
+        className="h-12 flex-1 rounded-full px-5"
       />
-      <Button type="submit" disabled={status === "loading"}>
-        {status === "loading" ? "Enviando..." : "Registrarme"}
+      <Button type="submit" disabled={status === "loading"} className="h-12 rounded-full px-8">
+        {status === "loading" ? "Enviando..." : (ctaText ?? "Registrarme")}
       </Button>
       {status === "error" && (
         <p className="text-sm text-destructive">Hubo un error. Intenta de nuevo.</p>
@@ -66,11 +69,11 @@ function LeadFormInner({ slug }: { slug: string }) {
   );
 }
 
-export function LeadForm({ slug }: { slug: string }) {
+export function LeadForm({ slug, ctaText }: { slug: string; ctaText?: string }) {
   return (
     <section id="registro" className="flex flex-col items-center gap-6 px-6 py-16 md:py-24">
       <Suspense fallback={null}>
-        <LeadFormInner slug={slug} />
+        <LeadFormInner slug={slug} ctaText={ctaText} />
       </Suspense>
     </section>
   );
