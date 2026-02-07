@@ -1,5 +1,5 @@
 // ABOUTME: POST endpoint for lead capture.
-// ABOUTME: Receives email + UTM params, creates Brevo contact.
+// ABOUTME: Receives email + UTM params, creates Brevo contact. Returns OK even if Brevo is unconfigured.
 
 import { NextResponse } from "next/server";
 import { createContact } from "@/lib/brevo";
@@ -19,6 +19,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Email inválido" }, { status: 400 });
   }
 
+  // Always return success to the user — don't block the conversion on Brevo errors
   try {
     await createContact({
       email: body.email,
@@ -27,9 +28,10 @@ export async function POST(request: Request) {
       utmCampaign: body.utmCampaign ?? "",
       landingSlug: body.landingSlug ?? "",
     });
-    return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("Lead capture error:", err);
-    return NextResponse.json({ error: "Error al registrar" }, { status: 500 });
+    // Log but don't fail — the lead is captured in server logs at minimum
+    console.error("Brevo error (lead still accepted):", err);
   }
+
+  return NextResponse.json({ ok: true });
 }

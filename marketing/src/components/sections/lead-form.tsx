@@ -1,17 +1,18 @@
 // ABOUTME: Email capture form with UTM parameter tracking.
-// ABOUTME: Posts to /api/leads, reads UTM from URL search params.
+// ABOUTME: Posts to /api/leads, redirects to /success on submit.
 
 "use client";
 
 import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 function LeadFormInner({ slug, ctaText }: { slug: string; ctaText?: string }) {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,22 +32,10 @@ function LeadFormInner({ slug, ctaText }: { slug: string; ctaText?: string }) {
         }),
       });
       if (!res.ok) throw new Error("Failed");
-      setStatus("success");
-      setEmail("");
+      router.push("/success");
     } catch {
       setStatus("error");
     }
-  }
-
-  if (status === "success") {
-    return (
-      <div className="flex flex-col items-center gap-2">
-        <span className="text-3xl">&#10003;</span>
-        <p className="text-lg font-medium">
-          ¡Listo! Te enviaremos más información pronto.
-        </p>
-      </div>
-    );
   }
 
   return (
