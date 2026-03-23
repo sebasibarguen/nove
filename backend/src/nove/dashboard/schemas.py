@@ -85,8 +85,15 @@ class ScoresRead(BaseModel):
     sleep: ScoreRead
 
 
+class OnboardingStatus(BaseModel):
+    garmin_connected: bool
+    has_lab_results: bool
+    gmail_available: bool
+
+
 class DashboardSnapshot(BaseModel):
     scores: ScoresRead
     nove_age: NoveAgeRead
     garmin: GarminStatus
     pillars: PillarsRead
+    onboarding: OnboardingStatus

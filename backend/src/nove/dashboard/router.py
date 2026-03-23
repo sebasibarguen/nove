@@ -16,6 +16,7 @@ from nove.dashboard.schemas import (
     GarminStatus,
     MetabolicPillar,
     NoveAgeRead,
+    OnboardingStatus,
     PillarsRead,
     ScoreRead,
     ScoresRead,
@@ -417,9 +418,17 @@ async def get_snapshot(user: CurrentUser, db: DB) -> DashboardSnapshot:
         stress=_build_stress_pillar(stress_points),
     )
 
+    # Onboarding status for CTAs
+    onboarding = OnboardingStatus(
+        garmin_connected=connection is not None,
+        has_lab_results=len(biomarkers) > 0,
+        gmail_available=bool(user.google_access_token or user.google_refresh_token),
+    )
+
     return DashboardSnapshot(
         scores=scores,
         nove_age=nove_age,
         garmin=garmin_status,
         pillars=pillars,
+        onboarding=onboarding,
     )
