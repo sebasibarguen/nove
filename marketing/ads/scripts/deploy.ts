@@ -8,7 +8,8 @@ import fs from "fs";
 // GOOGLE_ADS_CLIENT_ID       - OAuth client ID
 // GOOGLE_ADS_CLIENT_SECRET   - OAuth client secret
 // GOOGLE_ADS_REFRESH_TOKEN   - OAuth refresh token
-// GOOGLE_ADS_CUSTOMER_ID     - Google Ads account ID (no dashes)
+// GOOGLE_ADS_CUSTOMER_ID     - Google Ads client account ID (no dashes)
+// GOOGLE_ADS_MCC_ID          - Manager account ID (optional, for MCC access)
 
 const REQUIRED_ENV = [
   "GOOGLE_ADS_DEVELOPER_TOKEN",
@@ -54,15 +55,20 @@ async function googleAdsRequest(
   body: Record<string, unknown>
 ) {
   const customerId = process.env.GOOGLE_ADS_CUSTOMER_ID!;
-  const baseUrl = `https://googleads.googleapis.com/v18/customers/${customerId}`;
+  const baseUrl = `https://googleads.googleapis.com/v23/customers/${customerId}`;
+
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${accessToken}`,
+    "developer-token": process.env.GOOGLE_ADS_DEVELOPER_TOKEN!,
+    "Content-Type": "application/json",
+  };
+  if (process.env.GOOGLE_ADS_MCC_ID) {
+    headers["login-customer-id"] = process.env.GOOGLE_ADS_MCC_ID;
+  }
 
   const res = await fetch(`${baseUrl}/${endpoint}`, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "developer-token": process.env.GOOGLE_ADS_DEVELOPER_TOKEN!,
-      "Content-Type": "application/json",
-    },
+    headers,
     body: JSON.stringify(body),
   });
 
@@ -85,8 +91,9 @@ async function deploy(filePath: string) {
   const config = JSON.parse(fs.readFileSync(filePath, "utf-8"));
   const accessToken = await getAccessToken();
 
+  const dailyBudget = config.campaign.dailyBudgetUsd;
   console.log(`Deploying campaign: ${config.campaign.name}`);
-  console.log(`Budget: Q${config.campaign.dailyBudgetGtq}/day`);
+  console.log(`Budget: $${dailyBudget}/day`);
   console.log(`Geo: ${config.campaign.geoTargets.join(", ")}`);
   console.log(`Ad groups: ${config.adGroups.length}`);
 
@@ -96,7 +103,7 @@ async function deploy(filePath: string) {
       {
         create: {
           name: `${config.campaign.name} Budget`,
-          amountMicros: String(config.campaign.dailyBudgetGtq * 1_000_000),
+          amountMicros: String(dailyBudget * 1_000_000),
           deliveryMethod: "STANDARD",
         },
       },
@@ -114,6 +121,8 @@ async function deploy(filePath: string) {
           advertisingChannelType: "SEARCH",
           status: "PAUSED",
           campaignBudget: budgetResource,
+          targetSpend: {},
+          containsEuPoliticalAdvertising: "DOES_NOT_CONTAIN_EU_POLITICAL_ADVERTISING",
           networkSettings: {
             targetGoogleSearch: true,
             targetSearchNetwork: false,
@@ -125,6 +134,48 @@ async function deploy(filePath: string) {
   });
   const campaignResource = campaignResult.results[0].resourceName;
   console.log(`✓ Created campaign: ${campaignResource}`);
+
+  // Step 2b: Set geo and language targeting
+  const GEO_IDS: Record<string, string> = {
+    "Guatemala": "2320",
+    "Guatemala City": "1003768",
+  };
+  const LANG_IDS: Record<string, string> = {
+    "es": "1003",
+    "en": "1000",
+  };
+
+  const criteriaOps = [];
+  for (const geo of config.campaign.geoTargets ?? []) {
+    const geoId = GEO_IDS[geo];
+    if (geoId) {
+      criteriaOps.push({
+        create: {
+          campaign: campaignResource,
+          location: { geoTargetConstant: `geoTargetConstants/${geoId}` },
+        },
+      });
+    } else {
+      console.warn(`  ⚠ Unknown geo target: ${geo} — skipped`);
+    }
+  }
+
+  const langId = LANG_IDS[config.campaign.language];
+  if (langId) {
+    criteriaOps.push({
+      create: {
+        campaign: campaignResource,
+        language: { languageConstant: `languageConstants/${langId}` },
+      },
+    });
+  }
+
+  if (criteriaOps.length > 0) {
+    await googleAdsRequest(accessToken, "campaignCriteria:mutate", {
+      operations: criteriaOps,
+    });
+    console.log(`✓ Set geo: ${(config.campaign.geoTargets ?? []).join(", ")}, language: ${config.campaign.language}`);
+  }
 
   // Step 3: Create ad groups and ads
   for (const group of config.adGroups) {

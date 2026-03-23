@@ -49,7 +49,7 @@ function LeadFormInner({ slug, ctaText }: { slug: string; ctaText?: string }) {
         className="h-12 flex-1 rounded-full px-5"
       />
       <Button type="submit" disabled={status === "loading"} className="h-12 rounded-full px-8">
-        {status === "loading" ? "Enviando..." : (ctaText ?? "Registrarme")}
+        {status === "loading" ? "Enviando..." : (ctaText ?? "Quiero saber más")}
       </Button>
       {status === "error" && (
         <p className="text-sm text-destructive">Hubo un error. Intenta de nuevo.</p>

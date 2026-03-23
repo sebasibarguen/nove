@@ -14,8 +14,8 @@ export function LandingPage({ config }: { config: LandingConfig }) {
   return (
     <main className="mx-auto max-w-6xl">
       <Hero config={config.hero} />
-      {config.howItWorks && <HowItWorks config={config.howItWorks} />}
       <Features config={config.features} />
+      {config.howItWorks && <HowItWorks config={config.howItWorks} />}
       {config.comparison && <Comparison config={config.comparison} />}
       <SocialProof config={config.socialProof} />
       <LeadForm slug={config.slug} ctaText={config.footerCta.ctaText} />

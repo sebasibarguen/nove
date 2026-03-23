@@ -1,0 +1,114 @@
+{
+  "slug": "analiza",
+  "meta": {
+    "title": "Nove — Sube tus resultados y entiéndelos al instante",
+    "description": "Sube tu PDF de laboratorio y recibe una interpretación clara con IA en segundos. Gratis. Sin registrarte."
+  },
+  "hero": {
+    "headline": "¿Te hiciste tus labs y no entendiste los resultados?",
+    "subheadline": "Sube tu PDF o foto de resultados y Nove te explica cada biomarcador al instante — qué está bien, qué vigilar, y qué hacer. Gratis.",
+    "ctaText": "Subir mis resultados",
+    "ctaHref": "#registro",
+    "stats": [
+      { "value": "< 1 min", "label": "para interpretar tus labs" },
+      { "value": "100+", "label": "biomarcadores que reconoce" },
+      { "value": "Gratis", "label": "tu primer análisis" }
+    ]
+  },
+  "features": {
+    "headline": "Tus resultados tienen más información de la que crees",
+    "items": [
+      {
+        "icon": "FileSearch",
+        "title": "Sube cualquier formato",
+        "description": "PDF, foto o imagen escaneada. Nove extrae los datos automáticamente y te explica cada biomarcador."
+      },
+      {
+        "icon": "HeartPulse",
+        "title": "Detección temprana",
+        "description": "Colesterol, glucosa, tiroides, hormonas y más. Identifica riesgos cardiovasculares, diabetes y desequilibrios antes de que avancen."
+      },
+      {
+        "icon": "TrendingUp",
+        "title": "Compara entre chequeos",
+        "description": "Sube más de un resultado y observa cómo cambian tus biomarcadores de un chequeo a otro. Detecta tendencias reales."
+      },
+      {
+        "icon": "MessageCircle",
+        "title": "Pregúntale a tu coach",
+        "description": "¿Qué significa mi creatinina alta? ¿Debería preocuparme por mi colesterol? Un coach de IA que responde en segundos."
+      },
+      {
+        "icon": "Mail",
+        "title": "Importa tu historial",
+        "description": "Con tu permiso, Nove recopila tus resultados anteriores desde tu correo y laboratorios locales. Empieza con historial completo."
+      },
+      {
+        "icon": "Share2",
+        "title": "Reportes para tu doctor",
+        "description": "Genera reportes claros y compártelos con tu doctor o nutricionista. Tus datos, listos para cualquier consulta."
+      }
+    ]
+  },
+  "howItWorks": {
+    "headline": "Así de fácil funciona",
+    "steps": [
+      {
+        "title": "Sube tu PDF o foto",
+        "description": "Cualquier resultado de laboratorio — hemograma, perfil lipídico, tiroides, hormonas. Nove lo lee automáticamente."
+      },
+      {
+        "title": "Entiende cada resultado",
+        "description": "Cada biomarcador explicado en español claro: qué mide, si está en rango, qué significa para ti y qué puedes hacer."
+      },
+      {
+        "title": "Pregunta lo que quieras",
+        "description": "El coach de IA responde tus dudas al instante. ¿Es normal mi TSH? ¿Qué puedo hacer por mi colesterol? Pregunta sin límite."
+      },
+      {
+        "title": "Compara y monitorea",
+        "description": "Sube tus próximos resultados y observa cómo cambian tus biomarcadores de un chequeo a otro."
+      }
+    ]
+  },
+  "comparison": {
+    "headline": "Esto no es Google — es tu intérprete de salud",
+    "subheadline": "Buscar en internet te da respuestas genéricas. Nove analiza TUS números específicos.",
+    "noveLabel": "Nove",
+    "traditionalLabel": "Buscar en Google",
+    "rows": [
+      { "feature": "Interpreta TUS valores específicos", "nove": true, "traditional": false },
+      { "feature": "Identifica qué está fuera de rango", "nove": true, "traditional": false },
+      { "feature": "Te dice qué hacer al respecto", "nove": true, "traditional": false },
+      { "feature": "Compara resultados entre chequeos", "nove": true, "traditional": false },
+      { "feature": "Coach que recuerda tu historial", "nove": true, "traditional": false },
+      { "feature": "Reportes que puedes compartir con tu doctor", "nove": true, "traditional": false },
+      { "feature": "Información general de salud", "nove": true, "traditional": true }
+    ]
+  },
+  "socialProof": {
+    "headline": "Lo que dicen los expertos",
+    "testimonials": [
+      {
+        "quote": "La mentira más grande de la medicina moderna: 'Tus labs están normales.' Pero normal no es lo mismo que saludable.",
+        "name": "Dr. Mark Hyman",
+        "role": "Médico, autor de The Blood Sugar Solution"
+      },
+      {
+        "quote": "Hacerse exámenes de sangre periódicamente es clave. Empecé en mis 20s y me ha permitido evaluar mis prácticas de salud, nutrición, entrenamiento y suplementos.",
+        "name": "Dr. Andrew Huberman",
+        "role": "Neurocientífico, Stanford University"
+      },
+      {
+        "quote": "Si queremos avanzar en la prevención primaria de enfermedades, necesitamos mejores formas de identificar a las personas en riesgo. Los análisis de sangre son un cofre de información que se queda sin aprovechar cada día.",
+        "name": "Dr. Eric Topol",
+        "role": "Cardiólogo, editor en jefe de Medscape"
+      }
+    ]
+  },
+  "footerCta": {
+    "headline": "Tus resultados ya están ahí. ¿Por qué no entenderlos?",
+    "subheadline": "Sube tu PDF. Entiende cada número. Gratis.",
+    "ctaText": "Subir mis resultados"
+  }
+}

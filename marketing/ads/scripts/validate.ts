@@ -10,6 +10,7 @@ interface Keyword {
 
 interface Ad {
   headlines: string[];
+  longHeadlines?: string[];
   descriptions: string[];
   finalUrl: string;
 }
@@ -32,6 +33,7 @@ interface CampaignConfig {
 
 const VALID_MATCH_TYPES = ["EXACT", "PHRASE", "BROAD"];
 const MAX_HEADLINE_LENGTH = 30;
+const MAX_LONG_HEADLINE_LENGTH = 90;
 const MAX_DESCRIPTION_LENGTH = 90;
 
 function validate(filePath: string): string[] {
@@ -87,6 +89,11 @@ function validate(filePath: string): string[] {
       for (const h of ad.headlines ?? []) {
         if (h.length > MAX_HEADLINE_LENGTH) {
           errors.push(`Headline too long (${h.length}/${MAX_HEADLINE_LENGTH}): "${h}"`);
+        }
+      }
+      for (const lh of ad.longHeadlines ?? []) {
+        if (lh.length > MAX_LONG_HEADLINE_LENGTH) {
+          errors.push(`Long headline too long (${lh.length}/${MAX_LONG_HEADLINE_LENGTH}): "${lh.slice(0, 40)}..."`);
         }
       }
       if (!ad.descriptions?.length || ad.descriptions.length < 2) {

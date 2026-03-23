@@ -1,0 +1,16 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/qa",
+      "schedule": "23 8 * * *"
+    },
+    {
+      "path": "/api/cron/monitor",
+      "schedule": "42 15 * * *"
+    },
+    {
+      "path": "/api/cron/report",
+      "schedule": "17 9 * * *"
+    }
+  ]
+}

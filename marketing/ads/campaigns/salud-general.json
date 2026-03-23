@@ -1,34 +1,49 @@
 {
   "campaign": {
-    "name": "Nove - Salud General",
-    "dailyBudgetGtq": 100,
-    "geoTargets": ["Guatemala City"],
+    "name": "Nove - Salud General (A)",
+    "dailyBudgetUsd": 5,
+    "geoTargets": ["Guatemala"],
     "language": "es",
     "startDate": null,
     "endDate": null
   },
   "adGroups": [
     {
-      "name": "Coach Salud IA",
+      "name": "Chequeo Completo",
       "keywords": [
-        { "text": "coach de salud", "matchType": "PHRASE" },
-        { "text": "coaching salud guatemala", "matchType": "PHRASE" },
-        { "text": "salud personalizada", "matchType": "BROAD" },
-        { "text": "app salud inteligencia artificial", "matchType": "PHRASE" },
-        { "text": "mejorar salud guatemala", "matchType": "BROAD" }
+        { "text": "chequeo de salud completo", "matchType": "PHRASE" },
+        { "text": "chequeo médico completo guatemala", "matchType": "PHRASE" },
+        { "text": "exámenes de sangre completos", "matchType": "PHRASE" },
+        { "text": "medicina preventiva guatemala", "matchType": "EXACT" },
+        { "text": "chequeo médico avanzado", "matchType": "PHRASE" },
+        { "text": "análisis de sangre completo guatemala", "matchType": "PHRASE" }
       ],
       "ads": [
         {
           "headlines": [
-            "Coach de Salud con IA",
-            "Recomendaciones Personalizadas",
-            "Empieza Gratis Hoy"
+            "Análisis de Sangre Completo",
+            "Entiende Cada Resultado",
+            "Labs + Coach + Interpretación",
+            "Todo Incluido por $350/Año",
+            "Chequeo Completo en Guatemala",
+            "100+ Biomarcadores Incluidos",
+            "Compara Entre Cada Chequeo",
+            "Labs Certificados en Guatemala",
+            "Resultados Claros al Instante",
+            "Detecta Cambios a Tiempo",
+            "Colesterol, Tiroides y Más",
+            "Menos de $1 al Día",
+            "Nove — Entiende Tu Salud",
+            "Sin Referencia Médica",
+            "Coach de Salud 24/7"
           ],
           "descriptions": [
-            "Nove analiza tus datos de salud y te da recomendaciones personalizadas. Regístrate gratis.",
-            "Coaching de salud con inteligencia artificial en Ciudad de Guatemala. Sin esperas."
+            "Análisis de sangre completo con interpretación y coach incluidos. $350/año.",
+            "Colesterol, glucosa, tiroides y más — cada resultado explicado. $350/año.",
+            "Compara tus resultados entre chequeos y detecta cambios. Coach incluido.",
+            "Chequeo completo en labs certificados de Guatemala. Resultados claros."
           ],
-          "finalUrl": "https://nove.gt/salud?utm_source=google&utm_medium=cpc&utm_campaign=salud-general"
+          "finalUrl": "https://nove.health/salud?utm_source=google&utm_medium=cpc&utm_campaign=salud-a"
         }
       ]
     }

@@ -1,0 +1,54 @@
+{
+  "campaign": {
+    "name": "Nove - Analiza Labs (B)",
+    "dailyBudgetUsd": 5,
+    "geoTargets": ["Guatemala"],
+    "language": "es",
+    "startDate": null,
+    "endDate": null
+  },
+  "adGroups": [
+    {
+      "name": "Interpretar Resultados",
+      "keywords": [
+        { "text": "interpretar resultados de laboratorio", "matchType": "PHRASE" },
+        { "text": "entender examen de sangre", "matchType": "PHRASE" },
+        { "text": "que significa mi hemograma", "matchType": "PHRASE" },
+        { "text": "interpretar hemograma", "matchType": "PHRASE" },
+        { "text": "que significan mis resultados de laboratorio", "matchType": "PHRASE" },
+        { "text": "entender resultados de sangre", "matchType": "PHRASE" },
+        { "text": "como leer exámenes de sangre", "matchType": "PHRASE" },
+        { "text": "colesterol alto que hacer", "matchType": "PHRASE" },
+        { "text": "creatinina alta que significa", "matchType": "PHRASE" }
+      ],
+      "ads": [
+        {
+          "headlines": [
+            "Sube Tus Labs y Entiéndelos",
+            "Interpretación con IA Gratis",
+            "¿Qué Significan Tus Labs?",
+            "Sube Tu PDF, Te Lo Explicamos",
+            "Hemograma Explicado en 1 Min",
+            "Resultados Claros al Instante",
+            "Colesterol, Tiroides y Más",
+            "Nove — Entiende Tu Salud",
+            "Sube Tu Foto o PDF",
+            "Coach de Salud con IA",
+            "Compara Entre Chequeos",
+            "Tu Primer Análisis Gratis",
+            "Sin Registro, Sin Esperas",
+            "Detecta Cambios a Tiempo",
+            "Pregúntale a la IA"
+          ],
+          "descriptions": [
+            "Sube tu PDF de laboratorio y entiende cada resultado al instante. Tu primer análisis gratis.",
+            "¿No entiendes tu hemograma? Sube tu PDF y Nove te lo explica en segundos. Gratis.",
+            "Colesterol, glucosa, tiroides — cada resultado explicado. Sube tu PDF ahora.",
+            "Compara tus resultados entre chequeos y detecta cambios. Sube tu primer lab gratis."
+          ],
+          "finalUrl": "https://nove.health/analiza?utm_source=google&utm_medium=cpc&utm_campaign=analiza-b"
+        }
+      ]
+    }
+  ]
+}

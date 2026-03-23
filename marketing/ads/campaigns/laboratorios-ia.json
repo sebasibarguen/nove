@@ -22,13 +22,34 @@
           "headlines": [
             "Entiende Tus Laboratorios",
             "Análisis con IA al Instante",
-            "Sube Tu PDF Gratis"
+            "Sube Tu PDF Gratis",
+            "Resultados Claros en Español",
+            "Sin Jerga Médica",
+            "Interpretación Inmediata",
+            "Detecta Tendencias de Salud",
+            "Hemograma Explicado con IA",
+            "Nove — Labs Inteligentes",
+            "Compara Tus Resultados",
+            "Monitorea Tu Salud",
+            "Regístrate Gratis Hoy",
+            "50+ Biomarcadores",
+            "Tu Salud en Tus Manos",
+            "Análisis en Segundos"
+          ],
+          "longHeadlines": [
+            "Sube tu PDF de laboratorio y recibe una interpretación clara con IA en segundos",
+            "¿No entiendes tu hemograma? Nove te lo explica sin jerga médica, al instante",
+            "Compara tus resultados de laboratorio a lo largo del tiempo y detecta tendencias",
+            "Análisis de laboratorios con inteligencia artificial — sin esperas, sin complicaciones",
+            "Tus resultados tienen información importante que probablemente no estás viendo"
           ],
           "descriptions": [
             "Sube tus resultados de laboratorio y obtén interpretaciones claras con IA. Sin esperas.",
-            "¿No entiendes tus exámenes? Nove te explica qué significan en segundos. Prueba gratis."
+            "¿No entiendes tus exámenes? Nove te explica qué significan en segundos. Prueba gratis.",
+            "Hemograma, perfil lipídico, tiroides y más. Todo explicado en español claro por IA.",
+            "Monitorea tus biomarcadores en el tiempo y detecta cambios antes de que sean problemas."
           ],
-          "finalUrl": "https://nove.gt/laboratorios?utm_source=google&utm_medium=cpc&utm_campaign=laboratorios-ia"
+          "finalUrl": "https://nove.health/laboratorios?utm_source=google&utm_medium=cpc&utm_campaign=laboratorios-ia"
         }
       ]
     }

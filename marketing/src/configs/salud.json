@@ -1,100 +1,125 @@
 {
   "slug": "salud",
   "meta": {
-    "title": "Nove — Tu chequeo de salud avanzado",
-    "description": "Chequeos de salud avanzados con inteligencia artificial. Laboratorios, actividad física y coaching personalizado en Ciudad de Guatemala."
+    "title": "Nove — Análisis de sangre completo con resultados que entiendes",
+"description": "Hazte tus análisis en laboratorios certificados en Guatemala. Entiende cada resultado al instante. Compara tus biomarcadores entre cada chequeo. $350/año."
   },
   "hero": {
-    "headline": "Tu chequeo de salud avanzado",
-    "subheadline": "Laboratorios analizados por IA. Actividad de tu Garmin. Coaching personalizado. Todo en un solo lugar.",
-    "ctaText": "Empieza ahora",
+    "headline": "Hazte tus análisis y entiende cada resultado.",
+    "subheadline": "Análisis de sangre completo en laboratorios certificados en Guatemala. Cada resultado explicado al instante. Compara tus biomarcadores entre cada chequeo.",
+    "ctaText": "Quiero saber más",
     "ctaHref": "#registro",
     "stats": [
-      { "value": "50+", "label": "biomarcadores analizados" },
-      { "value": "24/7", "label": "coach de IA disponible" },
-      { "value": "< 1 min", "label": "para interpretar tus labs" }
+      { "value": "< 1 min", "label": "para interpretar tus labs" },
+      { "value": "100+", "label": "biomarcadores que puedes monitorear" },
+      { "value": "$350/año", "label": "labs + interpretación + coach incluidos" }
     ]
   },
   "howItWorks": {
     "headline": "Así de fácil funciona",
     "steps": [
       {
-        "title": "Sube tus laboratorios",
-        "description": "Toma una foto o sube el PDF de tus resultados. Nove extrae y analiza cada biomarcador al instante."
+        "title": "Descubre qué medir",
+        "description": "Basado en investigación reciente, Nove te recomienda los biomarcadores más relevantes para tu perfil: metabolismo, hormonas, tiroides, inflamación y más."
       },
       {
-        "title": "Conecta tu actividad",
-        "description": "Sincroniza tu Garmin y Nove integra tus pasos, sueño y frecuencia cardíaca con tus datos de salud."
+        "title": "Hazte tus labs",
+        "description": "Ve a cualquiera de nuestros laboratorios certificados en Guatemala. Sin referencia médica, sin esperas."
       },
       {
-        "title": "Recibe tu protocolo",
-        "description": "Tu coach de IA crea un plan personalizado basado en TUS datos — no en promedios genéricos."
+        "title": "Entiende tus resultados",
+        "description": "Cada biomarcador explicado: qué mide, si está en rango, qué significa para ti y qué puedes hacer."
+      },
+      {
+        "title": "Compara entre cada chequeo",
+        "description": "Repite tus labs y observa cómo cambian tus biomarcadores de un chequeo a otro. Detecta tendencias y mide el impacto de tus cambios."
       }
     ]
   },
   "features": {
-    "headline": "Todo lo que tu chequeo anual debería incluir",
+    "headline": "Más que un análisis de sangre — una historia de tu salud",
     "items": [
       {
-        "icon": "HeartPulse",
-        "title": "Advanced Health Check",
-        "description": "Detecta riesgos antes de que se conviertan en problemas. Monitorea indicadores tempranos de diabetes, tiroides, colesterol y más."
-      },
-      {
         "icon": "FileSearch",
-        "title": "Laboratorios explicados por IA",
-        "description": "Nada de jerga médica. Cada resultado explicado en español claro con qué significa y qué hacer al respecto."
+        "title": "Resultados que entiendes",
+        "description": "Nada de valores sin contexto. Cada resultado explicado en español claro — qué está bien, qué vigilar, y qué hacer al respecto."
       },
       {
-        "icon": "Activity",
-        "title": "Tu cuerpo en tiempo real",
-        "description": "Pasos, sueño, estrés y frecuencia cardíaca de tu Garmin — correlacionados con tus biomarcadores."
+        "icon": "TrendingUp",
+        "title": "Tu salud, chequeo a chequeo",
+        "description": "Un resultado aislado dice poco. Nove te muestra cómo cambian tus biomarcadores de un chequeo a otro para que veas la tendencia real."
+      },
+      {
+        "icon": "HeartPulse",
+        "title": "Detección temprana",
+        "description": "Colesterol, glucosa, tiroides, hormonas y más. Detecta riesgos cardiovasculares, diabetes y desequilibrios antes de que avancen."
       },
       {
         "icon": "MessageCircle",
-        "title": "Coach que te conoce",
-        "description": "Un coach de IA que recuerda tu historial, entiende tus hábitos y te guía con recomendaciones que puedes seguir."
+        "title": "Un coach que te conoce",
+        "description": "Pregúntale lo que quieras sobre tus resultados. Recuerda tu historial y te da recomendaciones basadas en tus datos reales."
+      },
+      {
+        "icon": "Mail",
+        "title": "Tu historial completo, automático",
+        "description": "Con tu permiso, Nove recopila tus resultados anteriores desde tu correo y laboratorios locales. Empieza con historial desde el día uno."
+      },
+      {
+        "icon": "Share2",
+        "title": "Reportes para compartir",
+        "description": "Genera reportes claros y compártelos con tu doctor, nutricionista o quien quieras. Tus datos, listos para cualquier consulta."
+      },
+      {
+        "icon": "Activity",
+        "title": "Conecta tu smartwatch",
+        "description": "Garmin, Apple Watch o Whoop — sueño, estrés y frecuencia cardíaca correlacionados con tus biomarcadores para ver el panorama completo."
+      },
+      {
+        "icon": "Shield",
+        "title": "Privado y seguro",
+        "description": "Tus datos de salud son tuyos. Encriptados, privados, nunca compartidos con terceros."
       }
     ]
   },
   "comparison": {
-    "headline": "Esto no es un chequeo cualquiera",
-    "subheadline": "La mayoría de chequeos médicos revisan lo mínimo. Nove va más allá.",
+    "headline": "Esto no es un análisis de sangre cualquiera",
+    "subheadline": "Te haces tus exámenes, tu doctor dice 'todo normal', y ahí se queda. Nove cambia eso.",
     "noveLabel": "Nove",
     "traditionalLabel": "Chequeo típico",
     "rows": [
-      { "feature": "Interpretación inmediata de laboratorios", "nove": true, "traditional": false },
-      { "feature": "Seguimiento de biomarcadores en el tiempo", "nove": true, "traditional": false },
-      { "feature": "Integración con wearables (Garmin)", "nove": true, "traditional": false },
-      { "feature": "Coach de IA personalizado 24/7", "nove": true, "traditional": false },
-      { "feature": "Detección de tendencias y riesgos tempranos", "nove": true, "traditional": false },
-      { "feature": "Resultados en español claro", "nove": true, "traditional": false },
+      { "feature": "Interpretación inmediata de cada resultado", "nove": true, "traditional": false },
+      { "feature": "Seguimiento de biomarcadores entre chequeos", "nove": true, "traditional": false },
+      { "feature": "Detección de tendencias y cambios tempranos", "nove": true, "traditional": false },
+      { "feature": "Coach que responde tus preguntas 24/7", "nove": true, "traditional": false },
+      { "feature": "Plan de acción personalizado", "nove": true, "traditional": false },
+      { "feature": "Integración con smartwatch (Garmin, Apple, Whoop)", "nove": true, "traditional": false },
+      { "feature": "Laboratorios certificados", "nove": true, "traditional": true },
       { "feature": "Análisis de sangre básico", "nove": true, "traditional": true }
     ]
   },
   "socialProof": {
-    "headline": "Lo que dicen quienes ya lo usan",
+    "headline": "Lo que dicen los expertos",
     "testimonials": [
       {
-        "quote": "Mi doctor me dijo que todo estaba 'normal'. Nove me mostró que mi vitamina D llevaba 3 meses cayendo. Ahora la monitoreo.",
-        "name": "María González",
-        "role": "Usuaria desde 2025"
+        "quote": "La mentira más grande de la medicina moderna: 'Tus labs están normales.' Pero normal no es lo mismo que saludable.",
+        "name": "Dr. Mark Hyman",
+        "role": "Médico, autor de The Blood Sugar Solution"
       },
       {
-        "quote": "Subí mi hemograma y en 30 segundos tenía una explicación que entendí mejor que la de mi cita médica.",
-        "name": "Carlos Mendoza",
-        "role": "Usuario desde 2025"
+        "quote": "Hacerse exámenes de sangre periódicamente es clave. Empecé en mis 20s y me ha permitido evaluar mis prácticas de salud, nutrición, entrenamiento y suplementos.",
+        "name": "Dr. Andrew Huberman",
+        "role": "Neurocientífico, Stanford University"
       },
       {
-        "quote": "Conecté mi Garmin y el coach me correlacionó mis noches de mal sueño con mis niveles de cortisol. Ninguna otra app hace eso.",
-        "name": "Ana Lucía Pérez",
-        "role": "Usuaria desde 2025"
+        "quote": "Si queremos avanzar en la prevención primaria de enfermedades, necesitamos mejores formas de identificar a las personas en riesgo. Los análisis de sangre son un cofre de información que se queda sin aprovechar cada día.",
+        "name": "Dr. Eric Topol",
+        "role": "Cardiólogo, editor en jefe de Medscape"
       }
     ]
   },
   "footerCta": {
-    "headline": "¿Esperarías a que algo falle para revisar tu carro?",
-    "subheadline": "Tu cuerpo merece la misma atención. Empieza tu chequeo avanzado hoy.",
-    "ctaText": "Empezar gratis"
+    "headline": "¿Cuándo fue la última vez que realmente entendiste tus resultados?",
+    "subheadline": "Labs + interpretación + coach incluidos. Menos de $1 al día.",
+    "ctaText": "Quiero saber más"
   }
 }
