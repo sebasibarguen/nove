@@ -220,17 +220,20 @@ async def import_lab_pdfs_from_gmail(
                     ):
                         bm_status = "flagged"
 
+                    low_f = float(low) if low is not None else None
+                    high_f = float(high) if high is not None else None
+
                     db.add(LabBiomarkerValue(
                         result_id=lab_result.id,
                         user_id=user.id,
                         biomarker_code=bm["biomarker_code"],
                         biomarker_name=bm.get("biomarker_name", ""),
-                        value=str(bm["value"]),
+                        value=value,
                         unit=bm["unit"],
-                        reference_range_low=bm.get("reference_range_low"),
-                        reference_range_high=bm.get("reference_range_high"),
+                        reference_range_low=low_f,
+                        reference_range_high=high_f,
                         status=bm_status,
-                        confidence=bm.get("confidence", 0.5),
+                        confidence=float(bm.get("confidence", 0.5)),
                         date=lab_result.created_at,
                     ))
 

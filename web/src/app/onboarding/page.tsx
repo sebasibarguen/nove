@@ -140,8 +140,18 @@ export default function OnboardingPage() {
                 id="dob"
                 type="text"
                 placeholder="DD/MM/AAAA"
+                maxLength={10}
                 value={dateOfBirth}
-                onChange={(e) => setDateOfBirth(e.target.value)}
+                onChange={(e) => {
+                  const raw = e.target.value.replace(/\D/g, "");
+                  let formatted = raw;
+                  if (raw.length > 4) {
+                    formatted = `${raw.slice(0, 2)}/${raw.slice(2, 4)}/${raw.slice(4, 8)}`;
+                  } else if (raw.length > 2) {
+                    formatted = `${raw.slice(0, 2)}/${raw.slice(2)}`;
+                  }
+                  setDateOfBirth(formatted);
+                }}
               />
             </div>
 
