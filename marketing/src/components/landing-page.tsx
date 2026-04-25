@@ -16,7 +16,9 @@ export function LandingPage({ config }: { config: LandingConfig }) {
       <Hero config={config.hero} />
       <Features config={config.features} />
       {config.howItWorks && <HowItWorks config={config.howItWorks} />}
-      {config.comparison && <Comparison config={config.comparison} />}
+      {config.comparison && (Array.isArray(config.comparison) ? config.comparison : [config.comparison]).map((c, i) => (
+        <Comparison key={i} config={c} />
+      ))}
       <SocialProof config={config.socialProof} />
       <LeadForm slug={config.slug} ctaText={config.footerCta.ctaText} lang={config.lang} />
       <FooterCta config={config.footerCta} />

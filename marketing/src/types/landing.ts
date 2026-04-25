@@ -12,12 +12,18 @@ export interface StatConfig {
   label: string;
 }
 
+export interface HeroImage {
+  src: string;
+  alt: string;
+}
+
 export interface HeroConfig {
   headline: string;
   subheadline: string;
   ctaText: string;
   ctaHref: string;
   stats?: StatConfig[];
+  image?: HeroImage;
 }
 
 export interface StepConfig {
@@ -79,7 +85,7 @@ export interface LandingConfig {
   hero: HeroConfig;
   howItWorks?: HowItWorksConfig;
   features: FeatureConfig[] | FeaturesSection;
-  comparison?: ComparisonConfig;
+  comparison?: ComparisonConfig | ComparisonConfig[];
   socialProof: SocialProofConfig;
   footerCta: FooterCtaConfig;
 }
