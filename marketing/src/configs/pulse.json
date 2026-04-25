@@ -1,0 +1,112 @@
+{
+  "slug": "pulse",
+  "lang": "en",
+  "meta": {
+    "title": "Pulse — The Whoop app for your Garmin",
+    "description": "Recovery, strain, and sleep for Garmin owners. $9.99/mo — no second strap, no $30 subscription."
+  },
+  "hero": {
+    "headline": "The Whoop app for your Garmin.",
+    "subheadline": "Recovery, strain, and sleep — clean and focused. Keep the watch you already wear.",
+    "ctaText": "Get early access",
+    "ctaHref": "#registro",
+    "stats": [
+      { "value": "$9.99/mo", "label": "vs Whoop's $30/mo" },
+      { "value": "14+ days", "label": "battery on your Garmin" },
+      { "value": "0", "label": "extra straps to wear" }
+    ]
+  },
+  "howItWorks": {
+    "headline": "Three steps from sign-up to insight",
+    "steps": [
+      {
+        "title": "Connect your Garmin",
+        "description": "One-tap OAuth with Garmin Connect. No new device, no syncing dance, no extra wearable on your wrist."
+      },
+      {
+        "title": "We pull your last 30 days",
+        "description": "Pulse imports your Body Battery, HRV, sleep stages, and training load history so the app is useful from day one."
+      },
+      {
+        "title": "Open Pulse every morning",
+        "description": "Recovery, strain, and sleep on the home screen. The way Whoop shows it — built on the Garmin data you already have."
+      }
+    ]
+  },
+  "features": {
+    "headline": "Everything Whoop does. None of the things you don't need.",
+    "items": [
+      {
+        "icon": "HeartPulse",
+        "title": "Recovery, surfaced",
+        "description": "Body Battery, HRV, and sleep distilled into a single recovery score on the home screen — not buried five taps deep in Garmin Connect."
+      },
+      {
+        "icon": "Zap",
+        "title": "Strain that means something",
+        "description": "Today's training load against your recommended target. A clear answer to 'should I push hard or back off?' — not a raw number."
+      },
+      {
+        "icon": "Moon",
+        "title": "Sleep clarity",
+        "description": "Stages, sleep debt, and last night versus your personal baseline. See drift before it costs you a workout."
+      },
+      {
+        "icon": "Watch",
+        "title": "No new hardware",
+        "description": "Works with every Garmin watch that reports HRV and sleep — Forerunner, Fenix, Epix, Venu, Vivoactive. Wear what you already wear."
+      },
+      {
+        "icon": "TrendingUp",
+        "title": "Trends, not snapshots",
+        "description": "Your last 30 / 90 / 365 days of recovery and strain on one chart. Spot the patterns Garmin Connect shows one day at a time."
+      },
+      {
+        "icon": "Shield",
+        "title": "Your data, your control",
+        "description": "Read-only Garmin OAuth. Export or delete everything in one click. No third-party sharing. Ever."
+      }
+    ]
+  },
+  "comparison": {
+    "headline": "Pulse vs Whoop",
+    "subheadline": "Same recovery-first UX. Without the second strap or the $30/mo subscription.",
+    "noveLabel": "Pulse",
+    "traditionalLabel": "Whoop",
+    "rows": [
+      { "feature": "Works with the watch you already wear", "nove": true, "traditional": false },
+      { "feature": "Recovery-first home screen", "nove": true, "traditional": true },
+      { "feature": "Strain coaching with daily targets", "nove": true, "traditional": true },
+      { "feature": "Sleep stages and personal baseline", "nove": true, "traditional": true },
+      { "feature": "$9.99/mo (Whoop is $30/mo)", "nove": true, "traditional": false },
+      { "feature": "14+ day battery (Whoop is 4–5)", "nove": true, "traditional": false },
+      { "feature": "GPS sport tracking on the same device", "nove": true, "traditional": false },
+      { "feature": "No second wearable on your wrist", "nove": true, "traditional": false }
+    ]
+  },
+  "socialProof": {
+    "headline": "Built for Garmin owners who want more than Garmin Connect",
+    "testimonials": [
+      {
+        "quote": "I run with a Forerunner and just want a clear recovery number every morning — without diving into ten Garmin Connect screens to assemble it myself.",
+        "name": "Distance runners",
+        "role": "Forerunner / Vivoactive"
+      },
+      {
+        "quote": "I race triathlon and need recovery, sleep, and HRV in one place — alongside the watch I already wear for swim, bike, and run.",
+        "name": "Triathletes",
+        "role": "Fenix / Epix / Forerunner 965"
+      },
+      {
+        "quote": "I cancelled Whoop because I refused to wear two devices. I want the Whoop UX, on the Garmin I'm already wearing.",
+        "name": "Ex-Whoop users",
+        "role": "Any Garmin watch"
+      }
+    ]
+  },
+  "footerCta": {
+    "headline": "Stop paying for a second strap.",
+    "subheadline": "Pulse is launching soon. $9.99/mo with a 7-day free trial. Join the waitlist for early access.",
+    "ctaText": "Get early access"
+  }
+}

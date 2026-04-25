@@ -74,6 +74,7 @@ export interface FooterCtaConfig {
 
 export interface LandingConfig {
   slug: string;
+  lang?: "es" | "en";
   meta: LandingMeta;
   hero: HeroConfig;
   howItWorks?: HowItWorksConfig;

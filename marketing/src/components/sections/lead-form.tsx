@@ -8,11 +8,29 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-function LeadFormInner({ slug, ctaText }: { slug: string; ctaText?: string }) {
+type Lang = "es" | "en";
+
+const STRINGS: Record<Lang, { placeholder: string; loading: string; error: string; defaultCta: string }> = {
+  es: {
+    placeholder: "tu@email.com",
+    loading: "Enviando...",
+    error: "Hubo un error. Intenta de nuevo.",
+    defaultCta: "Quiero saber más",
+  },
+  en: {
+    placeholder: "you@email.com",
+    loading: "Sending...",
+    error: "Something went wrong. Try again.",
+    defaultCta: "Get early access",
+  },
+};
+
+function LeadFormInner({ slug, ctaText, lang }: { slug: string; ctaText?: string; lang: Lang }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
+  const t = STRINGS[lang];
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -32,7 +50,7 @@ function LeadFormInner({ slug, ctaText }: { slug: string; ctaText?: string }) {
         }),
       });
       if (!res.ok) throw new Error("Failed");
-      router.push("/success");
+      router.push(`/success?lang=${lang}`);
     } catch {
       setStatus("error");
     }
@@ -42,27 +60,27 @@ function LeadFormInner({ slug, ctaText }: { slug: string; ctaText?: string }) {
     <form onSubmit={handleSubmit} className="flex w-full max-w-lg flex-col gap-3 sm:flex-row">
       <Input
         type="email"
-        placeholder="tu@email.com"
+        placeholder={t.placeholder}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
         className="h-12 flex-1 rounded-full px-5"
       />
       <Button type="submit" disabled={status === "loading"} className="h-12 rounded-full px-8">
-        {status === "loading" ? "Enviando..." : (ctaText ?? "Quiero saber más")}
+        {status === "loading" ? t.loading : (ctaText ?? t.defaultCta)}
       </Button>
       {status === "error" && (
-        <p className="text-sm text-destructive">Hubo un error. Intenta de nuevo.</p>
+        <p className="text-sm text-destructive">{t.error}</p>
       )}
     </form>
   );
 }
 
-export function LeadForm({ slug, ctaText }: { slug: string; ctaText?: string }) {
+export function LeadForm({ slug, ctaText, lang = "es" }: { slug: string; ctaText?: string; lang?: Lang }) {
   return (
     <section id="registro" className="flex flex-col items-center gap-6 px-6 py-16 md:py-24">
       <Suspense fallback={null}>
-        <LeadFormInner slug={slug} ctaText={ctaText} />
+        <LeadFormInner slug={slug} ctaText={ctaText} lang={lang} />
       </Suspense>
     </section>
   );

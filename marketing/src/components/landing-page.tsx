@@ -18,7 +18,7 @@ export function LandingPage({ config }: { config: LandingConfig }) {
       {config.howItWorks && <HowItWorks config={config.howItWorks} />}
       {config.comparison && <Comparison config={config.comparison} />}
       <SocialProof config={config.socialProof} />
-      <LeadForm slug={config.slug} ctaText={config.footerCta.ctaText} />
+      <LeadForm slug={config.slug} ctaText={config.footerCta.ctaText} lang={config.lang} />
       <FooterCta config={config.footerCta} />
     </main>
   );

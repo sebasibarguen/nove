@@ -1,0 +1,128 @@
+{
+  "campaign": {
+    "name": "Pulse - US Tier 1 (A)",
+    "dailyBudgetUsd": 10,
+    "geoTargets": ["Boulder, Colorado", "Bend, Oregon", "Flagstaff, Arizona", "Missoula, Montana"],
+    "language": "en",
+    "startDate": null,
+    "endDate": null
+  },
+  "adGroups": [
+    {
+      "name": "Whoop Alternative",
+      "keywords": [
+        { "text": "whoop alternative", "matchType": "PHRASE" },
+        { "text": "whoop without subscription", "matchType": "PHRASE" },
+        { "text": "cheaper than whoop", "matchType": "PHRASE" },
+        { "text": "whoop alternative no subscription", "matchType": "PHRASE" },
+        { "text": "best whoop alternative", "matchType": "EXACT" },
+        { "text": "cancel whoop", "matchType": "PHRASE" }
+      ],
+      "ads": [
+        {
+          "headlines": [
+            "The Whoop App for Garmin",
+            "$9.99/mo — Whoop is $30",
+            "Recovery, Strain, Sleep",
+            "Built for Garmin Owners",
+            "No Second Strap",
+            "Use the Watch You Wear",
+            "Whoop UX, Garmin Data",
+            "Cancel Whoop. Keep Recovery.",
+            "7-Day Free Trial",
+            "14-Day Battery, 1/3 the Price",
+            "Recovery-First, Like Whoop",
+            "Strain Coaching for Garmin",
+            "Sleep Stages + HRV in One App",
+            "From Body Battery to Real Insight",
+            "Pulse — Recovery for Garmin"
+          ],
+          "descriptions": [
+            "Get the Whoop UI on your Garmin data. Recovery, strain, sleep — $9.99/mo, no extra hardware.",
+            "Cancelled Whoop? Pulse turns Body Battery and HRV into the recovery app you wanted.",
+            "Recovery-first. Strain coaching. Sleep stages. Built on the Garmin you already wear.",
+            "$9.99/mo and a 7-day free trial. No second strap, no $30 subscription."
+          ],
+          "finalUrl": "https://nove.health/pulse?utm_source=google&utm_medium=cpc&utm_campaign=pulse-us-whoop-alt"
+        }
+      ]
+    },
+    {
+      "name": "Garmin Recovery",
+      "keywords": [
+        { "text": "garmin recovery app", "matchType": "PHRASE" },
+        { "text": "garmin body battery accuracy", "matchType": "PHRASE" },
+        { "text": "garmin hrv recovery", "matchType": "PHRASE" },
+        { "text": "garmin recovery score", "matchType": "PHRASE" },
+        { "text": "best app for garmin watch", "matchType": "PHRASE" },
+        { "text": "improve garmin connect", "matchType": "PHRASE" }
+      ],
+      "ads": [
+        {
+          "headlines": [
+            "Recovery for Your Garmin",
+            "Pulse — Garmin's Whoop App",
+            "Body Battery, Made Useful",
+            "HRV + Sleep + Strain",
+            "Better Than Garmin Connect",
+            "Recovery on the Home Screen",
+            "Built for Forerunner & Fenix",
+            "Trends, Not Snapshots",
+            "$9.99/mo for Garmin Owners",
+            "7-Day Free Trial",
+            "Recovery-First UX",
+            "Stop Diving Through Menus",
+            "30 Days of Garmin History",
+            "One Screen. Three Metrics.",
+            "Pulse — Built for Garmin"
+          ],
+          "descriptions": [
+            "Pulse turns your Garmin's Body Battery and HRV into a recovery app you'll actually open.",
+            "Recovery, strain, and sleep on one screen. Works with every modern Garmin watch.",
+            "Garmin Connect buries your recovery score. Pulse puts it where you'll see it.",
+            "$9.99/mo, 7-day free trial. No new hardware — just the Garmin you already wear."
+          ],
+          "finalUrl": "https://nove.health/pulse?utm_source=google&utm_medium=cpc&utm_campaign=pulse-us-garmin-recovery"
+        }
+      ]
+    },
+    {
+      "name": "Whoop vs Garmin",
+      "keywords": [
+        { "text": "whoop vs garmin", "matchType": "PHRASE" },
+        { "text": "do i need whoop if i have garmin", "matchType": "PHRASE" },
+        { "text": "garmin or whoop", "matchType": "PHRASE" },
+        { "text": "whoop or garmin for recovery", "matchType": "PHRASE" },
+        { "text": "garmin replace whoop", "matchType": "PHRASE" }
+      ],
+      "ads": [
+        {
+          "headlines": [
+            "Whoop vs Garmin? Both.",
+            "Keep Garmin. Skip Whoop.",
+            "Whoop UX on Garmin Data",
+            "$9.99/mo, No New Strap",
+            "Recovery + Strain + Sleep",
+            "Garmin Already Has the Data",
+            "Pulse Bridges the Gap",
+            "Why Wear Two Devices?",
+            "7-Day Free Trial",
+            "1/3 the Price of Whoop",
+            "Recovery-First, Garmin-Native",
+            "Built for Endurance Athletes",
+            "From Forerunner to Fenix",
+            "Daily Recovery, No Band",
+            "Pulse — Recovery for Garmin"
+          ],
+          "descriptions": [
+            "If you wear a Garmin, you don't need Whoop. Pulse gives you the same UX for $9.99/mo.",
+            "Garmin's data is already great. Pulse turns it into the recovery app Whoop users love.",
+            "No second wearable, no $30/mo. Just recovery, strain, and sleep — the way you wanted.",
+            "$9.99/mo with a 7-day free trial. Use the watch you already wear."
+          ],
+          "finalUrl": "https://nove.health/pulse?utm_source=google&utm_medium=cpc&utm_campaign=pulse-us-vs"
+        }
+      ]
+    }
+  ]
+}
