@@ -47,17 +47,20 @@ export interface FeaturesSection {
   items: FeatureConfig[];
 }
 
+export interface ComparisonColumn {
+  label: string;
+  highlight?: boolean;
+}
+
 export interface ComparisonRow {
   feature: string;
-  nove: boolean;
-  traditional: boolean;
+  values: boolean[];
 }
 
 export interface ComparisonConfig {
   headline: string;
   subheadline?: string;
-  noveLabel: string;
-  traditionalLabel: string;
+  columns: ComparisonColumn[];
   rows: ComparisonRow[];
 }
 
@@ -85,7 +88,7 @@ export interface LandingConfig {
   hero: HeroConfig;
   howItWorks?: HowItWorksConfig;
   features: FeatureConfig[] | FeaturesSection;
-  comparison?: ComparisonConfig | ComparisonConfig[];
+  comparison?: ComparisonConfig;
   socialProof: SocialProofConfig;
   footerCta: FooterCtaConfig;
 }

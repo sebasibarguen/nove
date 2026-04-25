@@ -74,16 +74,18 @@
   "comparison": {
     "headline": "Esto no es Google — es tu intérprete de salud",
     "subheadline": "Buscar en internet te da respuestas genéricas. Nove analiza TUS números específicos.",
-    "noveLabel": "Nove",
-    "traditionalLabel": "Buscar en Google",
+    "columns": [
+      { "label": "Nove", "highlight": true },
+      { "label": "Buscar en Google" }
+    ],
     "rows": [
-      { "feature": "Interpreta TUS valores específicos", "nove": true, "traditional": false },
-      { "feature": "Identifica qué está fuera de rango", "nove": true, "traditional": false },
-      { "feature": "Te dice qué hacer al respecto", "nove": true, "traditional": false },
-      { "feature": "Compara resultados entre chequeos", "nove": true, "traditional": false },
-      { "feature": "Coach que recuerda tu historial", "nove": true, "traditional": false },
-      { "feature": "Reportes que puedes compartir con tu doctor", "nove": true, "traditional": false },
-      { "feature": "Información general de salud", "nove": true, "traditional": true }
+      { "feature": "Interpreta TUS valores específicos", "values": [true, false] },
+      { "feature": "Identifica qué está fuera de rango", "values": [true, false] },
+      { "feature": "Te dice qué hacer al respecto", "values": [true, false] },
+      { "feature": "Compara resultados entre chequeos", "values": [true, false] },
+      { "feature": "Coach que recuerda tu historial", "values": [true, false] },
+      { "feature": "Reportes que puedes compartir con tu doctor", "values": [true, false] },
+      { "feature": "Información general de salud", "values": [true, true] }
     ]
   },
   "socialProof": {

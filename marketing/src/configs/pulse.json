@@ -72,39 +72,27 @@
       }
     ]
   },
-  "comparison": [
-    {
-      "headline": "Pulse vs Garmin Connect",
-      "subheadline": "Connect logs your activities. Pulse turns them into daily insight.",
-      "noveLabel": "Pulse",
-      "traditionalLabel": "Garmin Connect",
-      "rows": [
-        { "feature": "Recovery score on the home screen", "nove": true, "traditional": false },
-        { "feature": "One-screen morning check-in", "nove": true, "traditional": false },
-        { "feature": "Daily strain target with coaching", "nove": true, "traditional": false },
-        { "feature": "Sleep stages with personal baseline", "nove": true, "traditional": true },
-        { "feature": "HRV trend, distilled into action", "nove": true, "traditional": false },
-        { "feature": "30 / 90 / 365-day recovery view", "nove": true, "traditional": false },
-        { "feature": "Built around daily insight, not activity logging", "nove": true, "traditional": false }
-      ]
-    },
-    {
-      "headline": "Pulse vs Whoop",
-      "subheadline": "Same recovery-first UX. Without the second strap or the $30/mo subscription.",
-      "noveLabel": "Pulse",
-      "traditionalLabel": "Whoop",
-      "rows": [
-        { "feature": "Works with the watch you already wear", "nove": true, "traditional": false },
-        { "feature": "Recovery-first home screen", "nove": true, "traditional": true },
-        { "feature": "Strain coaching with daily targets", "nove": true, "traditional": true },
-        { "feature": "Sleep stages and personal baseline", "nove": true, "traditional": true },
-        { "feature": "$9.99/mo (Whoop is $30/mo)", "nove": true, "traditional": false },
-        { "feature": "14+ day battery (Whoop is 4–5)", "nove": true, "traditional": false },
-        { "feature": "GPS sport tracking on the same device", "nove": true, "traditional": false },
-        { "feature": "No second wearable on your wrist", "nove": true, "traditional": false }
-      ]
-    }
-  ],
+  "comparison": {
+    "headline": "How Pulse compares",
+    "subheadline": "Pulse: $9.99/mo, runs on your Garmin. Garmin Connect: free, but recovery is buried. Whoop: $30/mo and a second strap.",
+    "columns": [
+      { "label": "Pulse", "highlight": true },
+      { "label": "Garmin Connect" },
+      { "label": "Whoop" }
+    ],
+    "rows": [
+      { "feature": "Works with the Garmin you already wear", "values": [true, true, false] },
+      { "feature": "Recovery score on the home screen", "values": [true, false, true] },
+      { "feature": "One-screen morning check-in", "values": [true, false, true] },
+      { "feature": "Daily strain target with coaching", "values": [true, false, true] },
+      { "feature": "HRV trend, distilled into action", "values": [true, false, true] },
+      { "feature": "30 / 90 / 365-day recovery view", "values": [true, false, true] },
+      { "feature": "Sleep stages and personal baseline", "values": [true, true, true] },
+      { "feature": "14+ day battery", "values": [true, true, false] },
+      { "feature": "GPS sport tracking on the same device", "values": [true, true, false] },
+      { "feature": "No second wearable on your wrist", "values": [true, true, false] }
+    ]
+  },
   "socialProof": {
     "headline": "The future of health is continuous",
     "testimonials": [

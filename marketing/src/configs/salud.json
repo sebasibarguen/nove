@@ -84,17 +84,19 @@
   "comparison": {
     "headline": "Esto no es un análisis de sangre cualquiera",
     "subheadline": "Te haces tus exámenes, tu doctor dice 'todo normal', y ahí se queda. Nove cambia eso.",
-    "noveLabel": "Nove",
-    "traditionalLabel": "Chequeo típico",
+    "columns": [
+      { "label": "Nove", "highlight": true },
+      { "label": "Chequeo típico" }
+    ],
     "rows": [
-      { "feature": "Interpretación inmediata de cada resultado", "nove": true, "traditional": false },
-      { "feature": "Seguimiento de biomarcadores entre chequeos", "nove": true, "traditional": false },
-      { "feature": "Detección de tendencias y cambios tempranos", "nove": true, "traditional": false },
-      { "feature": "Coach que responde tus preguntas 24/7", "nove": true, "traditional": false },
-      { "feature": "Plan de acción personalizado", "nove": true, "traditional": false },
-      { "feature": "Integración con smartwatch (Garmin, Apple, Whoop)", "nove": true, "traditional": false },
-      { "feature": "Laboratorios certificados", "nove": true, "traditional": true },
-      { "feature": "Análisis de sangre básico", "nove": true, "traditional": true }
+      { "feature": "Interpretación inmediata de cada resultado", "values": [true, false] },
+      { "feature": "Seguimiento de biomarcadores entre chequeos", "values": [true, false] },
+      { "feature": "Detección de tendencias y cambios tempranos", "values": [true, false] },
+      { "feature": "Coach que responde tus preguntas 24/7", "values": [true, false] },
+      { "feature": "Plan de acción personalizado", "values": [true, false] },
+      { "feature": "Integración con smartwatch (Garmin, Apple, Whoop)", "values": [true, false] },
+      { "feature": "Laboratorios certificados", "values": [true, true] },
+      { "feature": "Análisis de sangre básico", "values": [true, true] }
     ]
   },
   "socialProof": {
