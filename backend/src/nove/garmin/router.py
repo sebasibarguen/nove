@@ -41,9 +41,7 @@ async def handle_callback(
     try:
         tokens = await exchange_code(body.code, body.state)
     except ValueError as e:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)
-        ) from None
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)) from None
     except Exception:
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
@@ -140,10 +138,7 @@ async def get_data(
     )
     points = result.scalars().all()
 
-    return [
-        DataPointRead(data_type=p.data_type, date=p.date, data=p.data)
-        for p in points
-    ]
+    return [DataPointRead(data_type=p.data_type, date=p.date, data=p.data) for p in points]
 
 
 @router.post("/webhooks", status_code=status.HTTP_200_OK)

@@ -10,23 +10,21 @@ import { api, ApiError } from "@/lib/api";
 function CallbackHandler() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [error, setError] = useState("");
+  const code = searchParams.get("code");
+  const state = searchParams.get("state");
+  const [error, setError] = useState(
+    code && state ? "" : "Parametros de autorizacion faltantes"
+  );
 
   useEffect(() => {
-    const code = searchParams.get("code");
-    const state = searchParams.get("state");
-
-    if (!code || !state) {
-      setError("Parametros de autorizacion faltantes");
-      return;
-    }
+    if (!code || !state) return;
 
     api("/garmin/callback", {
       method: "POST",
       body: JSON.stringify({ code, state }),
     })
       .then(() => {
-        router.replace("/activity");
+        router.replace("/garmin");
       })
       .catch((err) => {
         if (err instanceof ApiError) {
@@ -35,7 +33,7 @@ function CallbackHandler() {
           setError("Error al conectar con Garmin");
         }
       });
-  }, [searchParams, router]);
+  }, [code, state, router]);
 
   if (error) {
     return (

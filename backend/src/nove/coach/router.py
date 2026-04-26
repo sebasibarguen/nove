@@ -16,9 +16,7 @@ router = APIRouter(prefix="/conversations", tags=["coach"])
 
 
 @router.post("", response_model=ConversationRead, status_code=status.HTTP_201_CREATED)
-async def create_conversation(
-    body: ConversationCreate, user: CurrentUser, db: DB
-) -> ConversationRead:
+async def create_conversation(body: ConversationCreate, user: CurrentUser, db: DB) -> ConversationRead:
     conversation = Conversation(
         user_id=user.id,
         title=body.title,
@@ -33,17 +31,13 @@ async def create_conversation(
 @router.get("", response_model=list[ConversationRead])
 async def list_conversations(user: CurrentUser, db: DB) -> list[ConversationRead]:
     result = await db.execute(
-        select(Conversation)
-        .where(Conversation.user_id == user.id)
-        .order_by(Conversation.updated_at.desc())
+        select(Conversation).where(Conversation.user_id == user.id).order_by(Conversation.updated_at.desc())
     )
     conversations = result.scalars().all()
     return [ConversationRead.model_validate(c) for c in conversations]
 
 
-async def _get_user_conversation(
-    conversation_id: uuid.UUID, user_id: uuid.UUID, db: DB
-) -> Conversation:
+async def _get_user_conversation(conversation_id: uuid.UUID, user_id: uuid.UUID, db: DB) -> Conversation:
     result = await db.execute(
         select(Conversation).where(
             Conversation.id == conversation_id,
@@ -61,9 +55,7 @@ async def get_messages(conversation_id: uuid.UUID, user: CurrentUser, db: DB) ->
     await _get_user_conversation(conversation_id, user.id, db)
 
     result = await db.execute(
-        select(Message)
-        .where(Message.conversation_id == conversation_id)
-        .order_by(Message.created_at)
+        select(Message).where(Message.conversation_id == conversation_id).order_by(Message.created_at)
     )
     messages = result.scalars().all()
     return [MessageRead.model_validate(m) for m in messages]

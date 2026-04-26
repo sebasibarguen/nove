@@ -133,9 +133,7 @@ async def test_get_connection_none(client: AsyncClient):
     assert resp.json() is None
 
 
-async def test_get_connection_exists(
-    client: AsyncClient, db: AsyncSession
-):
+async def test_get_connection_exists(client: AsyncClient, db: AsyncSession):
     headers, user_id = await _register_user(client)
     await _seed_connection(db, user_id)
 
@@ -169,16 +167,12 @@ async def test_disconnect_no_connection(client: AsyncClient):
 async def test_get_data_empty(client: AsyncClient):
     headers, _ = await _register_user(client)
 
-    resp = await client.get(
-        f"{PREFIX}/garmin/data", params={"data_type": "sleep"}, headers=headers
-    )
+    resp = await client.get(f"{PREFIX}/garmin/data", params={"data_type": "sleep"}, headers=headers)
     assert resp.status_code == 200
     assert resp.json() == []
 
 
-async def test_get_data_with_points(
-    client: AsyncClient, db: AsyncSession
-):
+async def test_get_data_with_points(client: AsyncClient, db: AsyncSession):
     headers, user_id = await _register_user(client)
 
     today = date.today()

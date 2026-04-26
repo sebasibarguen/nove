@@ -28,16 +28,12 @@ class User(Base):
     health_goals: Mapped[list[str] | None] = mapped_column(ARRAY(Text))
     language: Mapped[str] = mapped_column(String(8), default="es")
     onboarding_completed: Mapped[bool] = mapped_column(Boolean, default=False)
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
 
-    health_profile: Mapped["UserHealthProfile | None"] = relationship(
-        back_populates="user", uselist=False
-    )
+    health_profile: Mapped["UserHealthProfile | None"] = relationship(back_populates="user", uselist=False)
 
 
 class UserHealthProfile(Base):

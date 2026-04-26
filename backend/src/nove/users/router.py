@@ -26,9 +26,7 @@ async def update_me(body: UserUpdate, user: CurrentUser, db: DB) -> UserRead:
 
 
 @router.put("/me/health-profile", response_model=HealthProfileRead)
-async def upsert_health_profile(
-    body: HealthProfileUpdate, user: CurrentUser, db: DB
-) -> HealthProfileRead:
+async def upsert_health_profile(body: HealthProfileUpdate, user: CurrentUser, db: DB) -> HealthProfileRead:
     profile = await db.get(UserHealthProfile, user.id)
     if profile is None:
         profile = UserHealthProfile(user_id=user.id)

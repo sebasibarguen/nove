@@ -34,12 +34,14 @@ GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
 GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v2/userinfo"
 
-GOOGLE_SCOPES = " ".join([
-    "openid",
-    "email",
-    "profile",
-    "https://www.googleapis.com/auth/gmail.readonly",
-])
+GOOGLE_SCOPES = " ".join(
+    [
+        "openid",
+        "email",
+        "profile",
+        "https://www.googleapis.com/auth/gmail.readonly",
+    ]
+)
 
 
 @router.get("/google/url", response_model=GoogleAuthUrlResponse)
@@ -157,9 +159,7 @@ async def google_callback(body: GoogleCallbackRequest, db: DB) -> TokenResponse:
 async def register(body: RegisterRequest, db: DB) -> TokenResponse:
     existing = await db.execute(select(User).where(User.email == body.email))
     if existing.scalar_one_or_none() is not None:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT, detail="Email already registered"
-        )
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already registered")
 
     user = User(
         email=body.email,
@@ -181,14 +181,8 @@ async def login(body: LoginRequest, db: DB) -> TokenResponse:
     result = await db.execute(select(User).where(User.email == body.email))
     user = result.scalar_one_or_none()
 
-    if (
-        user is None
-        or user.password_hash is None
-        or not verify_password(body.password, user.password_hash)
-    ):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials"
-        )
+    if user is None or user.password_hash is None or not verify_password(body.password, user.password_hash):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
 
     return TokenResponse(
         access_token=create_access_token(user.id),
@@ -200,16 +194,12 @@ async def login(body: LoginRequest, db: DB) -> TokenResponse:
 async def refresh(body: RefreshRequest, db: DB) -> TokenResponse:
     payload = verify_refresh_token(body.refresh_token)
     if payload is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token"
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token")
 
     result = await db.execute(select(User).where(User.id == payload["sub"]))
     user = result.scalar_one_or_none()
     if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found"
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
 
     return TokenResponse(
         access_token=create_access_token(user.id),

@@ -27,7 +27,9 @@ interface Order {
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [search, setSearch] = useState("");
-  const [partnerName, setPartnerName] = useState("");
+  const [partnerName] = useState(() =>
+    typeof window === "undefined" ? "" : localStorage.getItem("partner_name") || ""
+  );
 
   const fetchOrders = useCallback(async (code?: string) => {
     const params = code ? `?code=${code}` : "";
@@ -36,9 +38,16 @@ export default function OrdersPage() {
   }, []);
 
   useEffect(() => {
-    setPartnerName(localStorage.getItem("partner_name") || "");
-    fetchOrders();
-  }, [fetchOrders]);
+    let cancelled = false;
+    (async () => {
+      const params = "";
+      const data = await portalApi<Order[]>(`/orders${params}`);
+      if (!cancelled) setOrders(data);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   function handleSearch(e: FormEvent) {
     e.preventDefault();

@@ -32,17 +32,13 @@ class GarminConnection(Base):
     refresh_token: Mapped[str] = mapped_column(Text)
     token_expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     last_sync_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class GarminDataPoint(Base):
     __tablename__ = "garmin_data_points"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4
-    )
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("users.id", ondelete="CASCADE"),
@@ -52,6 +48,4 @@ class GarminDataPoint(Base):
     date: Mapped[date] = mapped_column(Date)
     data: Mapped[dict] = mapped_column(JSONB, default=dict)
 
-    __table_args__ = (
-        UniqueConstraint("user_id", "data_type", "date", name="uq_garmin_user_type_date"),
-    )
+    __table_args__ = (UniqueConstraint("user_id", "data_type", "date", name="uq_garmin_user_type_date"),)

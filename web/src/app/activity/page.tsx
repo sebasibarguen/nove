@@ -3,7 +3,7 @@
 
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/auth";
 import { api } from "@/lib/api";
@@ -45,25 +45,30 @@ export default function ActivityPage() {
     if (!loading && !user) router.replace("/login");
   }, [user, loading, router]);
 
-  const fetchData = useCallback(async () => {
-    const conn = await api<GarminConnection | null>("/garmin/connection");
-    setConnection(conn);
-
-    if (conn?.connected) {
-      const [sleep, activity, stress] = await Promise.all([
-        api<DataPoint[]>("/garmin/data?data_type=sleep&days=14"),
-        api<DataPoint[]>("/garmin/data?data_type=activity&days=14"),
-        api<DataPoint[]>("/garmin/data?data_type=stress&days=14"),
-      ]);
-      setSleepData(sleep);
-      setActivityData(activity);
-      setStressData(stress);
-    }
-  }, []);
-
   useEffect(() => {
-    if (user) fetchData();
-  }, [user, fetchData]);
+    if (!user) return;
+    let cancelled = false;
+    (async () => {
+      const conn = await api<GarminConnection | null>("/garmin/connection");
+      if (cancelled) return;
+      setConnection(conn);
+
+      if (conn?.connected) {
+        const [sleep, activity, stress] = await Promise.all([
+          api<DataPoint[]>("/garmin/data?data_type=sleep&days=14"),
+          api<DataPoint[]>("/garmin/data?data_type=activity&days=14"),
+          api<DataPoint[]>("/garmin/data?data_type=stress&days=14"),
+        ]);
+        if (cancelled) return;
+        setSleepData(sleep);
+        setActivityData(activity);
+        setStressData(stress);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
 
   async function handleConnect() {
     setConnecting(true);

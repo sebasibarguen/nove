@@ -121,9 +121,7 @@ async def get_valid_token(db: AsyncSession, connection: GarminConnection) -> str
 
     connection.access_token = tokens["access_token"]
     connection.refresh_token = tokens["refresh_token"]
-    connection.token_expires_at = datetime.now(UTC) + timedelta(
-        seconds=tokens["expires_in"]
-    )
+    connection.token_expires_at = datetime.now(UTC) + timedelta(seconds=tokens["expires_in"])
     await db.commit()
 
     return connection.access_token
@@ -204,12 +202,14 @@ async def store_data_points(
         if row:
             row.data = point
         else:
-            db.add(GarminDataPoint(
-                user_id=user_id,
-                data_type=data_type,
-                date=point_date,
-                data=point,
-            ))
+            db.add(
+                GarminDataPoint(
+                    user_id=user_id,
+                    data_type=data_type,
+                    date=point_date,
+                    data=point,
+                )
+            )
         stored += 1
 
     await db.commit()
@@ -243,11 +243,7 @@ async def process_webhook_push(
                 continue
 
             # Look up our user by garmin_user_id
-            result = await db.execute(
-                select(GarminConnection).where(
-                    GarminConnection.garmin_user_id == garmin_user_id
-                )
-            )
+            result = await db.execute(select(GarminConnection).where(GarminConnection.garmin_user_id == garmin_user_id))
             connection = result.scalar_one_or_none()
             if not connection:
                 logger.warning("webhook_unknown_user", garmin_user_id=garmin_user_id)

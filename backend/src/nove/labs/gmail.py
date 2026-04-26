@@ -16,10 +16,7 @@ logger = structlog.get_logger()
 GMAIL_API_BASE = "https://gmail.googleapis.com/gmail/v1"
 GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
 
-SEARCH_QUERY = (
-    "has:attachment filename:pdf "
-    "(resultados OR laboratorio OR examen OR hemograma OR analisis OR sangre)"
-)
+SEARCH_QUERY = "has:attachment filename:pdf (resultados OR laboratorio OR examen OR hemograma OR analisis OR sangre)"
 
 MAX_RESULTS = 20
 
@@ -50,9 +47,7 @@ async def _refresh_google_token(user: User, db: AsyncSession) -> str | None:
     return tokens["access_token"]
 
 
-async def _gmail_get(
-    path: str, user: User, db: AsyncSession, params: dict | None = None
-) -> dict | None:
+async def _gmail_get(path: str, user: User, db: AsyncSession, params: dict | None = None) -> dict | None:
     """Make an authenticated GET request to the Gmail API. Refreshes token on 401."""
     token = user.google_access_token
     if not token:
@@ -84,9 +79,7 @@ async def _gmail_get(
     return resp.json()
 
 
-async def search_gmail_for_lab_pdfs(
-    user: User, db: AsyncSession
-) -> list[dict]:
+async def search_gmail_for_lab_pdfs(user: User, db: AsyncSession) -> list[dict]:
     """Search user's Gmail for messages with lab result PDF attachments.
 
     Returns a list of {message_id, subject, date, attachment_ids} dicts.
@@ -111,10 +104,7 @@ async def search_gmail_for_lab_pdfs(
             continue
 
         # Extract subject and date from headers
-        headers = {
-            h["name"].lower(): h["value"]
-            for h in msg.get("payload", {}).get("headers", [])
-        }
+        headers = {h["name"].lower(): h["value"] for h in msg.get("payload", {}).get("headers", [])}
         subject = headers.get("subject", "(sin asunto)")
         date = headers.get("date", "")
 
@@ -123,12 +113,14 @@ async def search_gmail_for_lab_pdfs(
         _find_pdf_attachments(msg.get("payload", {}), attachment_ids)
 
         if attachment_ids:
-            found.append({
-                "message_id": msg_ref["id"],
-                "subject": subject,
-                "date": date,
-                "attachment_ids": attachment_ids,
-            })
+            found.append(
+                {
+                    "message_id": msg_ref["id"],
+                    "subject": subject,
+                    "date": date,
+                    "attachment_ids": attachment_ids,
+                }
+            )
 
     logger.info("gmail_search_complete", user_id=str(user.id), found=len(found))
     return found
@@ -138,10 +130,12 @@ def _find_pdf_attachments(part: dict, result: list[dict]) -> None:
     """Recursively find PDF attachment IDs in a message payload."""
     filename = part.get("filename", "")
     if filename.lower().endswith(".pdf") and part.get("body", {}).get("attachmentId"):
-        result.append({
-            "attachment_id": part["body"]["attachmentId"],
-            "filename": filename,
-        })
+        result.append(
+            {
+                "attachment_id": part["body"]["attachmentId"],
+                "filename": filename,
+            }
+        )
 
     for sub_part in part.get("parts", []):
         _find_pdf_attachments(sub_part, result)
@@ -166,9 +160,7 @@ async def download_attachment(
     return base64.urlsafe_b64decode(data["data"])
 
 
-async def import_lab_pdfs_from_gmail(
-    user: User, db: AsyncSession
-) -> list[LabResult]:
+async def import_lab_pdfs_from_gmail(user: User, db: AsyncSession) -> list[LabResult]:
     """Search Gmail for lab PDFs, download and create LabResult entries.
 
     Returns created LabResult objects (in pending status for processing).
@@ -178,9 +170,7 @@ async def import_lab_pdfs_from_gmail(
 
     for msg in messages:
         for att in msg["attachment_ids"]:
-            pdf_bytes = await download_attachment(
-                user, db, msg["message_id"], att["attachment_id"]
-            )
+            pdf_bytes = await download_attachment(user, db, msg["message_id"], att["attachment_id"])
             if not pdf_bytes:
                 continue
 
@@ -194,15 +184,14 @@ async def import_lab_pdfs_from_gmail(
             await db.refresh(lab_result)
 
             from nove.labs.storage import upload_pdf
+
             upload_pdf(lab_result.pdf_storage_key, pdf_bytes)
 
             # Process the PDF
             try:
                 from nove.labs.extraction import process_pdf
 
-                biomarkers, confidence, proc_status = await process_pdf(
-                    pdf_bytes, lab_result.id
-                )
+                biomarkers, confidence, proc_status = await process_pdf(pdf_bytes, lab_result.id)
                 lab_result.processing_status = proc_status
                 lab_result.confidence_score = confidence
 
@@ -213,36 +202,32 @@ async def import_lab_pdfs_from_gmail(
                     low = bm.get("reference_range_low")
                     high = bm.get("reference_range_high")
                     bm_status = "normal"
-                    if (
-                        low is not None
-                        and high is not None
-                        and not (float(low) <= value <= float(high))
-                    ):
+                    if low is not None and high is not None and not (float(low) <= value <= float(high)):
                         bm_status = "flagged"
 
                     low_f = float(low) if low is not None else None
                     high_f = float(high) if high is not None else None
 
-                    db.add(LabBiomarkerValue(
-                        result_id=lab_result.id,
-                        user_id=user.id,
-                        biomarker_code=bm["biomarker_code"],
-                        biomarker_name=bm.get("biomarker_name", ""),
-                        value=value,
-                        unit=bm["unit"],
-                        reference_range_low=low_f,
-                        reference_range_high=high_f,
-                        status=bm_status,
-                        confidence=float(bm.get("confidence", 0.5)),
-                        date=lab_result.created_at,
-                    ))
+                    db.add(
+                        LabBiomarkerValue(
+                            result_id=lab_result.id,
+                            user_id=user.id,
+                            biomarker_code=bm["biomarker_code"],
+                            biomarker_name=bm.get("biomarker_name", ""),
+                            value=value,
+                            unit=bm["unit"],
+                            reference_range_low=low_f,
+                            reference_range_high=high_f,
+                            status=bm_status,
+                            confidence=float(bm.get("confidence", 0.5)),
+                            date=lab_result.created_at,
+                        )
+                    )
 
                 await db.commit()
                 await db.refresh(lab_result)
             except Exception:
-                logger.exception(
-                    "gmail_pdf_processing_failed", result_id=str(lab_result.id)
-                )
+                logger.exception("gmail_pdf_processing_failed", result_id=str(lab_result.id))
                 lab_result.processing_status = "failed"
                 await db.commit()
 

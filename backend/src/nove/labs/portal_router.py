@@ -87,11 +87,7 @@ async def lookup_orders(
     db: PortalDB,
     code: str | None = None,
 ) -> list[PortalOrderRead]:
-    query = (
-        select(LabOrder)
-        .where(LabOrder.lab_partner_id == partner.id)
-        .order_by(LabOrder.created_at.desc())
-    )
+    query = select(LabOrder).where(LabOrder.lab_partner_id == partner.id).order_by(LabOrder.created_at.desc())
     if code:
         query = query.where(LabOrder.order_code == code)
 
@@ -158,6 +154,7 @@ async def upload_result(
     await db.refresh(lab_result)
 
     from nove.labs.storage import upload_pdf
+
     upload_pdf(pdf_key, pdf_bytes)
 
     return {"result_id": str(lab_result.id), "status": "pending"}

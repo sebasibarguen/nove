@@ -54,11 +54,13 @@ def compute_recovery_score(
 
     battery_ratio = _clamp(body_battery_charged / 100) if body_battery_charged is not None else None
 
-    return _weighted_score([
-        (sleep_ratio, 40),
-        (hr_ratio, 30),
-        (battery_ratio, 30),
-    ])
+    return _weighted_score(
+        [
+            (sleep_ratio, 40),
+            (hr_ratio, 30),
+            (battery_ratio, 30),
+        ]
+    )
 
 
 def compute_strain_score(
@@ -108,36 +110,62 @@ def compute_sleep_score(
     rem_ratio = _clamp(rem_sleep_hours / 2.0) if rem_sleep_hours is not None else None
     awake_ratio = _clamp(1 - awake_minutes / 60) if awake_minutes is not None else None
 
-    return _weighted_score([
-        (duration_ratio, 40),
-        (deep_ratio, 25),
-        (rem_ratio, 25),
-        (awake_ratio, 10),
-    ])
+    return _weighted_score(
+        [
+            (duration_ratio, 40),
+            (deep_ratio, 25),
+            (rem_ratio, 25),
+            (awake_ratio, 10),
+        ]
+    )
 
 
 # --- Nove Age ---
 
 _AGE_DELTAS = {
     "resting_hr": [
-        (52, -3), (60, -1), (70, 0), (80, 2), (float("inf"), 4),
+        (52, -3),
+        (60, -1),
+        (70, 0),
+        (80, 2),
+        (float("inf"), 4),
     ],
     "vo2_max": [
         # Reversed: higher is better
-        (28, 4), (35, 2), (42, 0), (50, -1), (float("inf"), -3),
+        (28, 4),
+        (35, 2),
+        (42, 0),
+        (50, -1),
+        (float("inf"), -3),
     ],
     "sleep_stdev": [
-        (0.3, -3), (0.5, -1), (1.0, 0), (1.5, 2), (float("inf"), 4),
+        (0.3, -3),
+        (0.5, -1),
+        (1.0, 0),
+        (1.5, 2),
+        (float("inf"), 4),
     ],
     "steps": [
         # Reversed: higher is better
-        (4000, 4), (7000, 2), (10000, 0), (12000, -1), (float("inf"), -3),
+        (4000, 4),
+        (7000, 2),
+        (10000, 0),
+        (12000, -1),
+        (float("inf"), -3),
     ],
     "glucose": [
-        (85, -3), (95, -1), (99, 0), (110, 2), (float("inf"), 4),
+        (85, -3),
+        (95, -1),
+        (99, 0),
+        (110, 2),
+        (float("inf"), 4),
     ],
     "hba1c": [
-        (5.0, -3), (5.4, -1), (5.6, 0), (6.0, 2), (float("inf"), 4),
+        (5.0, -3),
+        (5.4, -1),
+        (5.6, 0),
+        (6.0, 2),
+        (float("inf"), 4),
     ],
 }
 
@@ -161,9 +189,7 @@ def _lookup_delta(table: list[tuple[float, int]], value: float) -> int:
     return table[-1][1]
 
 
-def _lipid_delta(
-    ldl: float | None, hdl: float | None, triglycerides: float | None
-) -> int | None:
+def _lipid_delta(ldl: float | None, hdl: float | None, triglycerides: float | None) -> int | None:
     """Compute age delta from lipid panel. Returns None if no lipid data."""
     scores = []
     if ldl is not None:

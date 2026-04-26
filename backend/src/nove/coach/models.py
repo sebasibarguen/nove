@@ -26,16 +26,12 @@ class Conversation(Base):
         Enum(*CONVERSATION_TYPES, name="conversation_type"),
         default="general",
     )
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
 
-    messages: Mapped[list["Message"]] = relationship(
-        back_populates="conversation", order_by="Message.created_at"
-    )
+    messages: Mapped[list["Message"]] = relationship(back_populates="conversation", order_by="Message.created_at")
 
 
 class Message(Base):
@@ -49,8 +45,6 @@ class Message(Base):
     role: Mapped[str] = mapped_column(Enum(*MESSAGE_ROLES, name="message_role"))
     content: Mapped[str] = mapped_column(Text)
     metadata_: Mapped[dict | None] = mapped_column("metadata", JSONB)
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), index=True
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), index=True)
 
     conversation: Mapped[Conversation] = relationship(back_populates="messages")

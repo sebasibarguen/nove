@@ -45,9 +45,7 @@ def _build_profile_context(user: User, profile: UserHealthProfile | None) -> str
     return "\n".join(parts)
 
 
-async def _get_conversation_history(
-    db: AsyncSession, conversation_id: uuid.UUID
-) -> list[dict[str, str]]:
+async def _get_conversation_history(db: AsyncSession, conversation_id: uuid.UUID) -> list[dict[str, str]]:
     """Fetch the last N messages for a conversation, formatted for Claude."""
     result = await db.execute(
         select(Message)
@@ -147,10 +145,7 @@ async def _build_lab_context(db: AsyncSession, user_id: uuid.UUID) -> str | None
         if v.reference_range_low is not None and v.reference_range_high is not None:
             ref = f" (ref: {v.reference_range_low}-{v.reference_range_high})"
         status_label = v.status.upper() if v.status else ""
-        parts.append(
-            f"- {v.biomarker_name} ({v.biomarker_code}): {v.value} {v.unit}{ref}"
-            f" [{status_label}] ({v.date})"
-        )
+        parts.append(f"- {v.biomarker_name} ({v.biomarker_code}): {v.value} {v.unit}{ref} [{status_label}] ({v.date})")
 
     return "\n".join(parts)
 

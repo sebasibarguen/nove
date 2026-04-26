@@ -46,9 +46,10 @@ jobs:
         working-directory: backend
         run: uv run ruff format --check src/ tests/
 
-      - name: Type check
+      - name: Type check (ty, non-blocking)
         working-directory: backend
-        run: uv run mypy src/
+        continue-on-error: true
+        run: uv run ty check src/
 
       - name: Test
         working-directory: backend

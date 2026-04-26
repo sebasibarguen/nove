@@ -299,50 +299,56 @@ async def test_snapshot_with_garmin_data(client: AsyncClient, db: AsyncSession):
     # Seed activity data
     for i in range(7):
         d = today - timedelta(days=i)
-        db.add(GarminDataPoint(
-            user_id=user_id,
-            data_type="activity",
-            date=d,
-            data={
-                "steps": 8000 + i * 100,
-                "activeTimeInSeconds": 3600,
-                "restingHeartRateInBeatsPerMinute": 62,
-                "averageHeartRateInBeatsPerMinute": 75,
-                "bodyBatteryChargedValue": 60,
-                "bodyBatteryDrainedValue": 40,
-                "caloriesTotal": 2200,
-                "distanceInMeters": 6000,
-            },
-        ))
+        db.add(
+            GarminDataPoint(
+                user_id=user_id,
+                data_type="activity",
+                date=d,
+                data={
+                    "steps": 8000 + i * 100,
+                    "activeTimeInSeconds": 3600,
+                    "restingHeartRateInBeatsPerMinute": 62,
+                    "averageHeartRateInBeatsPerMinute": 75,
+                    "bodyBatteryChargedValue": 60,
+                    "bodyBatteryDrainedValue": 40,
+                    "caloriesTotal": 2200,
+                    "distanceInMeters": 6000,
+                },
+            )
+        )
 
     # Seed sleep data
     for i in range(7):
         d = today - timedelta(days=i)
-        db.add(GarminDataPoint(
-            user_id=user_id,
-            data_type="sleep",
-            date=d,
-            data={
-                "overallSleepScore": 78,
-                "durationInSeconds": 27000,
-                "deepSleepDurationInSeconds": 5400,
-                "remSleepInSeconds": 6300,
-                "awakeDurationInSeconds": 1200,
-            },
-        ))
+        db.add(
+            GarminDataPoint(
+                user_id=user_id,
+                data_type="sleep",
+                date=d,
+                data={
+                    "overallSleepScore": 78,
+                    "durationInSeconds": 27000,
+                    "deepSleepDurationInSeconds": 5400,
+                    "remSleepInSeconds": 6300,
+                    "awakeDurationInSeconds": 1200,
+                },
+            )
+        )
 
     # Seed stress data
     for i in range(7):
         d = today - timedelta(days=i)
-        db.add(GarminDataPoint(
-            user_id=user_id,
-            data_type="stress",
-            date=d,
-            data={
-                "averageStressLevel": 35,
-                "bodyBatteryMostRecentValue": 70,
-            },
-        ))
+        db.add(
+            GarminDataPoint(
+                user_id=user_id,
+                data_type="stress",
+                date=d,
+                data={
+                    "averageStressLevel": 35,
+                    "bodyBatteryMostRecentValue": 70,
+                },
+            )
+        )
 
     await db.commit()
 
@@ -379,18 +385,20 @@ async def test_snapshot_with_biomarkers(client: AsyncClient, db: AsyncSession):
         ("triglycerides", "Trigliceridos", 120.0, "mg/dL", 0.0, 150.0),
     ]
     for code, name, val, unit, low, high in biomarkers:
-        db.add(LabBiomarkerValue(
-            result_id=result.id,
-            user_id=user_id,
-            biomarker_code=code,
-            biomarker_name=name,
-            value=val,
-            unit=unit,
-            reference_range_low=low,
-            reference_range_high=high,
-            status="normal",
-            date=date.today(),
-        ))
+        db.add(
+            LabBiomarkerValue(
+                result_id=result.id,
+                user_id=user_id,
+                biomarker_code=code,
+                biomarker_name=name,
+                value=val,
+                unit=unit,
+                reference_range_low=low,
+                reference_range_high=high,
+                status="normal",
+                date=date.today(),
+            )
+        )
     await db.commit()
 
     resp = await client.get(f"{PREFIX}/dashboard/snapshot", headers=headers)

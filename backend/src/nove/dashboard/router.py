@@ -52,9 +52,7 @@ def _safe_float(data: dict, key: str) -> float | None:
     return float(v) if isinstance(v, (int, float)) else None
 
 
-async def _fetch_garmin_points(
-    db: AsyncSession, user_id, days: int = 7
-) -> dict[str, list[GarminDataPoint]]:
+async def _fetch_garmin_points(db: AsyncSession, user_id, days: int = 7) -> dict[str, list[GarminDataPoint]]:
     """Fetch garmin data points grouped by type for the last N days."""
     end_date = date.today()
     start_date = end_date - timedelta(days=days)
@@ -309,10 +307,7 @@ def _build_nove_age(
         chrono_age = (date.today() - user.date_of_birth.date()).days // 365
 
     # Garmin inputs
-    rhr_values = [
-        _safe_float(p.data, "restingHeartRateInBeatsPerMinute")
-        for p in activity_points
-    ]
+    rhr_values = [_safe_float(p.data, "restingHeartRateInBeatsPerMinute") for p in activity_points]
     rhr_values = [v for v in rhr_values if v is not None]
     avg_rhr = sum(rhr_values) / len(rhr_values) if rhr_values else None
 
@@ -337,8 +332,12 @@ def _build_nove_age(
     inputs_used = sum(
         1
         for v in [
-            avg_rhr, vo2_max, sleep_stdev, avg_steps,
-            bio_map.get("glucose"), bio_map.get("hba1c"),
+            avg_rhr,
+            vo2_max,
+            sleep_stdev,
+            avg_steps,
+            bio_map.get("glucose"),
+            bio_map.get("hba1c"),
             bio_map.get("ldl") or bio_map.get("hdl") or bio_map.get("triglycerides"),
         ]
         if v is not None

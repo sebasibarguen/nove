@@ -45,9 +45,7 @@ async def create_lab_order(body: OrderCreate, user: CurrentUser, db: DB) -> Orde
 
 @router.get("/orders", response_model=list[OrderRead])
 async def list_orders(user: CurrentUser, db: DB) -> list[OrderRead]:
-    result = await db.execute(
-        select(LabOrder).where(LabOrder.user_id == user.id).order_by(LabOrder.created_at.desc())
-    )
+    result = await db.execute(select(LabOrder).where(LabOrder.user_id == user.id).order_by(LabOrder.created_at.desc()))
     orders = result.scalars().all()
     return [OrderRead.model_validate(o) for o in orders]
 
@@ -74,21 +72,15 @@ async def get_result(result_id: uuid.UUID, user: CurrentUser, db: DB) -> ResultR
     return ResultRead.model_validate(lab_result)
 
 
-@router.post(
-    "/results/upload", response_model=ResultSummaryRead, status_code=status.HTTP_201_CREATED
-)
+@router.post("/results/upload", response_model=ResultSummaryRead, status_code=status.HTTP_201_CREATED)
 async def upload_result_pdf(file: UploadFile, user: CurrentUser, db: DB) -> ResultSummaryRead:
     """Upload a lab result PDF directly. Triggers OCR + extraction pipeline."""
     if not file.filename or not file.filename.lower().endswith(".pdf"):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Solo se aceptan archivos PDF"
-        )
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Solo se aceptan archivos PDF")
 
     pdf_bytes = await file.read()
     if len(pdf_bytes) == 0:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Archivo vacio"
-        )
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Archivo vacio")
 
     # Create result record
     lab_result = LabResult(
@@ -101,6 +93,7 @@ async def upload_result_pdf(file: UploadFile, user: CurrentUser, db: DB) -> Resu
     await db.refresh(lab_result)
 
     from nove.labs.storage import upload_pdf
+
     upload_pdf(lab_result.pdf_storage_key, pdf_bytes)
 
     # Process in background (for now, inline — move to Inngest later)
@@ -112,19 +105,21 @@ async def upload_result_pdf(file: UploadFile, user: CurrentUser, db: DB) -> Resu
         lab_result.confidence_score = confidence
 
         for bm in biomarkers:
-            db.add(LabBiomarkerValue(
-                result_id=lab_result.id,
-                user_id=user.id,
-                biomarker_code=bm["biomarker_code"],
-                biomarker_name=bm.get("biomarker_name", ""),
-                value=str(bm["value"]),
-                unit=bm["unit"],
-                reference_range_low=bm.get("reference_range_low"),
-                reference_range_high=bm.get("reference_range_high"),
-                status=_classify_biomarker(bm),
-                confidence=bm.get("confidence", 0.5),
-                date=lab_result.created_at,
-            ))
+            db.add(
+                LabBiomarkerValue(
+                    result_id=lab_result.id,
+                    user_id=user.id,
+                    biomarker_code=bm["biomarker_code"],
+                    biomarker_name=bm.get("biomarker_name", ""),
+                    value=str(bm["value"]),
+                    unit=bm["unit"],
+                    reference_range_low=bm.get("reference_range_low"),
+                    reference_range_high=bm.get("reference_range_high"),
+                    status=_classify_biomarker(bm),
+                    confidence=bm.get("confidence", 0.5),
+                    date=lab_result.created_at,
+                )
+            )
 
         await db.commit()
         await db.refresh(lab_result)
@@ -173,9 +168,7 @@ async def gmail_import(user: CurrentUser, db: DB) -> list[ResultSummaryRead]:
     "/biomarkers/{biomarker_code}/history",
     response_model=list[BiomarkerHistoryPoint],
 )
-async def biomarker_history(
-    biomarker_code: str, user: CurrentUser, db: DB
-) -> list[BiomarkerHistoryPoint]:
+async def biomarker_history(biomarker_code: str, user: CurrentUser, db: DB) -> list[BiomarkerHistoryPoint]:
     result = await db.execute(
         select(LabBiomarkerValue)
         .where(
@@ -191,9 +184,7 @@ async def biomarker_history(
 @router.get("/results/{result_id}/pdf")
 async def get_result_pdf(result_id: uuid.UUID, user: CurrentUser, db: DB) -> RedirectResponse:
     """Redirect to a presigned S3 URL for the result PDF."""
-    result = await db.execute(
-        select(LabResult).where(LabResult.id == result_id, LabResult.user_id == user.id)
-    )
+    result = await db.execute(select(LabResult).where(LabResult.id == result_id, LabResult.user_id == user.id))
     lab_result = result.scalar_one_or_none()
     if lab_result is None or not lab_result.pdf_storage_key:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="PDF not found")

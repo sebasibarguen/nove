@@ -19,9 +19,7 @@ class Settings(BaseSettings):
     app_name: str = "Nove"
     debug: bool = False
     api_v1_prefix: str = "/api/v1"
-    cors_origins: str = (
-        "http://localhost:3000,http://localhost:3001,http://pulse.localhost:3000"
-    )
+    cors_origins: str = "http://localhost:3000,http://localhost:3001,http://pulse.localhost:3000"
 
     # Database
     database_url: str = "postgresql+asyncpg://nove:nove@localhost:5433/nove"

@@ -51,9 +51,7 @@ class LabPanel(Base):
     price_cents: Mapped[int] = mapped_column(Integer)
     tier_included: Mapped[str | None] = mapped_column(String(32))
     active: Mapped[bool] = mapped_column(Boolean, default=True)
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class LabPartner(Base):
@@ -65,9 +63,7 @@ class LabPartner(Base):
     email_address: Mapped[str | None] = mapped_column(String(320))
     password_hash: Mapped[str | None] = mapped_column(String(128))
     active: Mapped[bool] = mapped_column(Boolean, default=True)
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class LabOrder(Base):
@@ -79,15 +75,11 @@ class LabOrder(Base):
     )
     panel_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("lab_panels.id"))
     order_code: Mapped[str] = mapped_column(String(32), unique=True, index=True)
-    status: Mapped[str] = mapped_column(
-        Enum(*ORDER_STATUSES, name="order_status"), default="pending"
-    )
+    status: Mapped[str] = mapped_column(Enum(*ORDER_STATUSES, name="order_status"), default="pending")
     lab_partner_id: Mapped[uuid.UUID | None] = mapped_column(
         UUID(as_uuid=True), ForeignKey("lab_partners.id"), nullable=True
     )
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
@@ -103,9 +95,7 @@ class LabResult(Base):
     user_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), index=True
     )
-    order_id: Mapped[uuid.UUID | None] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("lab_orders.id"), nullable=True
-    )
+    order_id: Mapped[uuid.UUID | None] = mapped_column(UUID(as_uuid=True), ForeignKey("lab_orders.id"), nullable=True)
     pdf_storage_key: Mapped[str | None] = mapped_column(String(512))
     processing_status: Mapped[str] = mapped_column(
         Enum(*PROCESSING_STATUSES, name="processing_status"), default="pending"
@@ -114,9 +104,7 @@ class LabResult(Base):
     confidence_score: Mapped[float | None] = mapped_column(Float)
     reviewed_by: Mapped[str | None] = mapped_column(String(256))
     reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now()
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
@@ -129,21 +117,15 @@ class LabBiomarkerValue(Base):
     __tablename__ = "lab_biomarker_values"
 
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    result_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("lab_results.id", ondelete="CASCADE")
-    )
-    user_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE")
-    )
+    result_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("lab_results.id", ondelete="CASCADE"))
+    user_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"))
     biomarker_code: Mapped[str] = mapped_column(String(64))
     biomarker_name: Mapped[str] = mapped_column(String(256))
     value: Mapped[float] = mapped_column(Float)
     unit: Mapped[str] = mapped_column(String(32))
     reference_range_low: Mapped[float | None] = mapped_column(Float)
     reference_range_high: Mapped[float | None] = mapped_column(Float)
-    status: Mapped[str] = mapped_column(
-        Enum(*BIOMARKER_STATUSES, name="biomarker_status"), default="normal"
-    )
+    status: Mapped[str] = mapped_column(Enum(*BIOMARKER_STATUSES, name="biomarker_status"), default="normal")
     confidence: Mapped[float | None] = mapped_column(Float)
     date: Mapped[date] = mapped_column(Date)
 

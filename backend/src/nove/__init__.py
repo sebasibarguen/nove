@@ -1,7 +1,8 @@
 # ABOUTME: Package metadata. __version__ resolves from installed package metadata.
 # ABOUTME: Railway sets RAILWAY_GIT_COMMIT_SHA at runtime — use that for build-identity in /version.
 
-from importlib.metadata import PackageNotFoundError, version as _pkg_version
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as _pkg_version
 
 try:
     __version__ = _pkg_version("nove")

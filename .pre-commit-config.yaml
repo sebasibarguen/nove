@@ -1,0 +1,35 @@
+# ABOUTME: Pre-commit hooks — run `pre-commit install` after cloning to enable.
+# ABOUTME: Mirrors what CI checks; catches lint/format issues before they reach main.
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.0
+    hooks:
+      - id: ruff
+        files: ^backend/.*\.py$
+        args: [--fix]
+      - id: ruff-format
+        files: ^backend/.*\.py$
+
+  - repo: local
+    hooks:
+      - id: web-eslint
+        name: eslint (web)
+        entry: bash -c 'cd web && npx eslint'
+        language: system
+        files: ^web/src/.*\.(ts|tsx)$
+        pass_filenames: false
+
+      - id: lab-portal-eslint
+        name: eslint (lab-portal)
+        entry: bash -c 'cd lab-portal && npx eslint'
+        language: system
+        files: ^lab-portal/src/.*\.(ts|tsx)$
+        pass_filenames: false
+
+      - id: marketing-eslint
+        name: eslint (marketing)
+        entry: bash -c 'cd marketing && npx eslint'
+        language: system
+        files: ^marketing/src/.*\.(ts|tsx)$
+        pass_filenames: false

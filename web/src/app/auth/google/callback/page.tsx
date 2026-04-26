@@ -12,22 +12,23 @@ function CallbackHandler() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { refreshUser } = useAuth();
-  const [error, setError] = useState("");
+  const code = searchParams.get("code");
+  const state = searchParams.get("state");
+  const [error, setError] = useState(code ? "" : "Codigo de autorizacion faltante");
 
   useEffect(() => {
-    const code = searchParams.get("code");
+    if (!code) return;
 
-    if (!code) {
-      setError("Codigo de autorizacion faltante");
-      return;
-    }
+    // The backend embeds an optional return_to brand in state as "<nonce>:<brand>".
+    // We use it to route Pulse users back to pulse.* and main users to /dashboard.
+    const returnTo = state?.includes(":") ? state.split(":", 2)[1] : null;
 
     (async () => {
       try {
         const resp = await fetch(`${API_BASE}/auth/google/callback`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ code }),
+          body: JSON.stringify({ code, state }),
         });
 
         if (!resp.ok) {
@@ -40,12 +41,21 @@ function CallbackHandler() {
         localStorage.setItem("access_token", tokens.access_token);
         localStorage.setItem("refresh_token", tokens.refresh_token);
         await refreshUser();
-        router.replace("/dashboard");
+
+        // When return_to=pulse, the backend set redirect_uri to the pulse subdomain,
+        // so this callback runs on pulse.* and tokens are stored there. Route to pulse home.
+        // If the callback somehow ends up on the wrong host (e.g. pulse redirect_uri not
+        // registered in Google Console yet), fall back to /dashboard so the user still lands signed in.
+        if (returnTo === "pulse" && window.location.host.startsWith("pulse.")) {
+          router.replace("/");
+        } else {
+          router.replace("/dashboard");
+        }
       } catch {
         setError("Error de conexion");
       }
     })();
-  }, [searchParams, router, refreshUser]);
+  }, [code, state, router, refreshUser]);
 
   if (error) {
     return (

@@ -60,16 +60,18 @@ def create_app() -> FastAPI:
     app.include_router(lab_router, prefix=settings.api_v1_prefix)
     app.include_router(portal_router, prefix=settings.api_v1_prefix)
 
-    # Inngest
-    import inngest.fast_api
-    from nove.worker import client as inngest_client
-    from nove.worker.functions import daily_ads_report
+    # Inngest — only mount when a signing key is configured. Lets dev/test run without it.
+    if settings.inngest_signing_key:
+        import inngest.fast_api
 
-    inngest.fast_api.serve(
-        app,
-        inngest_client,
-        [daily_ads_report],
-    )
+        from nove.worker import client as inngest_client
+        from nove.worker.functions import daily_ads_report
+
+        inngest.fast_api.serve(
+            app,
+            inngest_client,
+            [daily_ads_report],
+        )
 
     @app.get("/health")
     async def health(db: DB) -> dict[str, str]:
