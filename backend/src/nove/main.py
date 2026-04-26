@@ -73,17 +73,16 @@ def create_app() -> FastAPI:
 
     @app.get("/health")
     async def health(db: DB) -> dict[str, str]:
+        """Liveness + build identity. Railway hits this for the healthcheck;
+        callers can also use it to validate which build is live (each commit
+        changes `commit`; each deploy changes `deployment_id`)."""
         from sqlalchemy import text
 
         await db.execute(text("SELECT 1"))
-        return {"status": "ok"}
 
-    @app.get("/version")
-    async def version() -> dict[str, str]:
-        """Identify the running build. Each commit changes `commit`; each
-        deploy changes `deployment_id` even on the same commit."""
         sha = os.getenv("RAILWAY_GIT_COMMIT_SHA") or "dev"
         return {
+            "status": "ok",
             "service": "backend",
             "version": __version__,
             "commit": sha[:12],
