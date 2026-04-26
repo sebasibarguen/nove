@@ -21,7 +21,7 @@ interface Product {
 const PRODUCTS: Product[] = [
   {
     name: "Pulse",
-    tagline: "Recovery for Garmin owners",
+    tagline: "360° healthspan for Garmin owners",
     description:
       "Recovery, strain, and sleep — every morning, from the Garmin you already wear. Built for the daily habits that move healthspan forward.",
     href: "/pulse",
