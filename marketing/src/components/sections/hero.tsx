@@ -44,7 +44,13 @@ export function Hero({ config }: { config: HeroConfig }) {
         >
           {config.subheadline}
         </p>
-        <Button asChild size="lg" className="h-14 rounded-full px-10 text-lg shadow-xl">
+        <Button
+          asChild
+          size="lg"
+          className={`rounded-full shadow-xl ${
+            hasImage ? "h-16 px-12 text-xl" : "h-14 px-10 text-lg"
+          }`}
+        >
           <a href={config.ctaHref}>{config.ctaText}</a>
         </Button>
         {!hasImage && config.stats && config.stats.length > 0 && (

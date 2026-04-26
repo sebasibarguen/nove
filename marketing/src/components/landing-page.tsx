@@ -1,8 +1,9 @@
 // ABOUTME: Landing page template that assembles all sections from config.
-// ABOUTME: Optional sections (howItWorks, comparison) render only if present.
+// ABOUTME: Hero and FooterCta render full-bleed; the rest are constrained to max-w-6xl.
 
 import type { LandingConfig } from "@/types/landing";
 import { Hero } from "@/components/sections/hero";
+import { ValueProp } from "@/components/sections/value-prop";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Features } from "@/components/sections/features";
 import { Comparison } from "@/components/sections/comparison";
@@ -16,6 +17,7 @@ export function LandingPage({ config }: { config: LandingConfig }) {
   return (
     <main>
       <Hero config={config.hero} />
+      {config.valueProp && <ValueProp config={config.valueProp} />}
       <div className="mx-auto max-w-6xl">
         <Features config={config.features} />
         {config.howItWorks && <HowItWorks config={config.howItWorks} />}
@@ -24,8 +26,8 @@ export function LandingPage({ config }: { config: LandingConfig }) {
         {config.timeline && <Timeline config={config.timeline} />}
         {config.faq && <FAQ config={config.faq} />}
         <LeadForm slug={config.slug} ctaText={config.footerCta.ctaText} lang={config.lang} />
-        <FooterCta config={config.footerCta} />
       </div>
+      <FooterCta config={config.footerCta} />
     </main>
   );
 }

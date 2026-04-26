@@ -75,6 +75,11 @@ export interface SocialProofConfig {
   testimonials: TestimonialConfig[];
 }
 
+export interface ValuePropConfig {
+  headline: string;
+  subheadline: string;
+}
+
 export interface FooterCtaConfig {
   headline: string;
   subheadline: string;
@@ -96,6 +101,7 @@ export interface LandingConfig {
   lang?: "es" | "en";
   meta: LandingMeta;
   hero: HeroConfig;
+  valueProp?: ValuePropConfig;
   howItWorks?: HowItWorksConfig;
   features: FeatureConfig[] | FeaturesSection;
   comparison?: ComparisonConfig;

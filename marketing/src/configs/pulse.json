@@ -6,8 +6,8 @@
     "description": "Keep wearing your Garmin. Get a complete picture of your health every morning — recovery, strain, and sleep, turned into action."
   },
   "hero": {
-    "headline": "Keep wearing your Garmin. Get a complete picture of your health.",
-    "subheadline": "Pulse turns the data your Garmin already collects into recovery, strain, and sleep insight you can act on every morning.",
+    "headline": "Keep wearing your Garmin. Add years of healthspan.",
+    "subheadline": "Pulse turns the data your Garmin already collects into recovery, strain, and sleep insight — the daily levers that move healthspan forward.",
     "ctaText": "Get early access",
     "ctaHref": "#registro",
     "image": {
@@ -19,6 +19,10 @@
       { "value": "30 days", "label": "of history on day one" },
       { "value": "$9.99/mo", "label": "after a 7-day free trial" }
     ]
+  },
+  "valueProp": {
+    "headline": "Built for healthspan, not just fitness.",
+    "subheadline": "Healthspan is how long you live in good health — not just how long you live. Sleep quality, recovery capacity, and training load are the strongest daily levers we have. Pulse keeps them visible, every morning, so the levers actually get pulled."
   },
   "howItWorks": {
     "headline": "Three steps from sign-up to insight",
@@ -172,7 +176,7 @@
     ]
   },
   "footerCta": {
-    "headline": "Wake up to your full picture.",
+    "headline": "Add years of healthspan, starting tomorrow morning.",
     "subheadline": "Pulse is launching soon. $9.99/mo with a 7-day free trial. Join the waitlist for early access.",
     "ctaText": "Get early access"
   }
