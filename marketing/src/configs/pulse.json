@@ -22,7 +22,28 @@
   },
   "valueProp": {
     "headline": "Built for healthspan, not just fitness.",
-    "subheadline": "Healthspan is how long you live in good health — not just how long you live. Sleep quality, recovery capacity, and training load are the strongest daily levers we have. Pulse keeps them visible, every morning, so the levers actually get pulled."
+    "subheadline": "Healthspan is how long you live in good health — not just how long you live. Pulse keeps you consistent on the few habits that actually move it forward."
+  },
+  "bigMovers": {
+    "headline": "The big movers for healthspan",
+    "subheadline": "Three habits do most of the work for the years you live in good health. Pulse shows the trend on each, so consistency becomes visible.",
+    "movers": [
+      {
+        "metric": "VO2max trend",
+        "title": "Cardio fitness",
+        "description": "Cardiorespiratory fitness is the single strongest predictor of healthspan. Pulse charts your VO2max and Fitness Age over time so you can see whether your training is actually moving the metric that matters most — not just logging miles."
+      },
+      {
+        "metric": "Sessions per week",
+        "title": "Strength training",
+        "description": "Strength is the second-largest lever — and the easiest one to drift on. Pulse counts your strength sessions and surfaces consistency week over week so the gym habit doesn't quietly disappear from your calendar."
+      },
+      {
+        "metric": "HRV baseline",
+        "title": "Recovery & sleep",
+        "description": "How well you recover and sleep is what lets the training compound. Pulse turns nightly HRV and sleep stages into a baseline-relative trend, so you spot drift before it costs you a workout."
+      }
+    ]
   },
   "howItWorks": {
     "headline": "Three steps from sign-up to insight",

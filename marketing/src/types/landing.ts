@@ -80,6 +80,18 @@ export interface ValuePropConfig {
   subheadline: string;
 }
 
+export interface BigMover {
+  metric: string;
+  title: string;
+  description: string;
+}
+
+export interface BigMoversConfig {
+  headline: string;
+  subheadline?: string;
+  movers: BigMover[];
+}
+
 export interface FooterCtaConfig {
   headline: string;
   subheadline: string;
@@ -102,6 +114,7 @@ export interface LandingConfig {
   meta: LandingMeta;
   hero: HeroConfig;
   valueProp?: ValuePropConfig;
+  bigMovers?: BigMoversConfig;
   howItWorks?: HowItWorksConfig;
   features: FeatureConfig[] | FeaturesSection;
   comparison?: ComparisonConfig;
