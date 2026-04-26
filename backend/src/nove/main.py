@@ -1,6 +1,7 @@
 # ABOUTME: FastAPI application factory and entrypoint.
 # ABOUTME: Registers routers, middleware, and startup/shutdown events.
 
+import os
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
@@ -8,6 +9,7 @@ import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from nove import __version__
 from nove.config import settings
 from nove.deps import DB
 
@@ -75,6 +77,21 @@ def create_app() -> FastAPI:
 
         await db.execute(text("SELECT 1"))
         return {"status": "ok"}
+
+    @app.get("/version")
+    async def version() -> dict[str, str]:
+        """Identify the running build. Each commit changes `commit`; each
+        deploy changes `deployment_id` even on the same commit."""
+        sha = os.getenv("RAILWAY_GIT_COMMIT_SHA") or "dev"
+        return {
+            "service": "backend",
+            "version": __version__,
+            "commit": sha[:12],
+            "commit_full": sha,
+            "branch": os.getenv("RAILWAY_GIT_BRANCH") or "local",
+            "deployment_id": os.getenv("RAILWAY_DEPLOYMENT_ID") or "local",
+            "environment": os.getenv("RAILWAY_ENVIRONMENT_NAME") or "development",
+        }
 
     return app
 
