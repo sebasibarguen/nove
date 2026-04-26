@@ -7,7 +7,7 @@
   },
   "hero": {
     "headline": "Keep wearing your Garmin. Add years of healthspan.",
-    "subheadline": "Pulse turns the data your Garmin already collects into recovery, strain, and sleep insight — the daily levers that move healthspan forward.",
+    "subheadline": "A 360° healthspan picture from the Garmin you already wear — recovery, strain, sleep, HRV, and the trends that move the years you live healthy.",
     "ctaText": "Get early access",
     "ctaHref": "#registro",
     "image": {
@@ -91,9 +91,9 @@
         "description": "Your last 30 / 90 / 365 days of recovery and strain on one chart. Spot the patterns a daily widget can't show you."
       },
       {
-        "icon": "Shield",
-        "title": "Your data, your control",
-        "description": "Read-only Garmin OAuth. Export or delete everything in one click. No third-party sharing. Ever."
+        "icon": "MessageCircle",
+        "title": "Ask anything about your data",
+        "description": "An AI agent specialized for health records, with access to your Pulse and Garmin data. 'Why was my recovery low yesterday?' 'Compare my HRV last 90 days.' Plain-language answers grounded in your numbers."
       }
     ]
   },
@@ -156,6 +156,32 @@
       {
         "title": "Week 3 and beyond — Your recovery score sharpens",
         "description": "Once your baseline locks in, daily recovery becomes a meaningful signal: a green day really is a push day, a red day really is a back-off day. The longer you wear your Garmin, the smarter Pulse gets."
+      }
+    ]
+  },
+  "security": {
+    "headline": "Health data deserves the highest bar.",
+    "subheadline": "Your body is the most personal data you have. We treat it that way — at the architecture level, not just in fine print.",
+    "points": [
+      {
+        "icon": "Lock",
+        "title": "Encrypted by default",
+        "description": "All data is encrypted at rest and in transit using industry-standard cryptography. Continuous audits and patches — not a one-time checkbox."
+      },
+      {
+        "icon": "KeyRound",
+        "title": "Read-only Garmin access",
+        "description": "Pulse uses Garmin's official Health API with read-only OAuth. We can never write to, modify, or remove anything in your Garmin Connect account."
+      },
+      {
+        "icon": "EyeOff",
+        "title": "Never sold, never shared",
+        "description": "No advertising partnerships, no third-party data sales, no 'aggregated and de-identified' fine print. Your data stays inside Nove."
+      },
+      {
+        "icon": "Download",
+        "title": "You own your data",
+        "description": "Export everything to CSV or PDF in one click. Delete everything in one click. No retention games when you cancel."
       }
     ]
   },

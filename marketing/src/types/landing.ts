@@ -98,6 +98,12 @@ export interface FooterCtaConfig {
   ctaText: string;
 }
 
+export interface SecurityConfig {
+  headline: string;
+  subheadline?: string;
+  points: FeatureConfig[];
+}
+
 export interface FAQItem {
   question: string;
   answer: string;
@@ -120,6 +126,7 @@ export interface LandingConfig {
   comparison?: ComparisonConfig;
   socialProof: SocialProofConfig;
   timeline?: HowItWorksConfig;
+  security?: SecurityConfig;
   faq?: FAQConfig;
   footerCta: FooterCtaConfig;
 }

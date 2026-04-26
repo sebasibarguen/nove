@@ -31,8 +31,8 @@
       },
       {
         "icon": "MessageCircle",
-        "title": "AI interpretation in plain language",
-        "description": "Every result explained: what it measures, whether it's drifting, and what specifically you might do about it. No more 'everything's normal' shrugs."
+        "title": "Ask the AI agent anything",
+        "description": "An AI agent specialized for health records, grounded in your panels. 'Why is my LDL elevated?' 'Compare my last three panels.' 'What should I focus on next?' Plain-language answers, your numbers."
       }
     ]
   },
@@ -53,6 +53,32 @@
         "quote": "P4 medicine — predictive, preventive, personalized, participatory — is proactive instead of reactive. It's about wellness, not just disease.",
         "name": "Dr. Leroy Hood",
         "role": "Co-founder of the Institute for Systems Biology, pioneer of systems medicine"
+      }
+    ]
+  },
+  "security": {
+    "headline": "Health data deserves the highest bar.",
+    "subheadline": "Your blood test results are the most personal data you have. We treat them that way — at the architecture level, not just in fine print.",
+    "points": [
+      {
+        "icon": "Lock",
+        "title": "Encrypted by default",
+        "description": "All results — current and historical panels — encrypted at rest and in transit. Continuous audits and patches, not one-time checkboxes."
+      },
+      {
+        "icon": "FlaskConical",
+        "title": "Certified partner labs only",
+        "description": "Panels run by accredited clinical labs with audited chains of custody. No corner-cutting on the actual chemistry."
+      },
+      {
+        "icon": "EyeOff",
+        "title": "Never sold, never shared",
+        "description": "No advertising partnerships, no third-party data sales, no 'aggregated and de-identified' fine print. Your results stay inside Nove."
+      },
+      {
+        "icon": "Download",
+        "title": "You own your data",
+        "description": "Export everything to CSV or PDF in one click. Delete everything in one click. Share with your doctor in one click — on your terms, not ours."
       }
     ]
   },

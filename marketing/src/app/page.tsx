@@ -97,6 +97,44 @@ export default function Home() {
       </section>
 
       <section className="px-6 py-20 md:py-28">
+        <div className="mx-auto max-w-5xl">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl font-bold md:text-4xl">
+              Across every Nove product
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+              Two things every Nove product ships with — because healthspan
+              is built on data you trust and answers you can actually use.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+            <div className="rounded-2xl border bg-background p-8">
+              <h3 className="text-xl font-bold">
+                An integrated AI agent for health records
+              </h3>
+              <p className="mt-3 text-muted-foreground leading-relaxed">
+                A specialized health-records agent with access to your
+                connected data — labs, wearables, doctor notes, prescriptions.
+                Ask in plain language. Get answers grounded in your numbers,
+                not internet generalities.
+              </p>
+            </div>
+            <div className="rounded-2xl border bg-background p-8">
+              <h3 className="text-xl font-bold">
+                The highest standards for your data
+              </h3>
+              <p className="mt-3 text-muted-foreground leading-relaxed">
+                Encrypted at rest and in transit. Read-only or
+                minimum-necessary access to everything we connect to.
+                Never sold, never shared. One-click export, one-click
+                delete — your data, on your terms.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-muted/30 px-6 py-20 md:py-28">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-bold md:text-4xl">
             Built around what actually moves healthspan.

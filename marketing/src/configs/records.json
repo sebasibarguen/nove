@@ -56,6 +56,32 @@
       }
     ]
   },
+  "security": {
+    "headline": "Health data deserves the highest bar.",
+    "subheadline": "Your medical history is the most personal data you have. We treat it that way — at the architecture level, not just in fine print.",
+    "points": [
+      {
+        "icon": "Lock",
+        "title": "Encrypted by default",
+        "description": "All records — labs, prescriptions, doctor notes, wearable data — encrypted at rest and in transit. Continuous audits and patches, not one-time checkboxes."
+      },
+      {
+        "icon": "KeyRound",
+        "title": "Minimum-necessary access",
+        "description": "When connecting external systems (labs, pharmacies, wearables), Records uses the smallest scopes that get the job done. We don't read what we don't need."
+      },
+      {
+        "icon": "EyeOff",
+        "title": "Never sold, never shared",
+        "description": "No advertising partnerships, no third-party data sales, no 'aggregated and de-identified' fine print. Your records stay inside Nove."
+      },
+      {
+        "icon": "Download",
+        "title": "You own your data",
+        "description": "Export everything to CSV or PDF in one click. Delete everything in one click. Take your full record with you when you go."
+      }
+    ]
+  },
   "footerCta": {
     "headline": "Stop searching for your own health data.",
     "subheadline": "Records is launching soon. Join the waitlist for early access.",
