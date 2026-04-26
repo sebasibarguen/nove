@@ -1,0 +1,64 @@
+{
+  "slug": "records",
+  "lang": "en",
+  "meta": {
+    "title": "Nove Records — your health, organized. Ask anything.",
+    "description": "Labs, prescriptions, doctor notes, and wearable data in one timeline. An AI agent that answers questions about your health, grounded in your own data."
+  },
+  "hero": {
+    "headline": "Your health, organized. Ask anything.",
+    "subheadline": "Records pulls labs, prescriptions, doctor notes, and wearable data into a single timeline. The AI agent answers questions about your health using your own history — not internet generalities.",
+    "ctaText": "Get early access",
+    "ctaHref": "#registro"
+  },
+  "features": {
+    "headline": "What Records does",
+    "items": [
+      {
+        "icon": "FolderHeart",
+        "title": "All your health, in one place",
+        "description": "Labs, prescriptions, vaccinations, visits, and wearables in one chronological timeline. Upload a PDF, forward an email, or sync — Records does the rest."
+      },
+      {
+        "icon": "MessageCircle",
+        "title": "An AI agent that knows your data",
+        "description": "Ask 'why is my LDL elevated?' or 'what's changed since last year?' The agent answers in plain language, grounded in your own records."
+      },
+      {
+        "icon": "TrendingUp",
+        "title": "Trends across years",
+        "description": "Biomarkers, blood pressure, weight, sleep, training load — all on the same chart. Spot drift early, not at the next checkup."
+      },
+      {
+        "icon": "Share2",
+        "title": "Built to share with your doctor",
+        "description": "Generate a clean, structured summary in seconds. Hand it to your physician and skip the 'fill out this form' ritual."
+      }
+    ]
+  },
+  "socialProof": {
+    "headline": "The future of health is continuous",
+    "testimonials": [
+      {
+        "quote": "Continuous data from wearable sensors provides a rich, granular, high-definition view of each person's health — and that changes everything.",
+        "name": "Dr. Eric Topol",
+        "role": "Cardiologist, founder of Scripps Research Translational Institute"
+      },
+      {
+        "quote": "The opportunity with sensors, data, and AI is to move us from being intermittent and reactive to being continuous and proactive.",
+        "name": "Dr. Daniel Kraft",
+        "role": "Founder of NextMed Health, faculty chair for Medicine at Singularity University"
+      },
+      {
+        "quote": "P4 medicine — predictive, preventive, personalized, participatory — is proactive instead of reactive. It's about wellness, not just disease.",
+        "name": "Dr. Leroy Hood",
+        "role": "Co-founder of the Institute for Systems Biology, pioneer of systems medicine"
+      }
+    ]
+  },
+  "footerCta": {
+    "headline": "Stop searching for your own health data.",
+    "subheadline": "Records is launching soon. Join the waitlist for early access.",
+    "ctaText": "Get early access"
+  }
+}

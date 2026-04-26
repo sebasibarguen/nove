@@ -1,0 +1,64 @@
+{
+  "slug": "labs",
+  "lang": "en",
+  "meta": {
+    "title": "Nove Labs — biomarkers, on a schedule.",
+    "description": "A blood-test membership for healthspan. Comprehensive quarterly panels with AI interpretation and biomarkers tracked over time."
+  },
+  "hero": {
+    "headline": "Biomarkers, on a schedule.",
+    "subheadline": "A blood-test membership built for healthspan. Comprehensive quarterly panels, AI interpretation, biomarkers tracked over time — not just a snapshot every few years.",
+    "ctaText": "Get early access",
+    "ctaHref": "#registro"
+  },
+  "features": {
+    "headline": "What Labs covers",
+    "items": [
+      {
+        "icon": "FlaskConical",
+        "title": "100+ biomarkers per panel",
+        "description": "Lipids, glucose, thyroid, hormones, inflammation, vitamins, kidney and liver function. The full healthspan panel — not just the basics your doctor checks once a year."
+      },
+      {
+        "icon": "Calendar",
+        "title": "Quarterly cadence, by default",
+        "description": "Four panels a year, on a schedule. Healthspan is about catching drift early — and you can't catch drift with a snapshot every five years."
+      },
+      {
+        "icon": "TrendingUp",
+        "title": "Trends, not single points",
+        "description": "Every biomarker plotted across panels. The number that matters is rarely today's — it's the direction over the last 12 months."
+      },
+      {
+        "icon": "MessageCircle",
+        "title": "AI interpretation in plain language",
+        "description": "Every result explained: what it measures, whether it's drifting, and what specifically you might do about it. No more 'everything's normal' shrugs."
+      }
+    ]
+  },
+  "socialProof": {
+    "headline": "Why measurement matters",
+    "testimonials": [
+      {
+        "quote": "Continuous data from wearable sensors provides a rich, granular, high-definition view of each person's health — and that changes everything.",
+        "name": "Dr. Eric Topol",
+        "role": "Cardiologist, founder of Scripps Research Translational Institute"
+      },
+      {
+        "quote": "The opportunity with sensors, data, and AI is to move us from being intermittent and reactive to being continuous and proactive.",
+        "name": "Dr. Daniel Kraft",
+        "role": "Founder of NextMed Health, faculty chair for Medicine at Singularity University"
+      },
+      {
+        "quote": "P4 medicine — predictive, preventive, personalized, participatory — is proactive instead of reactive. It's about wellness, not just disease.",
+        "name": "Dr. Leroy Hood",
+        "role": "Co-founder of the Institute for Systems Biology, pioneer of systems medicine"
+      }
+    ]
+  },
+  "footerCta": {
+    "headline": "Stop guessing at your healthspan.",
+    "subheadline": "Labs is launching soon. Join the waitlist for early access.",
+    "ctaText": "Get early access"
+  }
+}
