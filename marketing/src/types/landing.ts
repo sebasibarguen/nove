@@ -81,6 +81,16 @@ export interface FooterCtaConfig {
   ctaText: string;
 }
 
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export interface FAQConfig {
+  headline: string;
+  items: FAQItem[];
+}
+
 export interface LandingConfig {
   slug: string;
   lang?: "es" | "en";
@@ -90,5 +100,6 @@ export interface LandingConfig {
   features: FeatureConfig[] | FeaturesSection;
   comparison?: ComparisonConfig;
   socialProof: SocialProofConfig;
+  faq?: FAQConfig;
   footerCta: FooterCtaConfig;
 }

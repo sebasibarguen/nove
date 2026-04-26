@@ -113,6 +113,43 @@
       }
     ]
   },
+  "faq": {
+    "headline": "Frequently asked questions",
+    "items": [
+      {
+        "question": "What's included with my Pulse membership?",
+        "answer": "Recovery, strain, and sleep tracking from your Garmin. AI-powered trends across 30, 90, and 365 days. 30 days of history available the moment you connect — no waiting period to get value. New features ship continuously, included in your subscription."
+      },
+      {
+        "question": "Which Garmin watches work with Pulse?",
+        "answer": "Any Garmin watch that reports HRV and sleep through Garmin Connect — Forerunner 245 and newer, Fenix 6 and newer, Epix, Venu 2 and newer, Vivoactive 4 and newer, Enduro, MARQ. If your watch shows Body Battery and HRV Status in Garmin Connect today, Pulse works with it."
+      },
+      {
+        "question": "How does my Garmin data get to Pulse?",
+        "answer": "A one-time, read-only OAuth connection with Garmin Connect. Pulse pulls your Body Battery, HRV, sleep stages, and training load through Garmin's official Health API. We never modify, write to, or remove anything from Garmin Connect — read-only means read-only."
+      },
+      {
+        "question": "Will Pulse drain my watch battery?",
+        "answer": "No. Pulse reads data your Garmin already collects on its normal schedule. Nothing changes on the watch itself. Your 14+ day battery life is unchanged."
+      },
+      {
+        "question": "How does the 7-day free trial work?",
+        "answer": "Sign up, connect your Garmin, and use Pulse with full access for 7 days. We charge $9.99/mo only if you keep it past the trial. Cancel any time in the app — no email, no phone call, no questions."
+      },
+      {
+        "question": "What if I cancel — do I lose my data?",
+        "answer": "You keep full access through the end of your billing period, then your account pauses. Your history stays intact — reactivate any time and it all returns. Want it gone for good? One click in account settings deletes everything permanently."
+      },
+      {
+        "question": "Is my data private?",
+        "answer": "Always. Read-only Garmin OAuth, never sold, never shared with third parties. Export everything to CSV or PDF in one click. Delete everything in one click. Your health data is yours."
+      },
+      {
+        "question": "Is there an annual plan?",
+        "answer": "Yes — $79/year, which works out to ~$6.60/mo (a 33% discount on monthly). You can switch to annual on the trial-end screen or any time in account settings."
+      }
+    ]
+  },
   "footerCta": {
     "headline": "Wake up to your full picture.",
     "subheadline": "Pulse is launching soon. $9.99/mo with a 7-day free trial. Join the waitlist for early access.",
