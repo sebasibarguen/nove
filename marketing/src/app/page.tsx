@@ -110,13 +110,14 @@ export default function Home() {
           <div className="grid gap-6 md:grid-cols-2 md:gap-8">
             <div className="rounded-2xl border bg-background p-8">
               <h3 className="text-xl font-bold">
-                An integrated AI agent for health records
+                An AI coach for your healthspan
               </h3>
               <p className="mt-3 text-muted-foreground leading-relaxed">
                 A specialized health-records agent with access to your
                 connected data — labs, wearables, doctor notes, prescriptions.
-                Ask in plain language. Get answers grounded in your numbers,
-                not internet generalities.
+                Ask anything in plain language. Every week, get personalized
+                actions ("add 1 strength session", "shift bedtime 30 min
+                earlier") grounded in your own numbers — not generic advice.
               </p>
             </div>
             <div className="rounded-2xl border bg-background p-8">

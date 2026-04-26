@@ -92,6 +92,18 @@ export interface BigMoversConfig {
   movers: BigMover[];
 }
 
+export interface WeeklyAction {
+  category: string;
+  title: string;
+  description: string;
+}
+
+export interface WeeklyActionsConfig {
+  headline: string;
+  subheadline?: string;
+  actions: WeeklyAction[];
+}
+
 export interface FooterCtaConfig {
   headline: string;
   subheadline: string;
@@ -121,6 +133,7 @@ export interface LandingConfig {
   hero: HeroConfig;
   valueProp?: ValuePropConfig;
   bigMovers?: BigMoversConfig;
+  weeklyActions?: WeeklyActionsConfig;
   howItWorks?: HowItWorksConfig;
   features: FeatureConfig[] | FeaturesSection;
   comparison?: ComparisonConfig;

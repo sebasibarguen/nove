@@ -6,7 +6,7 @@
     "description": "Keep wearing your Garmin. Get a complete picture of your health every morning — recovery, strain, and sleep, turned into action."
   },
   "hero": {
-    "headline": "Keep wearing your Garmin. Add years of healthspan.",
+    "headline": "Add years of healthspan, while using your Garmin.",
     "subheadline": "A 360° healthspan picture from the Garmin you already wear — recovery, strain, sleep, HRV, and the trends that move the years you live healthy.",
     "ctaText": "Get early access",
     "ctaHref": "#registro",
@@ -92,8 +92,29 @@
       },
       {
         "icon": "MessageCircle",
-        "title": "Ask anything about your data",
-        "description": "An AI agent specialized for health records, with access to your Pulse and Garmin data. 'Why was my recovery low yesterday?' 'Compare my HRV last 90 days.' Plain-language answers grounded in your numbers."
+        "title": "AI coach for healthspan",
+        "description": "Specialized for health records, grounded in your Pulse and Garmin data. Ask anything — and every week, get 1–3 personalized actions based on what your numbers actually show."
+      }
+    ]
+  },
+  "weeklyActions": {
+    "headline": "Personalized actions, every week.",
+    "subheadline": "Pulse doesn't stop at showing the data. The AI coach reads your trends and tells you exactly what to focus on this week — grounded in your numbers, not generic advice.",
+    "actions": [
+      {
+        "category": "Strength",
+        "title": "Add 1 strength session this week",
+        "description": "You averaged 1.5 strength sessions/week over the last month. Bumping to 2.5 hits the threshold where the largest healthspan benefits start — and your recovery has the headroom for it."
+      },
+      {
+        "category": "Sleep",
+        "title": "Aim for an 11:00 pm lights-out",
+        "description": "Your bedtime drifted from 10:45 pm to 11:45 pm over the last 3 weeks, and sleep duration dropped from 7h 0m to 6h 15m. A 45-minute earlier wind-down would close most of that gap."
+      },
+      {
+        "category": "Recovery",
+        "title": "Move tomorrow's threshold session to Zone 2",
+        "description": "Your HRV is trending 12% below your 30-day baseline this week. Today's strain target reflects that — swap tomorrow's planned threshold workout for an aerobic session and let the system absorb."
       }
     ]
   },

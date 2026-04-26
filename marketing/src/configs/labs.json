@@ -31,8 +31,8 @@
       },
       {
         "icon": "MessageCircle",
-        "title": "Ask the AI agent anything",
-        "description": "An AI agent specialized for health records, grounded in your panels. 'Why is my LDL elevated?' 'Compare my last three panels.' 'What should I focus on next?' Plain-language answers, your numbers."
+        "title": "AI coach grounded in your panels",
+        "description": "An AI agent specialized for health records — ask 'why is my LDL elevated?', compare panels, dig into trends. After each new panel, the coach tells you what specifically to focus on for the next quarter."
       }
     ]
   },
