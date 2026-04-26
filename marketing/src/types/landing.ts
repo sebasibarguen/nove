@@ -100,6 +100,7 @@ export interface LandingConfig {
   features: FeatureConfig[] | FeaturesSection;
   comparison?: ComparisonConfig;
   socialProof: SocialProofConfig;
+  timeline?: HowItWorksConfig;
   faq?: FAQConfig;
   footerCta: FooterCtaConfig;
 }

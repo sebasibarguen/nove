@@ -113,6 +113,27 @@
       }
     ]
   },
+  "timeline": {
+    "headline": "What to expect in your first weeks",
+    "steps": [
+      {
+        "title": "Day 1 — Connect and see your last 30 days",
+        "description": "One-tap Garmin OAuth and Pulse imports a month of recovery, strain, and sleep history. The app is useful from the first morning, not after a waiting period."
+      },
+      {
+        "title": "Days 2–7 — The morning check-in becomes routine",
+        "description": "Pulse syncs nightly. You start spotting the pattern between your strain target and how you feel the next day. Sleep debt and Body Battery drift become visible signals, not background noise."
+      },
+      {
+        "title": "Week 2 — Pulse learns your personal baseline",
+        "description": "HRV varies a lot person-to-person, so 'recovered' has to be defined relative to your normal — not a population average. Pulse begins building your baseline so the recovery score reflects your body, not a generic curve."
+      },
+      {
+        "title": "Week 3 and beyond — Your recovery score sharpens",
+        "description": "Once your baseline locks in, daily recovery becomes a meaningful signal: a green day really is a push day, a red day really is a back-off day. The longer you wear your Garmin, the smarter Pulse gets."
+      }
+    ]
+  },
   "faq": {
     "headline": "Frequently asked questions",
     "items": [
