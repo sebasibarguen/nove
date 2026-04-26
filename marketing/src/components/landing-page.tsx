@@ -14,16 +14,18 @@ import { FooterCta } from "@/components/sections/footer-cta";
 
 export function LandingPage({ config }: { config: LandingConfig }) {
   return (
-    <main className="mx-auto max-w-6xl">
+    <main>
       <Hero config={config.hero} />
-      <Features config={config.features} />
-      {config.howItWorks && <HowItWorks config={config.howItWorks} />}
-      {config.comparison && <Comparison config={config.comparison} />}
-      <SocialProof config={config.socialProof} />
-      {config.timeline && <Timeline config={config.timeline} />}
-      {config.faq && <FAQ config={config.faq} />}
-      <LeadForm slug={config.slug} ctaText={config.footerCta.ctaText} lang={config.lang} />
-      <FooterCta config={config.footerCta} />
+      <div className="mx-auto max-w-6xl">
+        <Features config={config.features} />
+        {config.howItWorks && <HowItWorks config={config.howItWorks} />}
+        {config.comparison && <Comparison config={config.comparison} />}
+        <SocialProof config={config.socialProof} />
+        {config.timeline && <Timeline config={config.timeline} />}
+        {config.faq && <FAQ config={config.faq} />}
+        <LeadForm slug={config.slug} ctaText={config.footerCta.ctaText} lang={config.lang} />
+        <FooterCta config={config.footerCta} />
+      </div>
     </main>
   );
 }
