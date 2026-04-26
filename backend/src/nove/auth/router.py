@@ -43,12 +43,24 @@ GOOGLE_SCOPES = " ".join([
 
 
 @router.get("/google/url", response_model=GoogleAuthUrlResponse)
-async def google_auth_url() -> GoogleAuthUrlResponse:
-    """Generate Google OAuth consent URL."""
-    state = secrets.token_urlsafe(32)
+async def google_auth_url(return_to: str | None = None) -> GoogleAuthUrlResponse:
+    """Generate Google OAuth consent URL.
+
+    `return_to` is echoed back via the state parameter so the frontend callback
+    can route the user to the right brand. It also controls which redirect_uri
+    is used so the callback runs on the correct origin (preserving localStorage
+    token scope per subdomain).
+    """
+    nonce = secrets.token_urlsafe(32)
+    state = f"{nonce}:{return_to}" if return_to else nonce
+
+    redirect_uri = settings.google_redirect_uri
+    if return_to == "pulse" and settings.pulse_google_redirect_uri:
+        redirect_uri = settings.pulse_google_redirect_uri
+
     params = {
         "client_id": settings.google_client_id,
-        "redirect_uri": settings.google_redirect_uri,
+        "redirect_uri": redirect_uri,
         "response_type": "code",
         "scope": GOOGLE_SCOPES,
         "access_type": "offline",
@@ -62,7 +74,15 @@ async def google_auth_url() -> GoogleAuthUrlResponse:
 @router.post("/google/callback", response_model=TokenResponse)
 async def google_callback(body: GoogleCallbackRequest, db: DB) -> TokenResponse:
     """Exchange Google authorization code for tokens and create/login user."""
-    # Exchange code for Google tokens
+    # Google requires the redirect_uri in the token exchange to match the one used
+    # in the initial auth request. We encoded the brand into state (<nonce>:<brand>)
+    # and pick the matching redirect_uri here.
+    redirect_uri = settings.google_redirect_uri
+    if body.state and ":" in body.state:
+        _, return_to = body.state.split(":", 1)
+        if return_to == "pulse" and settings.pulse_google_redirect_uri:
+            redirect_uri = settings.pulse_google_redirect_uri
+
     async with httpx.AsyncClient() as client:
         token_resp = await client.post(
             GOOGLE_TOKEN_URL,
@@ -70,7 +90,7 @@ async def google_callback(body: GoogleCallbackRequest, db: DB) -> TokenResponse:
                 "code": body.code,
                 "client_id": settings.google_client_id,
                 "client_secret": settings.google_client_secret,
-                "redirect_uri": settings.google_redirect_uri,
+                "redirect_uri": redirect_uri,
                 "grant_type": "authorization_code",
             },
         )

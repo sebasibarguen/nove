@@ -19,10 +19,12 @@ class Settings(BaseSettings):
     app_name: str = "Nove"
     debug: bool = False
     api_v1_prefix: str = "/api/v1"
-    cors_origins: str = "http://localhost:3000,http://localhost:3001"
+    cors_origins: str = (
+        "http://localhost:3000,http://localhost:3001,http://pulse.localhost:3000"
+    )
 
     # Database
-    database_url: str = "postgresql+asyncpg://nove:nove@localhost:5432/nove"
+    database_url: str = "postgresql+asyncpg://nove:nove@localhost:5433/nove"
 
     # Auth
     jwt_secret_key: str = "CHANGE-ME-IN-PRODUCTION"
@@ -34,6 +36,9 @@ class Settings(BaseSettings):
     google_client_id: str = ""
     google_client_secret: str = ""
     google_redirect_uri: str = "http://localhost:3000/auth/google/callback"
+    # Pulse subdomain callback. Must be registered as an additional redirect URI in Google Console
+    # alongside google_redirect_uri. Empty string falls back to google_redirect_uri.
+    pulse_google_redirect_uri: str = "http://pulse.localhost:3000/auth/google/callback"
 
     # Anthropic
     anthropic_api_key: str = ""
