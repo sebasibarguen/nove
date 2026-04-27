@@ -22,7 +22,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Cargando...</p>
+        <p className="text-muted-foreground">Loading…</p>
       </div>
     );
   }
@@ -32,11 +32,11 @@ export default function Home() {
       <div className="text-center">
         <h1 className="text-4xl font-bold">Nove</h1>
         <p className="mt-2 text-muted-foreground">
-          Tu coach de salud con inteligencia artificial
+          Your AI-powered health coach
         </p>
       </div>
       <Button asChild>
-        <Link href="/login">Comenzar con Google</Link>
+        <Link href="/login">Get started with Google</Link>
       </Button>
     </div>
   );

@@ -62,7 +62,7 @@ export default function ChatPage() {
   if (authLoading || loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Cargando...</p>
+        <p className="text-muted-foreground">Loading…</p>
       </div>
     );
   }
@@ -70,13 +70,13 @@ export default function ChatPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Conversaciones</h1>
-        <Button onClick={createConversation}>Nueva conversacion</Button>
+        <h1 className="text-2xl font-bold">Conversations</h1>
+        <Button onClick={createConversation}>New conversation</Button>
       </div>
 
       {conversations.length === 0 ? (
         <p className="text-center text-muted-foreground">
-          No tienes conversaciones aun. Inicia una nueva para hablar con tu
+          You have no conversations yet. Start a new one to talk with your
           coach.
         </p>
       ) : (
@@ -89,10 +89,10 @@ export default function ChatPage() {
             >
               <CardHeader className="py-4">
                 <CardTitle className="text-base">
-                  {conv.title || "Nueva conversacion"}
+                  {conv.title || "New conversation"}
                 </CardTitle>
                 <CardDescription>
-                  {new Date(conv.updated_at).toLocaleDateString("es-GT", {
+                  {new Date(conv.updated_at).toLocaleDateString("en-US", {
                     day: "numeric",
                     month: "short",
                     hour: "2-digit",

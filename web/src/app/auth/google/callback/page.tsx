@@ -14,7 +14,7 @@ function CallbackHandler() {
   const { refreshUser } = useAuth();
   const code = searchParams.get("code");
   const state = searchParams.get("state");
-  const [error, setError] = useState(code ? "" : "Codigo de autorizacion faltante");
+  const [error, setError] = useState(code ? "" : "Authorization code missing");
 
   useEffect(() => {
     if (!code) return;
@@ -33,7 +33,7 @@ function CallbackHandler() {
 
         if (!resp.ok) {
           const data = await resp.json().catch(() => ({ detail: "Error" }));
-          setError(data.detail || "Error al autenticar con Google");
+          setError(data.detail || "Could not sign in with Google");
           return;
         }
 
@@ -52,7 +52,7 @@ function CallbackHandler() {
           router.replace("/dashboard");
         }
       } catch {
-        setError("Error de conexion");
+        setError("Connection error");
       }
     })();
   }, [code, state, router, refreshUser]);
@@ -66,7 +66,7 @@ function CallbackHandler() {
             onClick={() => router.push("/login")}
             className="text-sm underline"
           >
-            Volver a inicio de sesion
+            Back to sign in
           </button>
         </div>
       </div>
@@ -75,7 +75,7 @@ function CallbackHandler() {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <p className="text-muted-foreground">Autenticando con Google...</p>
+      <p className="text-muted-foreground">Signing in with Google…</p>
     </div>
   );
 }
@@ -85,7 +85,7 @@ export default function GoogleCallbackPage() {
     <Suspense
       fallback={
         <div className="flex min-h-screen items-center justify-center">
-          <p className="text-muted-foreground">Cargando...</p>
+          <p className="text-muted-foreground">Loading…</p>
         </div>
       }
     >

@@ -107,7 +107,7 @@ function SetupChecklist({
     const file = fileRef.current?.files?.[0];
     if (!file) return;
     if (!file.name.toLowerCase().endsWith(".pdf")) {
-      setUploadError("Solo se aceptan archivos PDF");
+      setUploadError("Only PDF files are supported");
       return;
     }
     setUploading(true);
@@ -122,13 +122,13 @@ function SetupChecklist({
       });
       if (!resp.ok) {
         const data = await resp.json().catch(() => ({ detail: "Error" }));
-        setUploadError(data.detail || "Error al subir archivo");
+        setUploadError(data.detail || "Upload failed");
         return;
       }
       if (fileRef.current) fileRef.current.value = "";
       onUploadComplete();
     } catch {
-      setUploadError("Error al subir archivo");
+      setUploadError("Upload failed");
     } finally {
       setUploading(false);
     }
@@ -148,16 +148,15 @@ function SetupChecklist({
 
   return (
     <div className="space-y-3">
-      <h2 className="text-lg font-semibold">Completa tu perfil de salud</h2>
+      <h2 className="text-lg font-semibold">Finish setting up your profile</h2>
 
       {/* Lab results upload */}
       {!has_lab_results && (
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Resultados de laboratorio</CardTitle>
+            <CardTitle className="text-sm">Lab results</CardTitle>
             <CardDescription>
-              Sube tus PDFs de laboratorio para crear tu historial y ver tus
-              biomarcadores
+              Upload your lab PDFs to build a history and see your biomarkers.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -176,7 +175,7 @@ function SetupChecklist({
                 disabled={uploading}
                 onClick={handleUpload}
               >
-                {uploading ? "Subiendo..." : "Subir PDF"}
+                {uploading ? "Uploading…" : "Upload PDF"}
               </Button>
             </div>
             {gmail_available && (
@@ -188,12 +187,12 @@ function SetupChecklist({
                 className="w-full"
               >
                 {importing
-                  ? "Buscando en Gmail..."
-                  : "Buscar resultados en Gmail automaticamente"}
+                  ? "Searching Gmail…"
+                  : "Find results in Gmail automatically"}
               </Button>
             )}
             <Link href="/labs" className="text-muted-foreground block text-xs hover:underline">
-              O ve a Laboratorios para mas opciones
+              Or open Labs for more options
             </Link>
           </CardContent>
         </Card>
@@ -204,15 +203,14 @@ function SetupChecklist({
         <Link href="/garmin">
           <Card className="cursor-pointer transition-colors hover:bg-accent/50">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Conecta tu Garmin</CardTitle>
+              <CardTitle className="text-sm">Connect your Garmin</CardTitle>
               <CardDescription>
-                Sincroniza tus datos de actividad, sueno y estres para ver tus
-                metricas diarias
+                Sync your activity, sleep, and stress data to see your daily metrics.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Button size="sm" variant="outline">
-                Conectar Garmin
+                Connect Garmin
               </Button>
             </CardContent>
           </Card>
@@ -270,7 +268,7 @@ export default function DashboardPage() {
   if (loading || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Cargando...</p>
+        <p className="text-muted-foreground">Loading…</p>
       </div>
     );
   }
@@ -280,8 +278,8 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Hola, {user.full_name}</h1>
-          <p className="text-muted-foreground">Tu salud de un vistazo</p>
+          <h1 className="text-2xl font-bold">Hi, {user.full_name}</h1>
+          <p className="text-muted-foreground">Your health at a glance</p>
         </div>
         <Button
           variant="outline"
@@ -290,13 +288,13 @@ export default function DashboardPage() {
             router.push("/");
           }}
         >
-          Cerrar sesion
+          Sign out
         </Button>
       </div>
 
       {error && (
         <p className="text-destructive mb-4 text-sm">
-          No se pudo cargar el dashboard. Intenta de nuevo.
+          Couldn&apos;t load the dashboard. Try again.
         </p>
       )}
 
@@ -368,6 +366,11 @@ export default function DashboardPage() {
                 Coach
               </Button>
             </Link>
+            <Link href="/training">
+              <Button variant="ghost" size="sm">
+                Training
+              </Button>
+            </Link>
             <Link href="/garmin">
               <Button variant="ghost" size="sm">
                 Garmin
@@ -380,7 +383,7 @@ export default function DashboardPage() {
             </Link>
             <Link href="/activity">
               <Button variant="ghost" size="sm">
-                Actividad
+                Activity
               </Button>
             </Link>
           </div>
@@ -389,7 +392,7 @@ export default function DashboardPage() {
 
       {!snapshot && !error && (
         <div className="flex justify-center py-12">
-          <p className="text-muted-foreground">Cargando dashboard...</p>
+          <p className="text-muted-foreground">Loading dashboard…</p>
         </div>
       )}
     </div>

@@ -89,7 +89,7 @@ function DataCard({ type, points }: { type: string; points: DataPoint[] }) {
       <Card>
         <CardHeader>
           <CardTitle className="capitalize">{type}</CardTitle>
-          <CardDescription>Sin datos</CardDescription>
+          <CardDescription>No data</CardDescription>
         </CardHeader>
       </Card>
     );
@@ -100,7 +100,7 @@ function DataCard({ type, points }: { type: string; points: DataPoint[] }) {
       <CardHeader>
         <CardTitle className="capitalize">{type}</CardTitle>
         <CardDescription>
-          {points.length} punto{points.length !== 1 && "s"} — ultimos 7 dias
+          {points.length} point{points.length !== 1 && "s"} — last 7 days
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -133,7 +133,7 @@ function DataCard({ type, points }: { type: string; points: DataPoint[] }) {
           size="sm"
           onClick={() => setExpanded(!expanded)}
         >
-          {expanded ? "Ocultar JSON" : "Ver JSON crudo"}
+          {expanded ? "Hide JSON" : "View raw JSON"}
         </Button>
       </CardContent>
     </Card>
@@ -188,7 +188,7 @@ export default function GarminPage() {
       );
       window.location.href = url;
     } catch {
-      setError("Error al generar URL de conexion");
+      setError("Could not generate connection URL");
       setConnecting(false);
     }
   }
@@ -210,7 +210,7 @@ export default function GarminPage() {
       });
       setBackfillResult(result);
     } catch {
-      setError("Error al solicitar datos historicos");
+      setError("Could not request historical data");
     } finally {
       setBackfilling(false);
     }
@@ -219,7 +219,7 @@ export default function GarminPage() {
   if (loading || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Cargando...</p>
+        <p className="text-muted-foreground">Loading…</p>
       </div>
     );
   }
@@ -231,12 +231,12 @@ export default function GarminPage() {
           <h1 className="text-2xl font-bold">Garmin</h1>
           <p className="text-muted-foreground">
             {connection?.connected
-              ? "Conectado — los datos se actualizan automaticamente"
-              : "Conecta tu dispositivo Garmin"}
+              ? "Connected — data updates automatically"
+              : "Connect your Garmin device"}
           </p>
         </div>
         <Button variant="outline" onClick={() => router.push("/dashboard")}>
-          Volver
+          Back
         </Button>
       </div>
 
@@ -249,15 +249,15 @@ export default function GarminPage() {
       {!connection?.connected ? (
         <Card>
           <CardHeader>
-            <CardTitle>Conectar Garmin</CardTitle>
+            <CardTitle>Connect Garmin</CardTitle>
             <CardDescription>
-              Autoriza el acceso a tus datos de salud de Garmin Connect.
-              Los datos se reciben automaticamente cuando Garmin los envia.
+              Authorize access to your Garmin Connect health data.
+              Data is received automatically when Garmin sends it.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Button onClick={handleConnect} disabled={connecting}>
-              {connecting ? "Redirigiendo..." : "Conectar con Garmin"}
+              {connecting ? "Redirecting…" : "Connect with Garmin"}
             </Button>
           </CardContent>
         </Card>
@@ -265,29 +265,29 @@ export default function GarminPage() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Conexion activa</CardTitle>
+              <CardTitle>Active connection</CardTitle>
               <CardDescription>
-                ID: {connection.garmin_user_id} — Conectado desde{" "}
-                {new Date(connection.created_at).toLocaleDateString("es-GT")}
+                ID: {connection.garmin_user_id} — Connected since{" "}
+                {new Date(connection.created_at).toLocaleDateString("en-US")}
                 {connection.last_sync_at && (
                   <>
-                    {" "}— Ultima actualizacion:{" "}
-                    {new Date(connection.last_sync_at).toLocaleString("es-GT")}
+                    {" "}— Last update:{" "}
+                    {new Date(connection.last_sync_at).toLocaleString("en-US")}
                   </>
                 )}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               <p className="text-sm text-muted-foreground">
-                Garmin envia tus datos automaticamente. Si necesitas datos
-                historicos, solicita un backfill.
+                Garmin sends your data automatically. If you need historical
+                data, request a backfill.
               </p>
               <div className="flex gap-3">
                 <Button onClick={handleBackfill} disabled={backfilling}>
-                  {backfilling ? "Solicitando..." : "Solicitar datos historicos"}
+                  {backfilling ? "Requesting…" : "Request historical data"}
                 </Button>
                 <Button variant="outline" onClick={handleDisconnect}>
-                  Desconectar
+                  Disconnect
                 </Button>
               </div>
             </CardContent>
@@ -296,16 +296,16 @@ export default function GarminPage() {
           {backfillResult && (
             <Card>
               <CardHeader>
-                <CardTitle>Backfill solicitado</CardTitle>
+                <CardTitle>Backfill requested</CardTitle>
                 <CardDescription>
-                  {backfillResult.successful}/{backfillResult.total} tipos
-                  solicitados correctamente. Los datos llegaran en los proximos
-                  minutos via webhook.
+                  {backfillResult.successful}/{backfillResult.total} types
+                  requested successfully. Data will arrive in the next few
+                  minutes via webhook.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  Tipos: {backfillResult.requested_types.join(", ")}
+                  Types: {backfillResult.requested_types.join(", ")}
                 </p>
               </CardContent>
             </Card>

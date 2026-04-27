@@ -1,5 +1,5 @@
 // ABOUTME: Individual conversation page with message thread and streaming input.
-// ABOUTME: Sends messages to backend SSE endpoint and renders streamed responses.
+// ABOUTME: Parses JSON SSE events including tool status/results and renders streamed responses.
 
 "use client";
 
@@ -19,6 +19,11 @@ interface Message {
   created_at: string;
 }
 
+interface ToolEvent {
+  tool: string;
+  summary: string;
+}
+
 export default function ConversationPage() {
   const params = useParams<{ id: string }>();
   const { user, loading: authLoading } = useAuth();
@@ -27,6 +32,8 @@ export default function ConversationPage() {
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [streamingContent, setStreamingContent] = useState("");
+  const [toolStatus, setToolStatus] = useState<string | null>(null);
+  const [toolResults, setToolResults] = useState<ToolEvent[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = useCallback(() => {
@@ -47,7 +54,7 @@ export default function ConversationPage() {
     }
   }, [user, authLoading, router, params.id]);
 
-  useEffect(scrollToBottom, [messages, streamingContent, scrollToBottom]);
+  useEffect(scrollToBottom, [messages, streamingContent, toolStatus, scrollToBottom]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -57,6 +64,8 @@ export default function ConversationPage() {
     setInput("");
     setStreaming(true);
     setStreamingContent("");
+    setToolStatus(null);
+    setToolResults([]);
 
     // Optimistically add user message
     const tempUserMsg: Message = {
@@ -88,6 +97,7 @@ export default function ConversationPage() {
       const reader = resp.body.getReader();
       const decoder = new TextDecoder();
       let assistantContent = "";
+      const completedTools: ToolEvent[] = [];
 
       while (true) {
         const { done, value } = await reader.read();
@@ -100,8 +110,29 @@ export default function ConversationPage() {
           if (line.startsWith("data: ")) {
             const data = line.slice(6);
             if (data === "[DONE]") continue;
-            assistantContent += data;
-            setStreamingContent(assistantContent);
+
+            try {
+              const event = JSON.parse(data);
+
+              if (event.type === "text") {
+                assistantContent += event.content;
+                setStreamingContent(assistantContent);
+                setToolStatus(null);
+              } else if (event.type === "tool_status") {
+                setToolStatus(event.tool);
+              } else if (event.type === "tool_result") {
+                setToolStatus(null);
+                completedTools.push({
+                  tool: event.tool,
+                  summary: event.summary,
+                });
+                setToolResults([...completedTools]);
+              }
+            } catch {
+              // Fallback for any non-JSON data
+              assistantContent += data;
+              setStreamingContent(assistantContent);
+            }
           }
         }
       }
@@ -115,6 +146,7 @@ export default function ConversationPage() {
       };
       setMessages((prev) => [...prev, assistantMsg]);
       setStreamingContent("");
+      setToolStatus(null);
     } catch {
       // On error, still clear streaming state
     } finally {
@@ -125,7 +157,7 @@ export default function ConversationPage() {
   if (authLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Cargando...</p>
+        <p className="text-muted-foreground">Loading…</p>
       </div>
     );
   }
@@ -136,7 +168,7 @@ export default function ConversationPage() {
       <div className="border-b px-4 py-3">
         <div className="mx-auto flex max-w-3xl items-center gap-4">
           <Button variant="ghost" size="sm" asChild>
-            <Link href="/chat">&larr; Conversaciones</Link>
+            <Link href="/chat">&larr; Conversations</Link>
           </Button>
           <span className="text-sm text-muted-foreground">Nove Coach</span>
         </div>
@@ -162,6 +194,37 @@ export default function ConversationPage() {
             </div>
           ))}
 
+          {/* Tool result cards */}
+          {toolResults.map((tr, i) => (
+            <div key={`tool-${i}`} className="flex justify-start">
+              <div className="max-w-[80%] rounded-2xl border border-border bg-card px-4 py-2">
+                <p className="text-xs font-medium text-muted-foreground">
+                  {toolDisplayName(tr.tool)}
+                </p>
+                <p className="text-sm">{tr.summary}</p>
+                {tr.tool === "create_training_plan" && (
+                  <Link
+                    href="/training"
+                    className="mt-1 inline-block text-xs text-primary hover:underline"
+                  >
+                    View plan &rarr;
+                  </Link>
+                )}
+              </div>
+            </div>
+          ))}
+
+          {/* Tool status indicator */}
+          {streaming && toolStatus && (
+            <div className="flex justify-start">
+              <div className="rounded-2xl bg-muted px-4 py-2">
+                <p className="text-sm text-muted-foreground">
+                  {toolStatusMessage(toolStatus)}
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Streaming assistant message */}
           {streaming && streamingContent && (
             <div className="flex justify-start">
@@ -174,10 +237,10 @@ export default function ConversationPage() {
           )}
 
           {/* Typing indicator */}
-          {streaming && !streamingContent && (
+          {streaming && !streamingContent && !toolStatus && (
             <div className="flex justify-start">
               <div className="rounded-2xl bg-muted px-4 py-2">
-                <p className="text-sm text-muted-foreground">Escribiendo...</p>
+                <p className="text-sm text-muted-foreground">Typing…</p>
               </div>
             </div>
           )}
@@ -193,15 +256,35 @@ export default function ConversationPage() {
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Escribe tu mensaje..."
+            placeholder="Type your message…"
             disabled={streaming}
             autoFocus
           />
           <Button type="submit" disabled={streaming || !input.trim()}>
-            Enviar
+            Send
           </Button>
         </form>
       </div>
     </div>
   );
+}
+
+function toolDisplayName(tool: string): string {
+  const names: Record<string, string> = {
+    save_fitness_profile: "Fitness profile",
+    create_training_plan: "Training plan",
+    log_workout: "Workout log",
+    schedule_workout: "Workout scheduled",
+  };
+  return names[tool] || tool;
+}
+
+function toolStatusMessage(tool: string): string {
+  const messages: Record<string, string> = {
+    save_fitness_profile: "Saving profile…",
+    create_training_plan: "Creating training plan…",
+    log_workout: "Logging feedback…",
+    schedule_workout: "Scheduling workout…",
+  };
+  return messages[tool] || "Processing…";
 }

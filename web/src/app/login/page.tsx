@@ -43,7 +43,7 @@ export default function LoginPage() {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Nove</CardTitle>
           <CardDescription>
-            Tu coach de salud con inteligencia artificial
+            Your AI-powered health coach
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -52,7 +52,7 @@ export default function LoginPage() {
             onClick={handleGoogleLogin}
             disabled={loading}
           >
-            {loading ? "Redirigiendo..." : "Continuar con Google"}
+            {loading ? "Redirecting…" : "Continue with Google"}
           </Button>
         </CardContent>
       </Card>

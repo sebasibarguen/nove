@@ -67,7 +67,7 @@ export default function ResultDetailPage() {
   if (authLoading || loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Cargando...</p>
+        <p className="text-muted-foreground">Loading…</p>
       </div>
     );
   }
@@ -75,7 +75,7 @@ export default function ResultDetailPage() {
   if (!result) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Resultado no encontrado</p>
+        <p className="text-muted-foreground">Result not found</p>
       </div>
     );
   }
@@ -83,9 +83,9 @@ export default function ResultDetailPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Resultado de Laboratorio</h1>
+        <h1 className="text-2xl font-bold">Lab Result</h1>
         <Button variant="outline" asChild>
-          <Link href="/labs">&larr; Laboratorios</Link>
+          <Link href="/labs">&larr; Labs</Link>
         </Button>
       </div>
 
@@ -93,7 +93,7 @@ export default function ResultDetailPage() {
       {result.ai_summary && (
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle className="text-base">Resumen</CardTitle>
+            <CardTitle className="text-base">Summary</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm leading-relaxed">{result.ai_summary}</p>
@@ -104,20 +104,20 @@ export default function ResultDetailPage() {
       {/* Meta info */}
       <div className="mb-6 flex gap-4 text-sm text-muted-foreground">
         <span>
-          Fecha: {new Date(result.created_at).toLocaleDateString("es-GT")}
+          Date: {new Date(result.created_at).toLocaleDateString("en-US")}
         </span>
         {result.confidence_score !== null && (
           <span>
-            Confianza: {(result.confidence_score * 100).toFixed(0)}%
+            Confidence: {(result.confidence_score * 100).toFixed(0)}%
           </span>
         )}
-        {result.reviewed_by && <span>Revisado por: {result.reviewed_by}</span>}
+        {result.reviewed_by && <span>Reviewed by: {result.reviewed_by}</span>}
       </div>
 
       {/* Biomarker Values */}
       {result.biomarker_values.length === 0 ? (
         <p className="text-muted-foreground">
-          Los biomarcadores estan siendo procesados...
+          Biomarkers are being processed…
         </p>
       ) : (
         <div className="space-y-3">
@@ -143,15 +143,15 @@ export default function ResultDetailPage() {
                       {bm.status === "normal"
                         ? "Normal"
                         : bm.status === "borderline"
-                          ? "Limite"
-                          : "Fuera de rango"}
+                          ? "Borderline"
+                          : "Out of range"}
                     </span>
                   </div>
                 </div>
                 {(bm.reference_range_low !== null ||
                   bm.reference_range_high !== null) && (
                   <p className="mt-1 text-xs text-muted-foreground">
-                    Rango referencia: {bm.reference_range_low ?? "—"} -{" "}
+                    Reference range: {bm.reference_range_low ?? "—"} -{" "}
                     {bm.reference_range_high ?? "—"} {bm.unit}
                   </p>
                 )}

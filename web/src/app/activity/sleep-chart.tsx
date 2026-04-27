@@ -26,7 +26,7 @@ function toHours(seconds: unknown): number {
 export function SleepChart({ data }: { data: DataPoint[] }) {
   const chartData = data
     .map((d) => ({
-      date: new Date(d.date).toLocaleDateString("es-GT", {
+      date: new Date(d.date).toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
       }),
@@ -45,9 +45,9 @@ export function SleepChart({ data }: { data: DataPoint[] }) {
           formatter={(value, name) => [
             `${value}h`,
             name === "deep"
-              ? "Profundo"
+              ? "Deep"
               : name === "light"
-                ? "Ligero"
+                ? "Light"
                 : "REM",
           ]}
         />

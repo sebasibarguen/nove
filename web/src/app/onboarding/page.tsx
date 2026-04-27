@@ -27,20 +27,20 @@ import {
 } from "@/components/ui/select";
 
 const HEALTH_GOALS = [
-  "Mejorar energia",
-  "Perder peso",
-  "Ganar musculo",
-  "Mejorar sueno",
-  "Reducir estres",
-  "Optimizar rendimiento",
-  "Monitorear biomarcadores",
-  "Mejorar alimentacion",
+  "Boost energy",
+  "Lose weight",
+  "Build muscle",
+  "Improve sleep",
+  "Reduce stress",
+  "Optimize performance",
+  "Track biomarkers",
+  "Improve nutrition",
 ];
 
-function parseDDMMYYYY(input: string): string | null {
+function parseMMDDYYYY(input: string): string | null {
   const match = input.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
   if (!match) return null;
-  const [, dd, mm, yyyy] = match;
+  const [, mm, dd, yyyy] = match;
   const d = new Date(`${yyyy}-${mm}-${dd}T00:00:00`);
   if (isNaN(d.getTime())) return null;
   return d.toISOString();
@@ -76,8 +76,8 @@ export default function OnboardingPage() {
     e.preventDefault();
     setError("");
 
-    if (dateOfBirth && !parseDDMMYYYY(dateOfBirth)) {
-      setError("Formato de fecha invalido. Use DD/MM/AAAA");
+    if (dateOfBirth && !parseMMDDYYYY(dateOfBirth)) {
+      setError("Invalid date format. Use MM/DD/YYYY");
       return;
     }
 
@@ -92,7 +92,7 @@ export default function OnboardingPage() {
       await api("/users/me", {
         method: "PATCH",
         body: JSON.stringify({
-          date_of_birth: dateOfBirth ? parseDDMMYYYY(dateOfBirth) : undefined,
+          date_of_birth: dateOfBirth ? parseMMDDYYYY(dateOfBirth) : undefined,
           sex: sex || undefined,
           weight_kg: weightKg,
           height_cm: heightCm ? parseFloat(heightCm) : undefined,
@@ -106,7 +106,7 @@ export default function OnboardingPage() {
       if (err instanceof ApiError) {
         setError(err.message);
       } else {
-        setError("Ocurrio un error inesperado");
+        setError("An unexpected error occurred");
       }
     } finally {
       setSubmitting(false);
@@ -116,7 +116,7 @@ export default function OnboardingPage() {
   if (loading || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Cargando...</p>
+        <p className="text-muted-foreground">Loading…</p>
       </div>
     );
   }
@@ -125,9 +125,9 @@ export default function OnboardingPage() {
     <div className="flex min-h-screen items-center justify-center px-4 py-12">
       <Card className="w-full max-w-lg">
         <CardHeader>
-          <CardTitle>Completa tu perfil</CardTitle>
+          <CardTitle>Complete your profile</CardTitle>
           <CardDescription>
-            Esta informacion nos ayuda a personalizar tu experiencia de salud
+            This information helps us personalize your health experience
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
@@ -135,11 +135,11 @@ export default function OnboardingPage() {
             {error && <p className="text-sm text-destructive">{error}</p>}
 
             <div className="space-y-2">
-              <Label htmlFor="dob">Fecha de nacimiento</Label>
+              <Label htmlFor="dob">Date of birth</Label>
               <Input
                 id="dob"
                 type="text"
-                placeholder="DD/MM/AAAA"
+                placeholder="MM/DD/YYYY"
                 maxLength={10}
                 value={dateOfBirth}
                 onChange={(e) => {
@@ -156,21 +156,21 @@ export default function OnboardingPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Sexo</Label>
+              <Label>Sex</Label>
               <Select value={sex} onValueChange={setSex}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar" />
+                  <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="male">Masculino</SelectItem>
-                  <SelectItem value="female">Femenino</SelectItem>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="weight">Peso</Label>
+                <Label htmlFor="weight">Weight</Label>
                 <div className="flex gap-2">
                   <Input
                     id="weight"
@@ -195,7 +195,7 @@ export default function OnboardingPage() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="height">Altura (cm)</Label>
+                <Label htmlFor="height">Height (cm)</Label>
                 <Input
                   id="height"
                   type="number"
@@ -207,7 +207,7 @@ export default function OnboardingPage() {
             </div>
 
             <div className="space-y-2">
-              <Label>Metas de salud</Label>
+              <Label>Health goals</Label>
               <div className="flex flex-wrap gap-2">
                 {HEALTH_GOALS.map((goal) => (
                   <Button
@@ -227,7 +227,7 @@ export default function OnboardingPage() {
           </CardContent>
           <CardFooter>
             <Button type="submit" className="w-full" disabled={submitting}>
-              {submitting ? "Guardando..." : "Continuar"}
+              {submitting ? "Saving…" : "Continue"}
             </Button>
           </CardFooter>
         </form>

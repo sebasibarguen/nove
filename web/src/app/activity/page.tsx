@@ -94,7 +94,7 @@ export default function ActivityPage() {
   if (loading || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Cargando...</p>
+        <p className="text-muted-foreground">Loading…</p>
       </div>
     );
   }
@@ -103,30 +103,30 @@ export default function ActivityPage() {
     <div className="mx-auto max-w-4xl px-4 py-12">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Actividad</h1>
+          <h1 className="text-2xl font-bold">Activity</h1>
           <p className="text-muted-foreground">
             {connection?.connected
-              ? "Datos de tu Garmin"
-              : "Conecta tu dispositivo Garmin"}
+              ? "Data from your Garmin"
+              : "Connect your Garmin device"}
           </p>
         </div>
         <Button variant="outline" onClick={() => router.push("/dashboard")}>
-          Volver
+          Back
         </Button>
       </div>
 
       {!connection?.connected ? (
         <Card>
           <CardHeader>
-            <CardTitle>Conectar Garmin</CardTitle>
+            <CardTitle>Connect Garmin</CardTitle>
             <CardDescription>
-              Conecta tu reloj Garmin para ver tus datos de actividad, sueno,
-              frecuencia cardiaca y mas.
+              Connect your Garmin watch to see your activity, sleep, heart
+              rate, and more.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Button onClick={handleConnect} disabled={connecting}>
-              {connecting ? "Conectando..." : "Conectar Garmin"}
+              {connecting ? "Connecting…" : "Connect Garmin"}
             </Button>
           </CardContent>
         </Card>
@@ -134,24 +134,24 @@ export default function ActivityPage() {
         <div className="space-y-6">
           <div className="flex items-center justify-between rounded-lg border p-4">
             <div>
-              <p className="text-sm font-medium">Garmin conectado</p>
+              <p className="text-sm font-medium">Garmin connected</p>
               {connection.last_sync_at && (
                 <p className="text-xs text-muted-foreground">
-                  Ultima sincronizacion:{" "}
-                  {new Date(connection.last_sync_at).toLocaleString("es-GT")}
+                  Last sync:{" "}
+                  {new Date(connection.last_sync_at).toLocaleString("en-US")}
                 </p>
               )}
             </div>
             <Button variant="outline" size="sm" onClick={handleDisconnect}>
-              Desconectar
+              Disconnect
             </Button>
           </div>
 
           {sleepData.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Sueno</CardTitle>
-                <CardDescription>Ultimos 14 dias</CardDescription>
+                <CardTitle>Sleep</CardTitle>
+                <CardDescription>Last 14 days</CardDescription>
               </CardHeader>
               <CardContent>
                 <SleepChart data={sleepData} />
@@ -162,8 +162,8 @@ export default function ActivityPage() {
           {activityData.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Actividad Diaria</CardTitle>
-                <CardDescription>Pasos y distancia</CardDescription>
+                <CardTitle>Daily Activity</CardTitle>
+                <CardDescription>Steps and distance</CardDescription>
               </CardHeader>
               <CardContent>
                 <ActivityChart data={activityData} />
@@ -174,8 +174,8 @@ export default function ActivityPage() {
           {stressData.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Estres y Body Battery</CardTitle>
-                <CardDescription>Niveles diarios</CardDescription>
+                <CardTitle>Stress and Body Battery</CardTitle>
+                <CardDescription>Daily levels</CardDescription>
               </CardHeader>
               <CardContent>
                 <HeartRateChart data={stressData} />
@@ -189,8 +189,8 @@ export default function ActivityPage() {
               <Card>
                 <CardContent className="py-8 text-center">
                   <p className="text-muted-foreground">
-                    Aun no hay datos sincronizados. Los datos apareceran
-                    despues de la primera sincronizacion con Garmin.
+                    No synced data yet. Data will appear after the first sync
+                    with Garmin.
                   </p>
                 </CardContent>
               </Card>

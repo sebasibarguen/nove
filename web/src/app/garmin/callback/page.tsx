@@ -13,7 +13,7 @@ function CallbackHandler() {
   const code = searchParams.get("code");
   const state = searchParams.get("state");
   const [error, setError] = useState(
-    code && state ? "" : "Parametros de autorizacion faltantes"
+    code && state ? "" : "Authorization parameters missing"
   );
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function CallbackHandler() {
         if (err instanceof ApiError) {
           setError(err.message);
         } else {
-          setError("Error al conectar con Garmin");
+          setError("Could not connect to Garmin");
         }
       });
   }, [code, state, router]);
@@ -44,7 +44,7 @@ function CallbackHandler() {
             onClick={() => router.push("/activity")}
             className="text-sm underline"
           >
-            Volver a actividad
+            Back to activity
           </button>
         </div>
       </div>
@@ -53,7 +53,7 @@ function CallbackHandler() {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <p className="text-muted-foreground">Conectando con Garmin...</p>
+      <p className="text-muted-foreground">Connecting to Garmin…</p>
     </div>
   );
 }
@@ -63,7 +63,7 @@ export default function GarminCallbackPage() {
     <Suspense
       fallback={
         <div className="flex min-h-screen items-center justify-center">
-          <p className="text-muted-foreground">Cargando...</p>
+          <p className="text-muted-foreground">Loading…</p>
         </div>
       }
     >

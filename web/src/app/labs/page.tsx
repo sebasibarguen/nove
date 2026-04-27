@@ -41,16 +41,16 @@ interface Result {
 }
 
 const STATUS_LABELS: Record<string, string> = {
-  pending: "Pendiente",
-  processing: "Procesando",
-  extracted: "Extraido",
-  review_needed: "En revision",
-  verified: "Verificado",
+  pending: "Pending",
+  processing: "Processing",
+  extracted: "Extracted",
+  review_needed: "In review",
+  verified: "Verified",
   failed: "Error",
-  sent_to_lab: "Enviado al lab",
-  sample_collected: "Muestra tomada",
-  completed: "Completado",
-  cancelled: "Cancelado",
+  sent_to_lab: "Sent to lab",
+  sample_collected: "Sample collected",
+  completed: "Completed",
+  cancelled: "Cancelled",
 };
 
 export default function LabsPage() {
@@ -105,12 +105,12 @@ export default function LabsPage() {
 
     const file = fileRef.current?.files?.[0];
     if (!file) {
-      setUploadError("Seleccione un archivo PDF");
+      setUploadError("Select a PDF file");
       return;
     }
 
     if (!file.name.toLowerCase().endsWith(".pdf")) {
-      setUploadError("Solo se aceptan archivos PDF");
+      setUploadError("Only PDF files are accepted");
       return;
     }
 
@@ -128,14 +128,14 @@ export default function LabsPage() {
 
       if (!resp.ok) {
         const data = await resp.json().catch(() => ({ detail: "Error" }));
-        setUploadError(data.detail || "Error al subir archivo");
+        setUploadError(data.detail || "Could not upload file");
         return;
       }
 
       if (fileRef.current) fileRef.current.value = "";
       await fetchData();
     } catch {
-      setUploadError("Error al subir archivo");
+      setUploadError("Could not upload file");
     } finally {
       setUploading(false);
     }
@@ -156,7 +156,7 @@ export default function LabsPage() {
   if (authLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">Cargando...</p>
+        <p className="text-muted-foreground">Loading…</p>
       </div>
     );
   }
@@ -164,7 +164,7 @@ export default function LabsPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Laboratorios</h1>
+        <h1 className="text-2xl font-bold">Labs</h1>
         <Button variant="outline" asChild>
           <Link href="/dashboard">&larr; Dashboard</Link>
         </Button>
@@ -172,7 +172,7 @@ export default function LabsPage() {
 
       {/* Upload PDF */}
       <section className="mb-12">
-        <h2 className="mb-4 text-lg font-semibold">Subir resultados</h2>
+        <h2 className="mb-4 text-lg font-semibold">Upload results</h2>
         <Card>
           <CardContent className="pt-6">
             <form onSubmit={handleUpload} className="space-y-4">
@@ -180,12 +180,12 @@ export default function LabsPage() {
                 <p className="text-sm text-destructive">{uploadError}</p>
               )}
               <div className="space-y-2">
-                <Label htmlFor="pdf">Archivo PDF de laboratorio</Label>
+                <Label htmlFor="pdf">Lab PDF file</Label>
                 <Input id="pdf" type="file" accept=".pdf" ref={fileRef} />
               </div>
               <div className="flex gap-2">
                 <Button type="submit" disabled={uploading}>
-                  {uploading ? "Subiendo..." : "Subir PDF"}
+                  {uploading ? "Uploading…" : "Upload PDF"}
                 </Button>
                 <Button
                   type="button"
@@ -193,7 +193,7 @@ export default function LabsPage() {
                   disabled={importing}
                   onClick={handleGmailImport}
                 >
-                  {importing ? "Buscando..." : "Buscar en Gmail"}
+                  {importing ? "Searching…" : "Search in Gmail"}
                 </Button>
               </div>
             </form>
@@ -203,10 +203,10 @@ export default function LabsPage() {
 
       {/* Panels */}
       <section className="mb-12">
-        <h2 className="mb-4 text-lg font-semibold">Paneles disponibles</h2>
+        <h2 className="mb-4 text-lg font-semibold">Available panels</h2>
         {panels.length === 0 ? (
           <p className="text-muted-foreground">
-            No hay paneles disponibles por el momento.
+            No panels available right now.
           </p>
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
@@ -225,7 +225,7 @@ export default function LabsPage() {
                     disabled={ordering}
                     onClick={() => orderPanel(panel.id)}
                   >
-                    Ordenar
+                    Order
                   </Button>
                 </CardContent>
               </Card>
@@ -237,7 +237,7 @@ export default function LabsPage() {
       {/* Orders */}
       {orders.length > 0 && (
         <section className="mb-12">
-          <h2 className="mb-4 text-lg font-semibold">Ordenes</h2>
+          <h2 className="mb-4 text-lg font-semibold">Orders</h2>
           <div className="space-y-2">
             {orders.map((order) => (
               <Card key={order.id}>
@@ -251,7 +251,7 @@ export default function LabsPage() {
                     </span>
                   </div>
                   <CardDescription>
-                    {new Date(order.created_at).toLocaleDateString("es-GT")}
+                    {new Date(order.created_at).toLocaleDateString("en-US")}
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -262,10 +262,10 @@ export default function LabsPage() {
 
       {/* Results */}
       <section>
-        <h2 className="mb-4 text-lg font-semibold">Resultados</h2>
+        <h2 className="mb-4 text-lg font-semibold">Results</h2>
         {results.length === 0 ? (
           <p className="text-muted-foreground">
-            Aun no tienes resultados de laboratorio.
+            You have no lab results yet.
           </p>
         ) : (
           <div className="space-y-2">
@@ -275,9 +275,9 @@ export default function LabsPage() {
                   <CardHeader className="py-3">
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-sm">
-                        Resultado -{" "}
+                        Result -{" "}
                         {new Date(result.created_at).toLocaleDateString(
-                          "es-GT",
+                          "en-US",
                         )}
                       </CardTitle>
                       <span className="rounded-full bg-muted px-2 py-0.5 text-xs">
