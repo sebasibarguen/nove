@@ -111,3 +111,24 @@ jobs:
       - name: Build
         working-directory: lab-portal
         run: npm run build
+
+  # Deploy the backend to Railway after the backend job passes on main.
+  # Railway's GitHub integration has been unreliable; this explicit step is the
+  # source of truth for "what's live".
+  deploy-backend:
+    needs: backend
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    concurrency:
+      group: deploy-backend
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: curl -fsSL https://railway.com/install.sh | sh
+
+      - name: Deploy backend
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway up backend --path-as-root --service backend --ci
