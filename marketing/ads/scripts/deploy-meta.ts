@@ -130,6 +130,7 @@ async function deploy(filePath: string): Promise<void> {
     objective: config.campaign.objective,
     status: config.campaign.status ?? "PAUSED",
     special_ad_categories: config.campaign.specialAdCategories ?? [],
+    is_adset_budget_sharing_enabled: false,
   });
   console.log(`✓ Campaign created: ${campaign.id}`);
 
