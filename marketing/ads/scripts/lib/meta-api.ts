@@ -52,6 +52,18 @@ export async function metaPost<T = unknown>(
   return res.json() as Promise<T>;
 }
 
+export async function metaDelete(endpoint: string): Promise<void> {
+  const url = `${META_GRAPH_URL}/${endpoint}`;
+  const res = await fetch(url, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Meta API DELETE ${endpoint} → ${res.status}\n${text}`);
+  }
+}
+
 export async function metaGet<T = unknown>(
   endpoint: string,
   params: Record<string, string> = {}

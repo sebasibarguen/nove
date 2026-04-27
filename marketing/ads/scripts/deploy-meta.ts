@@ -7,6 +7,7 @@ import path from "path";
 import {
   adAccountId,
   checkEnv,
+  metaDelete,
   metaPost,
   searchGeo,
   searchInterest,
@@ -124,14 +125,44 @@ async function deploy(filePath: string): Promise<void> {
   }
   console.log("");
 
+  // Track created resources so we can roll back on partial failure.
+  const createdIds: string[] = [];
+
+  async function rollback(reason: Error): Promise<never> {
+    if (createdIds.length > 0) {
+      console.error(`\nRolling back ${createdIds.length} created resource(s)...`);
+      for (const id of [...createdIds].reverse()) {
+        try {
+          await metaDelete(id);
+          console.error(`  deleted ${id}`);
+        } catch (delErr) {
+          console.error(`  ✗ failed to delete ${id}: ${(delErr as Error).message}`);
+        }
+      }
+    }
+    throw reason;
+  }
+
+  async function tracked<T extends CreateResponse>(p: Promise<T>): Promise<T> {
+    try {
+      const result = await p;
+      createdIds.push(result.id);
+      return result;
+    } catch (err) {
+      return rollback(err as Error);
+    }
+  }
+
   // Step 3 — create campaign
-  const campaign = await metaPost<CreateResponse>(`${account}/campaigns`, {
-    name: config.campaign.name,
-    objective: config.campaign.objective,
-    status: config.campaign.status ?? "PAUSED",
-    special_ad_categories: config.campaign.specialAdCategories ?? [],
-    is_adset_budget_sharing_enabled: false,
-  });
+  const campaign = await tracked(
+    metaPost<CreateResponse>(`${account}/campaigns`, {
+      name: config.campaign.name,
+      objective: config.campaign.objective,
+      status: config.campaign.status ?? "PAUSED",
+      special_ad_categories: config.campaign.specialAdCategories ?? [],
+      is_adset_budget_sharing_enabled: false,
+    })
+  );
   console.log(`✓ Campaign created: ${campaign.id}`);
 
   // Step 4 — build targeting and create ad set
@@ -144,6 +175,7 @@ async function deploy(filePath: string): Promise<void> {
   if (interests.length > 0) {
     targeting.interests = interests;
   }
+  targeting.targeting_automation = { advantage_audience: 0 };
   const platforms: string[] = [];
   if (config.adSet.placements?.facebook?.length) {
     platforms.push("facebook");
@@ -164,6 +196,7 @@ async function deploy(filePath: string): Promise<void> {
     daily_budget: config.campaign.dailyBudgetUsd * 100,
     billing_event: config.adSet.billingEvent,
     optimization_goal: config.adSet.optimizationGoal,
+    bid_strategy: "LOWEST_COST_WITHOUT_CAP",
     targeting,
     status: config.campaign.status ?? "PAUSED",
   };
@@ -176,41 +209,50 @@ async function deploy(filePath: string): Promise<void> {
     adSetBody.promoted_object = promoted;
   }
 
-  const adSet = await metaPost<CreateResponse>(`${account}/adsets`, adSetBody);
+  const adSet = await tracked(metaPost<CreateResponse>(`${account}/adsets`, adSetBody));
   console.log(`✓ Ad set created: ${adSet.id}`);
   console.log("");
 
   // Step 5 — for each ad: upload image, create creative, create ad
   for (const ad of config.ads) {
     const imagePath = resolveImagePath(configDir, ad.image);
-    const image = await uploadImage(imagePath);
-    console.log(`  ✓ Uploaded image ${path.basename(imagePath)} → ${image.hash}`);
+    let image;
+    try {
+      image = await uploadImage(imagePath);
+    } catch (err) {
+      await rollback(err as Error);
+    }
+    console.log(`  ✓ Uploaded image ${path.basename(imagePath)} → ${image!.hash}`);
 
-    const creative = await metaPost<CreateResponse>(`${account}/adcreatives`, {
-      name: `${ad.name} — creative`,
-      object_story_spec: {
-        page_id: pageId,
-        link_data: {
-          image_hash: image.hash,
-          link: ad.linkUrl,
-          message: ad.primaryText,
-          name: ad.headline,
-          description: ad.description,
-          call_to_action: {
-            type: ad.cta,
-            value: { link: ad.linkUrl },
+    const creative = await tracked(
+      metaPost<CreateResponse>(`${account}/adcreatives`, {
+        name: `${ad.name} — creative`,
+        object_story_spec: {
+          page_id: pageId,
+          link_data: {
+            image_hash: image!.hash,
+            link: ad.linkUrl,
+            message: ad.primaryText,
+            name: ad.headline,
+            description: ad.description,
+            call_to_action: {
+              type: ad.cta,
+              value: { link: ad.linkUrl },
+            },
           },
         },
-      },
-    });
+      })
+    );
     console.log(`  ✓ Creative created: ${creative.id}`);
 
-    const adResult = await metaPost<CreateResponse>(`${account}/ads`, {
-      name: ad.name,
-      adset_id: adSet.id,
-      creative: { creative_id: creative.id },
-      status: config.campaign.status ?? "PAUSED",
-    });
+    const adResult = await tracked(
+      metaPost<CreateResponse>(`${account}/ads`, {
+        name: ad.name,
+        adset_id: adSet.id,
+        creative: { creative_id: creative.id },
+        status: config.campaign.status ?? "PAUSED",
+      })
+    );
     console.log(`  ✓ Ad created: ${adResult.id} (${ad.name})`);
   }
 
