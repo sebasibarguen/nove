@@ -17,10 +17,10 @@ export function CardioPillar({ data }: { data: CardioPillarData }) {
   const summary = data.resting_hr != null ? `${data.resting_hr} bpm` : "—";
 
   return (
-    <PillarCard icon="♥" title="Corazon" summary={summary}>
+    <PillarCard icon="♥" title="Cardio" summary={summary}>
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div>
-          <span className="text-muted-foreground">FC en reposo</span>
+          <span className="text-muted-foreground">Resting HR</span>
           <p className="font-medium">{data.resting_hr ?? "—"} bpm</p>
         </div>
         <div>
@@ -29,13 +29,13 @@ export function CardioPillar({ data }: { data: CardioPillarData }) {
         </div>
         {data.fitness_age != null && (
           <div>
-            <span className="text-muted-foreground">Edad fitness</span>
+            <span className="text-muted-foreground">Fitness age</span>
             <p className="font-medium">{data.fitness_age}</p>
           </div>
         )}
         {data.hr_trend.length >= 2 && (
           <div>
-            <span className="text-muted-foreground">Tendencia 7d</span>
+            <span className="text-muted-foreground">7-day trend</span>
             <div className="mt-1">
               <Sparkline data={data.hr_trend} color="#ef4444" />
             </div>

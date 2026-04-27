@@ -18,21 +18,21 @@ export function SleepPillar({ data }: { data: SleepPillarData }) {
   const summary = data.duration_hours != null ? `${data.duration_hours}h` : "—";
 
   return (
-    <PillarCard icon="🌙" title="Sueno" summary={summary}>
+    <PillarCard icon="🌙" title="Sleep" summary={summary}>
       <div className="grid grid-cols-2 gap-4 text-sm">
         {data.last_night_score != null && (
           <div>
-            <span className="text-muted-foreground">Score anoche</span>
+            <span className="text-muted-foreground">Last night score</span>
             <p className="font-medium">{data.last_night_score}/100</p>
           </div>
         )}
         <div>
-          <span className="text-muted-foreground">Duracion</span>
+          <span className="text-muted-foreground">Duration</span>
           <p className="font-medium">{data.duration_hours ?? "—"} hrs</p>
         </div>
         {data.deep_pct != null && (
           <div>
-            <span className="text-muted-foreground">Sueno profundo</span>
+            <span className="text-muted-foreground">Deep sleep</span>
             <p className="font-medium">{data.deep_pct}%</p>
           </div>
         )}
@@ -44,7 +44,7 @@ export function SleepPillar({ data }: { data: SleepPillarData }) {
         )}
         {data.duration_trend.length >= 2 && (
           <div className="col-span-2">
-            <span className="text-muted-foreground">Tendencia 7d</span>
+            <span className="text-muted-foreground">7-day trend</span>
             <div className="mt-1">
               <Sparkline data={data.duration_trend} color="#8b5cf6" />
             </div>

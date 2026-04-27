@@ -21,7 +21,7 @@ interface DataPoint {
 export function HeartRateChart({ data }: { data: DataPoint[] }) {
   const chartData = data
     .map((d) => ({
-      date: new Date(d.date).toLocaleDateString("es-GT", {
+      date: new Date(d.date).toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
       }),
@@ -44,7 +44,7 @@ export function HeartRateChart({ data }: { data: DataPoint[] }) {
         <Tooltip
           formatter={(value, name) => [
             Number(value),
-            name === "stress" ? "Estres" : "Body Battery",
+            name === "stress" ? "Stress" : "Body Battery",
           ]}
         />
         <Line

@@ -21,7 +21,7 @@ interface DataPoint {
 export function ActivityChart({ data }: { data: DataPoint[] }) {
   const chartData = data
     .map((d) => ({
-      date: new Date(d.date).toLocaleDateString("es-GT", {
+      date: new Date(d.date).toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
       }),
@@ -36,8 +36,8 @@ export function ActivityChart({ data }: { data: DataPoint[] }) {
         <YAxis tick={{ fontSize: 12 }} />
         <Tooltip
           formatter={(value) => [
-            Number(value).toLocaleString("es-GT"),
-            "Pasos",
+            Number(value).toLocaleString("en-US"),
+            "Steps",
           ]}
         />
         <Bar dataKey="steps" fill="#10b981" radius={[4, 4, 0, 0]} />

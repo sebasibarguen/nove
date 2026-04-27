@@ -26,7 +26,7 @@ class User(Base):
     weight_kg: Mapped[float | None] = mapped_column(Float)
     height_cm: Mapped[float | None] = mapped_column(Float)
     health_goals: Mapped[list[str] | None] = mapped_column(ARRAY(Text))
-    language: Mapped[str] = mapped_column(String(8), default="es")
+    language: Mapped[str] = mapped_column(String(8), default="en")
     onboarding_completed: Mapped[bool] = mapped_column(Boolean, default=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(

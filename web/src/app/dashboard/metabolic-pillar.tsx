@@ -27,8 +27,8 @@ const STATUS_STYLES: Record<string, string> = {
 
 const STATUS_LABELS: Record<string, string> = {
   normal: "Normal",
-  borderline: "Limite",
-  flagged: "Alerta",
+  borderline: "Borderline",
+  flagged: "Flagged",
 };
 
 export function MetabolicPillar({ data }: { data: MetabolicPillarData }) {
@@ -36,7 +36,7 @@ export function MetabolicPillar({ data }: { data: MetabolicPillarData }) {
   const summary = `${normalCount}/${data.biomarkers.length}`;
 
   return (
-    <PillarCard icon="🧪" title="Metabolismo" summary={summary}>
+    <PillarCard icon="🧪" title="Metabolism" summary={summary}>
       <div className="space-y-3">
         {data.biomarkers.map((b) => (
           <div key={b.code} className="flex items-center justify-between text-sm">

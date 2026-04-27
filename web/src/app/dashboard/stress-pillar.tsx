@@ -16,10 +16,10 @@ export function StressPillar({ data }: { data: StressPillarData }) {
   const summary = data.avg_stress != null ? `${data.avg_stress}` : "—";
 
   return (
-    <PillarCard icon="⚡" title="Estres y Recuperacion" summary={summary}>
+    <PillarCard icon="⚡" title="Stress and Recovery" summary={summary}>
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div>
-          <span className="text-muted-foreground">Estres promedio</span>
+          <span className="text-muted-foreground">Average stress</span>
           <p className="font-medium">{data.avg_stress ?? "—"}/100</p>
         </div>
         <div>
@@ -28,7 +28,7 @@ export function StressPillar({ data }: { data: StressPillarData }) {
         </div>
         {data.stress_trend.length >= 2 && (
           <div className="col-span-2">
-            <span className="text-muted-foreground">Tendencia 7d</span>
+            <span className="text-muted-foreground">7-day trend</span>
             <div className="mt-1">
               <Sparkline data={data.stress_trend} color="#f97316" />
             </div>

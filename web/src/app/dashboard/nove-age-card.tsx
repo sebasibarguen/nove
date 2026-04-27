@@ -23,8 +23,8 @@ export function NoveAgeCard({
       <Card className="border-dashed">
         <CardContent className="py-4 text-center">
           <p className="text-muted-foreground text-sm">
-            Necesitamos mas datos para calcular tu Edad Nove
-            {inputsUsed > 0 && ` (${inputsUsed}/2 disponibles)`}
+            We need more data to calculate your Nove Age
+            {inputsUsed > 0 && ` (${inputsUsed}/2 available)`}
           </p>
         </CardContent>
       </Card>
@@ -35,10 +35,10 @@ export function NoveAgeCard({
   const deltaColor = isYounger ? "text-green-600" : delta === 0 ? "text-muted-foreground" : "text-red-500";
   const deltaLabel = delta != null
     ? isYounger
-      ? `${Math.abs(delta)} anos mas joven`
+      ? `${Math.abs(delta)} years younger`
       : delta === 0
-        ? "Igual a tu edad real"
-        : `${delta} anos mayor`
+        ? "Same as your actual age"
+        : `${delta} years older`
     : "";
 
   return (
@@ -46,11 +46,11 @@ export function NoveAgeCard({
       <CardContent className="flex items-center justify-between py-4">
         <div className="flex items-baseline gap-4">
           <div>
-            <span className="text-muted-foreground text-xs">Edad Nove</span>
+            <span className="text-muted-foreground text-xs">Nove Age</span>
             <p className="text-2xl font-bold">{physiological}</p>
           </div>
           <div>
-            <span className="text-muted-foreground text-xs">Edad real</span>
+            <span className="text-muted-foreground text-xs">Actual age</span>
             <p className="text-muted-foreground text-lg">{chronological}</p>
           </div>
         </div>
