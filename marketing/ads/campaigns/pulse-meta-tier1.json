@@ -1,0 +1,45 @@
+{
+  "campaign": {
+    "name": "Pulse - US Tier 1 (A)",
+    "objective": "OUTCOME_TRAFFIC",
+    "dailyBudgetUsd": 10,
+    "specialAdCategories": [],
+    "status": "PAUSED"
+  },
+  "adSet": {
+    "name": "Boulder + Bend - Endurance",
+    "geoTargets": [
+      { "name": "Boulder", "region": "Colorado", "countryCode": "US" },
+      { "name": "Bend", "region": "Oregon", "countryCode": "US" }
+    ],
+    "interests": ["Garmin", "Triathlon", "Trail running"],
+    "ageMin": 25,
+    "ageMax": 55,
+    "placements": {
+      "facebook": ["feed", "story"],
+      "instagram": ["stream", "story", "reels"]
+    },
+    "optimizationGoal": "LANDING_PAGE_VIEWS",
+    "billingEvent": "IMPRESSIONS"
+  },
+  "ads": [
+    {
+      "name": "Variant A - hero runner",
+      "image": "marketing/public/pulse/hero-runner.png",
+      "headline": "Add years of healthspan",
+      "primaryText": "Keep wearing your Garmin. Pulse turns your data into the daily habits that move healthspan forward. $9.99/mo, 7-day trial.",
+      "description": "$9.99/mo · 7-day free trial",
+      "cta": "LEARN_MORE",
+      "linkUrl": "https://nove.health/pulse?utm_source=meta&utm_medium=cpc&utm_campaign=pulse-tier1&utm_content=hero-runner"
+    },
+    {
+      "name": "Variant B - cyclist",
+      "image": "marketing/public/pulse/hero-cyclist.png",
+      "headline": "360° healthspan for Garmin",
+      "primaryText": "Cardio, strength, recovery. The AI coach reads your Garmin trends and tells you what to focus on this week. $9.99/mo.",
+      "description": "$9.99/mo · 7-day free trial",
+      "cta": "LEARN_MORE",
+      "linkUrl": "https://nove.health/pulse?utm_source=meta&utm_medium=cpc&utm_campaign=pulse-tier1&utm_content=cyclist"
+    }
+  ]
+}
