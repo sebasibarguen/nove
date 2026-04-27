@@ -51,6 +51,10 @@ class Settings(BaseSettings):
     garmin_client_id: str = ""
     garmin_client_secret: str = ""
     garmin_redirect_uri: str = "http://localhost:3000/garmin/callback"
+    # Pulse subdomain Garmin callback — must be registered as an additional
+    # redirect URI in the Garmin developer portal alongside garmin_redirect_uri.
+    # Empty falls back to garmin_redirect_uri.
+    pulse_garmin_redirect_uri: str = "http://pulse.localhost:3000/garmin/callback"
 
     # AWS S3
     aws_access_key_id: str = ""

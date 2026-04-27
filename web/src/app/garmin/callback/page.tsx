@@ -19,6 +19,8 @@ function CallbackHandler() {
   useEffect(() => {
     if (!code || !state) return;
 
+    // /garmin works on both hosts: on pulse.* the proxy rewrites it to
+    // /pulse/garmin, on main hosts it serves the top-level page.
     api("/garmin/callback", {
       method: "POST",
       body: JSON.stringify({ code, state }),

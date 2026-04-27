@@ -36,12 +36,27 @@ def generate_pkce() -> tuple[str, str]:
     return code_verifier, code_challenge
 
 
-def build_auth_url() -> tuple[str, str]:
+def _redirect_uri_for(return_to: str | None) -> str:
+    """Pick the Garmin redirect URI for the brand the user is connecting from.
+
+    Lets pulse.* users land back on pulse.* after Garmin auth so localStorage
+    tokens stay scoped to the right origin.
+    """
+    if return_to == "pulse" and settings.pulse_garmin_redirect_uri:
+        return settings.pulse_garmin_redirect_uri
+    return settings.garmin_redirect_uri
+
+
+def build_auth_url(return_to: str | None = None) -> tuple[str, str]:
     """Build the Garmin OAuth 2.0 authorization URL with PKCE.
+
+    Encodes `return_to` into state as `<nonce>:<brand>` so the callback can
+    decode it and pick the matching redirect_uri for the token exchange.
 
     Returns (auth_url, state).
     """
-    state = secrets.token_urlsafe(32)
+    nonce = secrets.token_urlsafe(32)
+    state = f"{nonce}:{return_to}" if return_to else nonce
     code_verifier, code_challenge = generate_pkce()
 
     _pending_auth[state] = code_verifier
@@ -49,7 +64,7 @@ def build_auth_url() -> tuple[str, str]:
     params = {
         "client_id": settings.garmin_client_id,
         "response_type": "code",
-        "redirect_uri": settings.garmin_redirect_uri,
+        "redirect_uri": _redirect_uri_for(return_to),
         "state": state,
         "code_challenge": code_challenge,
         "code_challenge_method": "S256",
@@ -65,13 +80,15 @@ async def exchange_code(code: str, state: str) -> dict:
     if not code_verifier:
         raise ValueError("Invalid or expired state parameter")
 
+    return_to = state.split(":", 1)[1] if ":" in state else None
+
     async with httpx.AsyncClient() as client:
         resp = await client.post(
             TOKEN_URL,
             data={
                 "grant_type": "authorization_code",
                 "code": code,
-                "redirect_uri": settings.garmin_redirect_uri,
+                "redirect_uri": _redirect_uri_for(return_to),
                 "client_id": settings.garmin_client_id,
                 "client_secret": settings.garmin_client_secret,
                 "code_verifier": code_verifier,

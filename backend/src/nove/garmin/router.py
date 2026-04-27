@@ -25,9 +25,17 @@ router = APIRouter(prefix="/garmin", tags=["garmin"])
 
 
 @router.get("/connect-url", response_model=ConnectUrlResponse)
-async def get_connect_url(user: CurrentUser) -> ConnectUrlResponse:
-    """Generate a Garmin OAuth 2.0 authorization URL with PKCE."""
-    url, state_value = build_auth_url()
+async def get_connect_url(
+    user: CurrentUser,
+    return_to: str | None = None,
+) -> ConnectUrlResponse:
+    """Generate a Garmin OAuth 2.0 authorization URL with PKCE.
+
+    `return_to` selects which redirect_uri Garmin sends the user back to.
+    Pass `?return_to=pulse` from the Pulse vertical so the callback lands on
+    pulse.nove.health.
+    """
+    url, state_value = build_auth_url(return_to=return_to)
     return ConnectUrlResponse(url=url, state=state_value)
 
 
