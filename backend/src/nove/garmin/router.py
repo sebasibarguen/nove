@@ -9,7 +9,6 @@ from sqlalchemy import select
 from nove.deps import DB, CurrentUser
 from nove.garmin.models import GarminConnection, GarminDataPoint
 from nove.garmin.schemas import (
-    BackfillResult,
     CallbackRequest,
     ConnectionRead,
     ConnectUrlResponse,
@@ -19,9 +18,7 @@ from nove.garmin.service import (
     build_auth_url,
     exchange_code,
     fetch_garmin_user_id,
-    get_valid_token,
     process_webhook_push,
-    request_backfill,
 )
 
 router = APIRouter(prefix="/garmin", tags=["garmin"])
