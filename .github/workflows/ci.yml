@@ -128,6 +128,18 @@ jobs:
       - name: Install Railway CLI
         run: curl -fsSL https://railway.com/install.sh | sh
 
+      # Push the GitHub commit SHA + branch into Railway env so /health can
+      # report which build is live. `railway up` doesn't carry git context;
+      # without this, /health shows "commit": "dev" on every deploy.
+      - name: Sync build identity to Railway env
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          railway variables --service backend \
+            --set "RAILWAY_GIT_COMMIT_SHA=${{ github.sha }}" \
+            --set "RAILWAY_GIT_BRANCH=${{ github.ref_name }}" \
+            --skip-deploys
+
       - name: Deploy backend
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
