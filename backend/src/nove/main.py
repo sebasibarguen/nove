@@ -50,6 +50,8 @@ def create_app() -> FastAPI:
     from nove.garmin.router import router as garmin_router
     from nove.labs.portal_router import router as portal_router
     from nove.labs.router import router as lab_router
+    from nove.pulse.router import router as pulse_router
+    from nove.training.router import router as training_router
     from nove.users.router import router as users_router
 
     app.include_router(auth_router, prefix=settings.api_v1_prefix)
@@ -59,6 +61,8 @@ def create_app() -> FastAPI:
     app.include_router(garmin_router, prefix=settings.api_v1_prefix)
     app.include_router(lab_router, prefix=settings.api_v1_prefix)
     app.include_router(portal_router, prefix=settings.api_v1_prefix)
+    app.include_router(pulse_router, prefix=settings.api_v1_prefix)
+    app.include_router(training_router, prefix=settings.api_v1_prefix)
 
     # Inngest — only mount when a signing key is configured. Lets dev/test run without it.
     if settings.inngest_signing_key:

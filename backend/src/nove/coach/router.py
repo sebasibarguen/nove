@@ -1,5 +1,5 @@
 # ABOUTME: API endpoints for AI coach conversations and messaging.
-# ABOUTME: Handles conversation CRUD and SSE-streamed message responses.
+# ABOUTME: Handles conversation CRUD and SSE-streamed message responses with tool use.
 
 import uuid
 
@@ -71,8 +71,8 @@ async def send_message(
     conversation = await _get_user_conversation(conversation_id, user.id, db)
 
     async def event_stream():
-        async for chunk in stream_response(db, user, conversation, body.content):
-            yield f"data: {chunk}\n\n"
+        async for event_json in stream_response(db, user, conversation, body.content):
+            yield f"data: {event_json}\n\n"
         yield "data: [DONE]\n\n"
 
     return StreamingResponse(

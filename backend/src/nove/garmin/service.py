@@ -1,5 +1,5 @@
-# ABOUTME: Garmin OAuth 2.0 PKCE flow and data sync logic.
-# ABOUTME: Handles authorization, token exchange/refresh, and data fetching.
+# ABOUTME: Garmin OAuth 2.0 PKCE flow and webhook-based data ingestion.
+# ABOUTME: Handles authorization, token exchange/refresh, backfill requests, and webhook processing.
 
 import hashlib
 import os
@@ -20,7 +20,7 @@ logger = structlog.get_logger()
 AUTH_URL = "https://connect.garmin.com/oauth2Confirm"
 TOKEN_URL = "https://diauth.garmin.com/di-oauth2-service/oauth/token"
 USER_ID_URL = "https://apis.garmin.com/wellness-api/rest/user/id"
-WELLNESS_BASE = "https://healthapi.garmin.com/wellness-api/rest"
+BACKFILL_BASE = "https://apis.garmin.com/wellness-api/rest/backfill"
 
 # PKCE verifier/challenge stored in-memory (keyed by state).
 # In production, use Redis or DB. Fine for single-instance dev.
@@ -127,53 +127,13 @@ async def get_valid_token(db: AsyncSession, connection: GarminConnection) -> str
     return connection.access_token
 
 
-# Mapping from our data_type names to Garmin API endpoint paths
-DATA_TYPE_ENDPOINTS = {
-    "activity": "/dailies",
-    "sleep": "/sleep",
-    "stress": "/stressDetails",
-    "heart_rate": "/dailies",  # HR is part of daily summaries
-    "vo2max": "/userMetrics",
-    "body_battery": "/stressDetails",  # Body battery is in stress details
-}
-
-
-async def fetch_data(
-    access_token: str,
-    data_type: str,
-    start_ts: int,
-    end_ts: int,
-) -> list[dict]:
-    """Fetch data from the Garmin Health API for a given data type and time range."""
-    endpoint = DATA_TYPE_ENDPOINTS.get(data_type)
-    if not endpoint:
-        return []
-
-    url = f"{WELLNESS_BASE}{endpoint}"
-    params = {
-        "uploadStartTimeInSeconds": str(start_ts),
-        "uploadEndTimeInSeconds": str(end_ts),
-    }
-
-    async with httpx.AsyncClient() as client:
-        resp = await client.get(
-            url,
-            params=params,
-            headers={"Authorization": f"Bearer {access_token}"},
-        )
-        resp.raise_for_status()
-        data = resp.json()
-
-    return data if isinstance(data, list) else [data]
-
-
 async def store_data_points(
     db: AsyncSession,
     user_id: str,
     data_type: str,
     points: list[dict],
 ) -> int:
-    """Store fetched Garmin data points, upserting on (user_id, data_type, date)."""
+    """Store Garmin data points from webhooks, upserting on (user_id, data_type, date)."""
     stored = 0
     for point in points:
         # Extract date from the data point
@@ -214,6 +174,49 @@ async def store_data_points(
 
     await db.commit()
     return stored
+
+
+BACKFILL_TYPES = {
+    "activities": "activities",
+    "dailies": "dailies",
+    "sleeps": "sleeps",
+    "stressDetails": "stressDetails",
+    "userMetrics": "userMetrics",
+}
+
+
+async def request_backfill(
+    access_token: str,
+    days: int = 60,
+) -> dict[str, int]:
+    """Request Garmin to push historical data via webhooks.
+
+    Returns a mapping of summary type to HTTP status code.
+    """
+    end_ts = int(datetime.now(UTC).timestamp())
+    start_ts = end_ts - days * 86400
+
+    results = {}
+    async with httpx.AsyncClient() as client:
+        for summary_type in BACKFILL_TYPES.values():
+            resp = await client.get(
+                f"{BACKFILL_BASE}/{summary_type}",
+                params={
+                    "summaryStartTimeInSeconds": str(start_ts),
+                    "summaryEndTimeInSeconds": str(end_ts),
+                },
+                headers={"Authorization": f"Bearer {access_token}"},
+            )
+            results[summary_type] = resp.status_code
+            logger.info(
+                "backfill_requested",
+                summary_type=summary_type,
+                status=resp.status_code,
+                body=resp.text[:500] if resp.status_code != 200 else "ok",
+                days=days,
+            )
+
+    return results
 
 
 async def process_webhook_push(

@@ -234,3 +234,13 @@ async def test_webhook_unknown_user(client: AsyncClient):
 
     resp = await client.post(f"{PREFIX}/garmin/webhooks", json=payload)
     assert resp.status_code == 200  # Still returns 200, just skips unknown users
+
+
+# --- Backfill ---
+
+
+async def test_backfill_no_connection(client: AsyncClient):
+    headers, _ = await _register_user(client)
+
+    resp = await client.post(f"{PREFIX}/garmin/backfill", headers=headers)
+    assert resp.status_code == 404

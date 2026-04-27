@@ -15,6 +15,8 @@ from nove.database import Base
 from nove.coach.models import Conversation, Message  # noqa: F401
 from nove.garmin.models import GarminConnection, GarminDataPoint  # noqa: F401
 from nove.labs.models import LabBiomarkerValue, LabOrder, LabPanel, LabPartner, LabResult  # noqa: F401
+from nove.pulse.models import PulseJournalEntry  # noqa: F401
+from nove.training.models import FitnessProfile, TrainingPlan, Workout, WorkoutLog  # noqa: F401
 from nove.users.models import User, UserHealthProfile  # noqa: F401
 
 config = context.config

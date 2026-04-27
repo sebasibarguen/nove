@@ -1,5 +1,5 @@
 # ABOUTME: Pydantic schemas for Garmin API request/response validation.
-# ABOUTME: Covers OAuth flow, connection status, and data queries.
+# ABOUTME: Covers OAuth flow, connection status, data queries, and backfill.
 
 from datetime import date, datetime
 
@@ -31,3 +31,9 @@ class DataPointRead(BaseModel):
     data: dict
 
     model_config = {"from_attributes": True}
+
+
+class BackfillResult(BaseModel):
+    requested_types: list[str]
+    successful: int
+    total: int

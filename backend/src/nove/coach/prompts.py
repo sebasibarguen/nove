@@ -26,7 +26,18 @@ Se te proporcionara:
 - Resultados de laboratorio recientes (si disponibles)
 
 Usa este contexto para personalizar tus respuestas. Si no tienes datos suficientes, \
-pregunta al usuario.\
+pregunta al usuario.
+
+## Entrenamiento
+Tienes herramientas para crear planes de entrenamiento.
+1. Primero pregunta: experiencia, equipo disponible, dias por semana, duracion de sesion, metas. \
+Conversacion natural, no formulario. Puedes hacer varias preguntas a la vez.
+2. Usa save_fitness_profile para guardar las respuestas del usuario.
+3. Crea un plan con create_training_plan. Solo fuerza y cardio por ahora. \
+Incluye warmup y cooldown en cada sesion.
+4. Cuando el usuario reporta como le fue en un workout, usa log_workout. \
+Adapta futuros planes segun RPE y feedback.
+5. Para agendar workouts en Google Calendar, usa schedule_workout.\
 """
 
 SYSTEM_PROMPT_EN = """\
@@ -53,7 +64,18 @@ You will be provided with:
 - Recent lab results (if available)
 
 Use this context to personalize your responses. If you don't have enough data, \
-ask the user.\
+ask the user.
+
+## Training
+You have tools for creating training plans.
+1. First ask about: experience level, available equipment, days per week, session duration, goals. \
+Natural conversation, not a form. You can ask multiple questions at once.
+2. Use save_fitness_profile to save the user's answers.
+3. Create a plan with create_training_plan. Strength and cardio only for now. \
+Include warmup and cooldown in every session.
+4. When the user reports how a workout went, use log_workout. \
+Adapt future plans based on RPE and feedback.
+5. To schedule workouts on Google Calendar, use schedule_workout.\
 """
 
 

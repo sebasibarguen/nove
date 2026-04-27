@@ -21,6 +21,18 @@ async def _register_and_get_headers(client: AsyncClient) -> dict[str, str]:
     return {"Authorization": f"Bearer {token}"}
 
 
+def _make_mock_response(text: str):
+    """Create a mock Anthropic Messages response with a single text block."""
+    text_block = MagicMock()
+    text_block.type = "text"
+    text_block.text = text
+
+    response = MagicMock()
+    response.content = [text_block]
+    response.stop_reason = "end_turn"
+    return response
+
+
 async def test_create_conversation(client: AsyncClient):
     headers = await _register_and_get_headers(client)
 
@@ -94,19 +106,10 @@ async def test_send_message_streams_response(client: AsyncClient):
     )
     conv_id = resp.json()["id"]
 
-    # Mock the Anthropic streaming API
-    mock_stream = AsyncMock()
-    mock_stream.__aenter__ = AsyncMock(return_value=mock_stream)
-    mock_stream.__aexit__ = AsyncMock(return_value=False)
-
-    async def fake_text_stream():
-        yield "Hola, "
-        yield "soy Nove."
-
-    mock_stream.text_stream = fake_text_stream()
+    mock_response = _make_mock_response("Hola, soy Nove.")
 
     mock_client = MagicMock()
-    mock_client.messages.stream = MagicMock(return_value=mock_stream)
+    mock_client.messages.create = AsyncMock(return_value=mock_response)
 
     with patch("nove.coach.service.anthropic.AsyncAnthropic", return_value=mock_client):
         resp = await client.post(
@@ -118,8 +121,7 @@ async def test_send_message_streams_response(client: AsyncClient):
     assert resp.status_code == 200
     assert "text/event-stream" in resp.headers["content-type"]
     body = resp.text
-    assert "Hola, " in body
-    assert "soy Nove." in body
+    assert "Hola, soy Nove." in body
     assert "[DONE]" in body
 
 
@@ -133,17 +135,10 @@ async def test_messages_persisted_after_streaming(client: AsyncClient):
     )
     conv_id = resp.json()["id"]
 
-    mock_stream = AsyncMock()
-    mock_stream.__aenter__ = AsyncMock(return_value=mock_stream)
-    mock_stream.__aexit__ = AsyncMock(return_value=False)
-
-    async def fake_text_stream():
-        yield "Respuesta del coach"
-
-    mock_stream.text_stream = fake_text_stream()
+    mock_response = _make_mock_response("Respuesta del coach")
 
     mock_client = MagicMock()
-    mock_client.messages.stream = MagicMock(return_value=mock_stream)
+    mock_client.messages.create = AsyncMock(return_value=mock_response)
 
     with patch("nove.coach.service.anthropic.AsyncAnthropic", return_value=mock_client):
         await client.post(
@@ -163,6 +158,49 @@ async def test_messages_persisted_after_streaming(client: AsyncClient):
     assert messages[0]["content"] == "Pregunta del usuario"
     assert messages[1]["role"] == "assistant"
     assert messages[1]["content"] == "Respuesta del coach"
+
+
+async def test_send_message_with_tool_use(client: AsyncClient):
+    """Verify tool_use blocks are executed and Claude continues after tool results."""
+    headers = await _register_and_get_headers(client)
+
+    resp = await client.post(
+        f"{PREFIX}/conversations",
+        json={"title": "Tool use test"},
+        headers=headers,
+    )
+    conv_id = resp.json()["id"]
+
+    # First response: Claude calls a tool
+    tool_block = MagicMock()
+    tool_block.type = "tool_use"
+    tool_block.name = "save_fitness_profile"
+    tool_block.id = "tool_123"
+    tool_block.input = {"experience_level": "beginner"}
+
+    first_response = MagicMock()
+    first_response.content = [tool_block]
+    first_response.stop_reason = "tool_use"
+
+    # Second response: Claude responds with text after tool result
+    second_response = _make_mock_response("Perfil guardado. Ahora cuéntame sobre tu equipo.")
+
+    mock_client = MagicMock()
+    mock_client.messages.create = AsyncMock(side_effect=[first_response, second_response])
+
+    with patch("nove.coach.service.anthropic.AsyncAnthropic", return_value=mock_client):
+        resp = await client.post(
+            f"{PREFIX}/conversations/{conv_id}/messages",
+            json={"content": "Soy principiante"},
+            headers=headers,
+        )
+
+    assert resp.status_code == 200
+    body = resp.text
+    # Should contain tool status and result events
+    assert "save_fitness_profile" in body
+    assert "Perfil guardado" in body
+    assert "[DONE]" in body
 
 
 async def test_conversation_ownership(client: AsyncClient):
