@@ -60,7 +60,13 @@ async def handle_callback(
 
     try:
         garmin_user_id = await fetch_garmin_user_id(access_token)
-    except Exception:
+    except Exception as e:
+        import structlog
+
+        structlog.get_logger().error(
+            "garmin_callback_user_id_error",
+            error=repr(e),
+        )
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
             detail="Failed to fetch Garmin user ID",

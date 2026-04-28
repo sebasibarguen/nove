@@ -106,6 +106,13 @@ async def fetch_garmin_user_id(access_token: str) -> str:
             USER_ID_URL,
             headers={"Authorization": f"Bearer {access_token}"},
         )
+        if resp.status_code >= 400:
+            logger.error(
+                "garmin_fetch_user_id_failed",
+                status=resp.status_code,
+                body=resp.text[:500],
+                url=USER_ID_URL,
+            )
         resp.raise_for_status()
         data = resp.json()
         return data["userId"]
