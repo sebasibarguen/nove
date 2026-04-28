@@ -68,6 +68,10 @@ def build_auth_url(return_to: str | None = None) -> tuple[str, str]:
         "state": state,
         "code_challenge": code_challenge,
         "code_challenge_method": "S256",
+        # Without an explicit scope Garmin issues a token that can't hit the
+        # Wellness/Health API endpoints (returns InvalidApiKey). These mirror
+        # what Garmin's "generate test token" tool grants for evaluation apps.
+        "scope": "PARTNER_READ PARTNER_WRITE CONNECT_READ CONNECT_WRITE",
     }
 
     url = AUTH_URL + "?" + "&".join(f"{k}={v}" for k, v in params.items())
