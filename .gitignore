@@ -33,3 +33,7 @@ htmlcov/
 # Build
 *.tsbuildinfo
 .vercel
+
+# Garmin sandbox tokens (developer-issued, sensitive)
+garmin/sandbox.token.json
+garmin/*.token.json
