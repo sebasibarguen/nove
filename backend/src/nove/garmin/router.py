@@ -3,7 +3,7 @@
 
 from datetime import UTC, date, datetime, timedelta
 
-from fastapi import APIRouter, HTTPException, Request, status
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Request, status
 from sqlalchemy import select
 
 from nove.deps import DB, CurrentUser
@@ -31,6 +31,7 @@ router = APIRouter(prefix="/garmin", tags=["garmin"])
 @router.get("/connect-url", response_model=ConnectUrlResponse)
 async def get_connect_url(
     user: CurrentUser,
+    db: DB,
     return_to: str | None = None,
 ) -> ConnectUrlResponse:
     """Generate a Garmin OAuth 2.0 authorization URL with PKCE.
@@ -39,7 +40,7 @@ async def get_connect_url(
     Pass `?return_to=pulse` from the Pulse vertical so the callback lands on
     pulse.nove.health.
     """
-    url, state_value = build_auth_url(return_to=return_to)
+    url, state_value = await build_auth_url(db, return_to=return_to)
     return ConnectUrlResponse(url=url, state=state_value)
 
 
@@ -48,10 +49,11 @@ async def handle_callback(
     body: CallbackRequest,
     user: CurrentUser,
     db: DB,
+    background_tasks: BackgroundTasks,
 ) -> ConnectionRead:
     """Exchange authorization code for tokens and store the connection."""
     try:
-        tokens = await exchange_code(body.code, body.state)
+        tokens = await exchange_code(db, body.code, body.state)
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)) from None
     except Exception:
@@ -98,6 +100,10 @@ async def handle_callback(
 
     await db.commit()
     await db.refresh(connection)
+
+    # Kick off a 60-day backfill so the user's charts populate immediately
+    # rather than waiting for the next day's webhook push.
+    background_tasks.add_task(request_backfill, access_token, days=60)
 
     return ConnectionRead(
         garmin_user_id=connection.garmin_user_id,

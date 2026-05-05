@@ -45,6 +45,7 @@ def create_app() -> FastAPI:
     )
 
     from nove.auth.router import router as auth_router
+    from nove.billing.router import router as billing_router
     from nove.coach.router import router as coach_router
     from nove.dashboard.router import router as dashboard_router
     from nove.garmin.router import router as garmin_router
@@ -56,6 +57,7 @@ def create_app() -> FastAPI:
 
     app.include_router(auth_router, prefix=settings.api_v1_prefix)
     app.include_router(users_router, prefix=settings.api_v1_prefix)
+    app.include_router(billing_router, prefix=settings.api_v1_prefix)
     app.include_router(coach_router, prefix=settings.api_v1_prefix)
     app.include_router(dashboard_router, prefix=settings.api_v1_prefix)
     app.include_router(garmin_router, prefix=settings.api_v1_prefix)

@@ -1,5 +1,5 @@
 # ABOUTME: SQLAlchemy models for Garmin wearable integration.
-# ABOUTME: Stores OAuth connections and synced health data points.
+# ABOUTME: Stores OAuth connections, PKCE auth states, and synced health data points.
 
 import uuid
 from datetime import date, datetime
@@ -33,6 +33,16 @@ class GarminConnection(Base):
     token_expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     last_sync_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class GarminAuthState(Base):
+    """Short-lived PKCE verifier keyed by OAuth state parameter. TTL enforced at read time."""
+
+    __tablename__ = "garmin_auth_states"
+
+    state: Mapped[str] = mapped_column(String(128), primary_key=True)
+    code_verifier: Mapped[str] = mapped_column(Text)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
 
 
 class GarminDataPoint(Base):

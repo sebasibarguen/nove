@@ -18,6 +18,8 @@ class UserRead(BaseModel):
     health_goals: list[str] | None = None
     language: str
     onboarding_completed: bool
+    subscription_status: str | None = None
+    trial_ends_at: datetime | None = None
     created_at: datetime
 
     model_config = {"from_attributes": True}

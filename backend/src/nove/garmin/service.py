@@ -4,6 +4,7 @@
 import hashlib
 import os
 import secrets
+import uuid
 from base64 import urlsafe_b64encode
 from datetime import UTC, datetime, timedelta
 
@@ -13,7 +14,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from nove.config import settings
-from nove.garmin.models import GarminConnection, GarminDataPoint
+from nove.garmin.models import GarminAuthState, GarminConnection, GarminDataPoint
 
 logger = structlog.get_logger()
 
@@ -21,10 +22,6 @@ AUTH_URL = "https://connect.garmin.com/oauth2Confirm"
 TOKEN_URL = "https://diauth.garmin.com/di-oauth2-service/oauth/token"
 USER_ID_URL = "https://apis.garmin.com/wellness-api/rest/user/id"
 BACKFILL_BASE = "https://apis.garmin.com/wellness-api/rest/backfill"
-
-# PKCE verifier/challenge stored in-memory (keyed by state).
-# In production, use Redis or DB. Fine for single-instance dev.
-_pending_auth: dict[str, str] = {}
 
 
 def generate_pkce() -> tuple[str, str]:
@@ -47,11 +44,11 @@ def _redirect_uri_for(return_to: str | None) -> str:
     return settings.garmin_redirect_uri
 
 
-def build_auth_url(return_to: str | None = None) -> tuple[str, str]:
+async def build_auth_url(db: AsyncSession, return_to: str | None = None) -> tuple[str, str]:
     """Build the Garmin OAuth 2.0 authorization URL with PKCE.
 
-    Encodes `return_to` into state as `<nonce>:<brand>` so the callback can
-    decode it and pick the matching redirect_uri for the token exchange.
+    Persists the PKCE verifier in the DB (expires in 10 min) so it survives
+    restarts and works across multiple instances.
 
     Returns (auth_url, state).
     """
@@ -59,7 +56,14 @@ def build_auth_url(return_to: str | None = None) -> tuple[str, str]:
     state = f"{nonce}:{return_to}" if return_to else nonce
     code_verifier, code_challenge = generate_pkce()
 
-    _pending_auth[state] = code_verifier
+    db.add(
+        GarminAuthState(
+            state=state,
+            code_verifier=code_verifier,
+            expires_at=datetime.now(UTC) + timedelta(minutes=10),
+        )
+    )
+    await db.commit()
 
     params = {
         "client_id": settings.garmin_client_id,
@@ -78,11 +82,19 @@ def build_auth_url(return_to: str | None = None) -> tuple[str, str]:
     return url, state
 
 
-async def exchange_code(code: str, state: str) -> dict:
+async def exchange_code(db: AsyncSession, code: str, state: str) -> dict:
     """Exchange authorization code for tokens. Returns token response dict."""
-    code_verifier = _pending_auth.pop(state, None)
-    if not code_verifier:
+    result = await db.execute(select(GarminAuthState).where(GarminAuthState.state == state))
+    auth_state = result.scalar_one_or_none()
+    if not auth_state or auth_state.expires_at < datetime.now(UTC):
+        if auth_state:
+            await db.delete(auth_state)
+            await db.commit()
         raise ValueError("Invalid or expired state parameter")
+
+    code_verifier = auth_state.code_verifier
+    await db.delete(auth_state)
+    await db.commit()
 
     return_to = state.split(":", 1)[1] if ":" in state else None
 
@@ -157,7 +169,7 @@ async def get_valid_token(db: AsyncSession, connection: GarminConnection) -> str
 
 async def store_data_points(
     db: AsyncSession,
-    user_id: str,
+    user_id: uuid.UUID,
     data_type: str,
     points: list[dict],
 ) -> int:

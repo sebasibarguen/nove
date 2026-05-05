@@ -65,6 +65,8 @@ class Settings(BaseSettings):
     # Stripe
     stripe_secret_key: str = ""
     stripe_webhook_secret: str = ""
+    stripe_pulse_price_id: str = ""
+    pulse_base_url: str = "http://pulse.localhost:3000"
 
     # Postmark
     postmark_server_token: str = ""

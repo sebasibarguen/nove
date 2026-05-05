@@ -1,7 +1,8 @@
 // ABOUTME: Pulse authenticated shell — nav and main content wrapper.
-// ABOUTME: Wraps every /pulse/* route except auth pages.
+// ABOUTME: Wraps every /pulse/(main) route; gates content behind subscription check.
 
 import Link from "next/link";
+import SubscriptionGuard from "../_components/subscription-guard";
 
 const navItems = [
   { href: "/recovery", label: "Recovery" },
@@ -35,7 +36,9 @@ export default function PulseMainLayout({
           </div>
         </nav>
       </header>
-      <main className="mx-auto max-w-5xl px-6 py-8">{children}</main>
+      <main className="mx-auto max-w-5xl px-6 py-8">
+        <SubscriptionGuard>{children}</SubscriptionGuard>
+      </main>
     </>
   );
 }

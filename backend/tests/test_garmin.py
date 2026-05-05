@@ -91,11 +91,13 @@ async def test_callback_invalid_state(client: AsyncClient):
     assert resp.status_code == 400
 
 
+@patch("nove.garmin.router.request_backfill", new_callable=AsyncMock)
 @patch("nove.garmin.router.fetch_garmin_user_id", new_callable=AsyncMock)
 @patch("nove.garmin.router.exchange_code", new_callable=AsyncMock)
 async def test_callback_success(
     mock_exchange: AsyncMock,
     mock_fetch_uid: AsyncMock,
+    mock_backfill: AsyncMock,
     client: AsyncClient,
 ):
     mock_exchange.return_value = {

@@ -28,6 +28,10 @@ class User(Base):
     health_goals: Mapped[list[str] | None] = mapped_column(ARRAY(Text))
     language: Mapped[str] = mapped_column(String(8), default="en")
     onboarding_completed: Mapped[bool] = mapped_column(Boolean, default=False)
+    stripe_customer_id: Mapped[str | None] = mapped_column(String(64), unique=True, index=True)
+    stripe_subscription_id: Mapped[str | None] = mapped_column(String(64), unique=True, index=True)
+    subscription_status: Mapped[str | None] = mapped_column(String(32))
+    trial_ends_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
