@@ -9,16 +9,20 @@ from sqlalchemy import select
 from nove.deps import DB, CurrentUser
 from nove.garmin.models import GarminConnection, GarminDataPoint
 from nove.garmin.schemas import (
+    BackfillResult,
     CallbackRequest,
     ConnectionRead,
     ConnectUrlResponse,
     DataPointRead,
 )
 from nove.garmin.service import (
+    BACKFILL_TYPES,
     build_auth_url,
     exchange_code,
     fetch_garmin_user_id,
+    get_valid_token,
     process_webhook_push,
+    request_backfill,
 )
 
 router = APIRouter(prefix="/garmin", tags=["garmin"])
@@ -153,6 +157,23 @@ async def get_data(
     points = result.scalars().all()
 
     return [DataPointRead(data_type=p.data_type, date=p.date, data=p.data) for p in points]
+
+
+@router.post("/backfill", response_model=BackfillResult)
+async def trigger_backfill(user: CurrentUser, db: DB) -> BackfillResult:
+    """Request Garmin to push historical data for the last 60 days via webhooks."""
+    connection = await db.get(GarminConnection, user.id)
+    if not connection:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Garmin not connected")
+
+    token = await get_valid_token(db, connection)
+    results = await request_backfill(token, days=60)
+    successful = sum(1 for code in results.values() if code == 202)
+    return BackfillResult(
+        requested_types=list(BACKFILL_TYPES.keys()),
+        successful=successful,
+        total=len(BACKFILL_TYPES),
+    )
 
 
 @router.post("/webhooks", status_code=status.HTTP_200_OK)

@@ -123,6 +123,19 @@ export default function PulseHome() {
           accent="text-violet-400"
         />
       </section>
+
+      <p className="text-xs text-muted-foreground">
+        Data provided by{" "}
+        <a
+          href="https://www.garmin.com/en-US/health/connect-iq/apps/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2"
+        >
+          Garmin Health API
+        </a>
+        . Garmin is a trademark of Garmin Ltd.
+      </p>
     </div>
   );
 }

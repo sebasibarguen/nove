@@ -12,7 +12,7 @@ export default function PrivacyPage() {
   return (
     <main className="prose prose-invert mx-auto max-w-3xl px-6 py-16">
       <h1 className="mb-2 text-3xl font-bold">Privacy Policy</h1>
-      <p className="mb-8 text-sm text-muted-foreground">Last updated: April 27, 2026</p>
+      <p className="mb-8 text-sm text-muted-foreground">Last updated: May 5, 2026</p>
 
       <div className="space-y-6 leading-relaxed">
         <section>
@@ -63,8 +63,31 @@ export default function PrivacyPage() {
           </p>
         </section>
 
+        <section id="garmin-data-ai">
+          <h2 className="text-xl font-semibold">4. Garmin data and AI services</h2>
+          <p>
+            <strong>Garmin health data is never shared with, processed by, or
+            made available to any external AI or data-processing service,
+            including Anthropic.</strong> Garmin data (steps, sleep, HRV, body
+            battery, stress, and other wearable metrics) is stored exclusively
+            on our own infrastructure (Supabase/Railway) and is used only to
+            compute your in-app metrics. It does not leave our servers for any
+            AI processing.
+          </p>
+          <p className="mt-3">
+            If you choose to use the optional AI coach feature, only your
+            journal entries and manually logged habits are sent to Anthropic.
+            Garmin health data is explicitly excluded from those requests.
+          </p>
+          <p className="mt-3">
+            Any future changes to how Garmin data is handled will be submitted
+            to the Garmin Connect Developer Program for written approval before
+            implementation.
+          </p>
+        </section>
+
         <section>
-          <h2 className="text-xl font-semibold">4. Service providers</h2>
+          <h2 className="text-xl font-semibold">5. Other service providers</h2>
           <p>
             We use a small set of vendors to run Pulse. They process data only
             on our behalf and only to deliver the service:
@@ -74,14 +97,17 @@ export default function PrivacyPage() {
             <li>Railway (backend hosting)</li>
             <li>Vercel (web hosting)</li>
             <li>AWS S3 (file storage)</li>
-            <li>Anthropic (AI coach features, when used)</li>
+            <li>
+              Anthropic (optional AI coach — journal and habit data only,
+              never Garmin health data)
+            </li>
             <li>Google (sign-in)</li>
             <li>Garmin Health API (wearable data, with your consent)</li>
           </ul>
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold">5. Security</h2>
+          <h2 className="text-xl font-semibold">6. Security</h2>
           <p>
             Data is encrypted in transit (TLS) and at rest. Access is limited to
             personnel who need it to operate the service. We follow industry
@@ -90,7 +116,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold">6. Your rights</h2>
+          <h2 className="text-xl font-semibold">7. Your rights</h2>
           <ul className="list-disc space-y-1 pl-6">
             <li>
               <strong>Disconnect Garmin</strong> at any time from
@@ -109,7 +135,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold">7. Health disclaimer</h2>
+          <h2 className="text-xl font-semibold">8. Health disclaimer</h2>
           <p>
             Pulse provides informational metrics for personal awareness. It is
             not a medical device and is not intended to diagnose, treat, or
@@ -119,7 +145,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold">8. Children</h2>
+          <h2 className="text-xl font-semibold">9. Children</h2>
           <p>
             Pulse is not directed at children under 18. We do not knowingly
             collect data from anyone under 18.
@@ -127,7 +153,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold">9. Changes to this policy</h2>
+          <h2 className="text-xl font-semibold">10. Changes to this policy</h2>
           <p>
             We may update this policy. Material changes will be posted at this
             URL and announced in-app at least 30 days before they take effect.
@@ -135,7 +161,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold">10. Contact</h2>
+          <h2 className="text-xl font-semibold">11. Contact</h2>
           <p>
             Questions or requests: <strong>privacy@nove.health</strong>.
           </p>

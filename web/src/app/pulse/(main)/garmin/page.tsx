@@ -87,6 +87,19 @@ export default function PulseGarminPage() {
         </p>
       </section>
 
+      <p className="text-xs text-muted-foreground">
+        Powered by{" "}
+        <a
+          href="https://www.garmin.com/en-US/health/connect-iq/apps/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-2"
+        >
+          Garmin Health API
+        </a>
+        . Garmin is a trademark of Garmin Ltd.
+      </p>
+
       {error && (
         <p className="text-sm text-rose-400">{error}</p>
       )}
