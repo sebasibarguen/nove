@@ -6,10 +6,7 @@ from datetime import date, timedelta
 from unittest.mock import AsyncMock, patch
 
 from httpx import AsyncClient
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-
-from nove.users.models import User
 
 PREFIX = "/api/v1"
 
@@ -102,14 +99,6 @@ async def test_pulse_user_happy_path(
     )
     assert register_resp.status_code == 201
     headers = {"Authorization": f"Bearer {register_resp.json()['access_token']}"}
-
-    # Grant an active Pulse subscription so paywall-gated routes are accessible.
-    me_resp = await client.get(f"{PREFIX}/users/me", headers=headers)
-    user_id = me_resp.json()["id"]
-    result = await db.execute(select(User).where(User.id == user_id))
-    user = result.scalar_one()
-    user.subscription_status = "active"
-    await db.commit()
 
     # 2. Pulse home before any connection — disconnected state
     today_resp = await client.get(f"{PREFIX}/pulse/today", headers=headers)
